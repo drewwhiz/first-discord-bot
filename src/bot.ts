@@ -28,14 +28,15 @@ bot.on('message', (message) => {
     args = args.splice(1);
     switch (cmd) {
       // !ping
-      case 'frcevents':
-        message.reply('The Rocket City Regional is April 1-4, 2020.');
-        break;
-      case 'ftcevents':
-        break;
-      case 'fllevents':
-        break;
-      case 'flljrevents':
+      case 'events':
+        message.reply(
+          'The FIRST LEGO League Alabama Coaches Workshop is August 24, 2019.\n' + 
+          'FTC Kickoff is September 7, 2019.\n' + 
+          'FRC Kickoff is January 4, 2020.\n' + 
+          'The FIRST LEGO League Alabama Championship is January 25, 2020.\n' + 
+          'The Rocket City Regional is April 1-4, 2020.\n' + 
+          'The FIRST LEGO League Jr. Alabama Expo is April 4, 2020.'
+        );
         break;
     }
   }
