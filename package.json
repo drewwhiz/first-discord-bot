@@ -1,0 +1,11 @@
+{
+  "name": "first-discord-bot",
+  "version": "0.0.0",
+  "description": "A Discord bot for FIRST Discord servers.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
