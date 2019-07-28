@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export class FrcTeamUpdates {
+  public static readonly NO_UPDATES: string = "No team updates available.";
 
   public static getUpdateUrl(year: number, update: number): string {
     if (year < 2017 || year > new Date().getFullYear()) {
@@ -17,18 +18,14 @@ export class FrcTeamUpdates {
   }
 
   public static async getLatestUpdate(year: number): Promise<string> {
-    let retVal: string = "No team updates available.";
-
     const result = await axios.get(FrcTeamUpdates.getUpdateUrl(year, FrcTeamUpdates.latestUpdate + 1));
     if (result.status === 200) {
       FrcTeamUpdates.latestUpdate++;
     }
 
-    if (FrcTeamUpdates.latestUpdate !== 0) {
-      retVal = FrcTeamUpdates.getUpdateUrl(year, FrcTeamUpdates.latestUpdate);
-    }
-
-    return retVal;
+    return FrcTeamUpdates.latestUpdate !== 0 ?
+      FrcTeamUpdates.getUpdateUrl(year, FrcTeamUpdates.latestUpdate) :
+      FrcTeamUpdates.NO_UPDATES;
   }
 
   private static latestUpdate: number = 0;

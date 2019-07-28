@@ -9,7 +9,11 @@
     "prestart": "npm run build",
     "start": "node dist/bot.js"
   },
-  "author": "",
+  "author": "Lawrence (Drew) Whisenant",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/drewwhis/first-discord-bot.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/axios": "^0.14.0",

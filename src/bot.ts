@@ -1,5 +1,5 @@
-import * as Discord from 'discord.js';
-import * as logger from 'winston';
+import * as Discord from "discord.js";
+import * as logger from "winston";
 import { FrcTeamUpdates } from './frc-team-updates';
 
 // Configure logger settings
