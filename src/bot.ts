@@ -1,5 +1,6 @@
 import * as Discord from 'discord.js';
 import * as logger from 'winston';
+import { FrcTeamUpdates } from './frc-team-updates';
 
 // Configure logger settings
 logger.configure({
@@ -18,7 +19,7 @@ bot.on('ready', (evt) => {
   logger.info(bot.user.username + ' - (' + bot.user.id + ')');
 });
 
-bot.on('message', (message) => {
+bot.on('message', async (message) => {
   // Our bot needs to know if it will execute a command
   // It will listen for messages that will start with `!`
   if (message.content.substring(0, 1) === '!') {
@@ -37,6 +38,9 @@ bot.on('message', (message) => {
           'The Rocket City Regional is April 1-4, 2020.\n' + 
           'The FIRST LEGO League Jr. Alabama Expo is April 4, 2020.'
         );
+        break;
+      case 'update':
+        message.reply(await FrcTeamUpdates.getLatestUpdate(new Date().getFullYear()));
         break;
     }
   }
