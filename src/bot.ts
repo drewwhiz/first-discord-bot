@@ -3,7 +3,7 @@ import { MongoError } from "mongodb";
 import { connect } from "mongoose";
 import { Dictionary, Set } from "typescript-collections";
 import { configure, info, transports } from "winston";
-import * as auth from "../auth/auth.json";
+import auth from "../auth/auth.json";
 import { BetCommand } from "./commands/BetCommand.js";
 import { ICommand } from "./commands/ICommand.js";
 import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
