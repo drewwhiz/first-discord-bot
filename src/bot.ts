@@ -30,6 +30,7 @@ connect(
   auth.dbUri,
   {
     pass: auth.mongoPassword,
+    useNewUrlParser: true,
     user: auth.mongoUserName,
   },
   (err: MongoError) => {
