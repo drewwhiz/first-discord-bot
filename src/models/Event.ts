@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
-export interface IEvent extends mongoose.Document {
+export interface IEvent extends Document {
   name: string;
   startDate: Date;
   endDate: Date;
@@ -8,7 +8,7 @@ export interface IEvent extends mongoose.Document {
   teamEvent: boolean;
 }
 
-export const EventSchema = new mongoose.Schema({
+export const EventSchema = new Schema({
   endDate: { type: Date, required: true },
   location: { type: String, required: true },
   name: { type: String, required: true },
@@ -16,5 +16,5 @@ export const EventSchema = new mongoose.Schema({
   teamEvent: { type: Boolean, required: true },
 });
 
-const Event = mongoose.model<IEvent>("Event", EventSchema);
+const Event = model<IEvent>("Event", EventSchema);
 export default Event;

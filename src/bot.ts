@@ -1,20 +1,19 @@
-import * as Discord from "discord.js";
+import { Client } from "discord.js";
 import { MongoError } from "mongodb";
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 import { Dictionary, Set } from "typescript-collections";
-import * as logger from "winston";
+import { configure, info, transports } from "winston";
 import * as auth from "../auth/auth.json";
 import { BetCommand } from "./commands/BetCommand.js";
 import { ICommand } from "./commands/ICommand.js";
+import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
 import { EventController } from "./controllers/EventController.js";
 import { TeamUpdateController } from "./controllers/TeamUpdateController.js";
 
 // Configure logger settings
-logger.configure({
+configure({
   level: "info",
-  transports: [
-    new logger.transports.Console(),
-  ],
+  transports: [new transports.Console()],
 });
 
 // Controllers
@@ -23,25 +22,30 @@ let teamUpdateController: TeamUpdateController = null;
 
 // Initialize database.
 const uri: string = "mongodb://127.0.0.1:27017/firstdiscordbot";
-mongoose.connect(uri, {
-  pass: auth.mongoPassword,
-  useNewUrlParser: true,
-  user: auth.mongoUserName,
-}, (err: MongoError) => {
-  if (err) {
-    logger.info(err.message);
-  } else {
-    eventController = new EventController();
-    teamUpdateController = new TeamUpdateController();
-    logger.info("Succesfully Connected!");
-  }
-});
+connect(
+  uri,
+  {
+    pass: auth.mongoPassword,
+    useNewUrlParser: true,
+    user: auth.mongoUserName,
+  },
+  (err: MongoError) => {
+    if (err) {
+      info(err.message);
+    } else {
+      eventController = new EventController();
+      teamUpdateController = new TeamUpdateController();
+      info("Succesfully Connected!");
+    }
+  },
+);
 
 // Initialize Discord Bot
-const bot = new Discord.Client();
+const bot = new Client();
 
 const commands: ICommand[] = [
   new BetCommand(),
+  new LatestTeamUpdateCommand(teamUpdateController),
 ];
 const commandDict = new Dictionary<string, Set<ICommand>>();
 
@@ -55,9 +59,9 @@ for (const command of commands) {
 }
 
 bot.on("ready", (evt) => {
-  logger.info("Connected");
-  logger.info("Logged in as: ");
-  logger.info(bot.user.username + " - (" + bot.user.id + ")");
+  info("Connected");
+  info("Logged in as: ");
+  info(bot.user.username + " - (" + bot.user.id + ")");
 });
 
 bot.on("message", async (message) => {

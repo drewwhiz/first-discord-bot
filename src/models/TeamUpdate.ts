@@ -1,16 +1,16 @@
-import mongoose from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
-export interface ITeamUpdate extends mongoose.Document {
+export interface ITeamUpdate extends Document {
   teamUpdate: number;
   url: string;
   year: number;
 }
 
-export const TeamUpdateSchema = new mongoose.Schema({
-  teamUpdate: { type: Number, required: true},
+export const TeamUpdateSchema = new Schema({
+  teamUpdate: { type: Number, required: true },
   url: { type: String, required: true },
   year: { type: Number, required: true },
 });
 
-const TeamUpdate = mongoose.model<ITeamUpdate>("TeamUpdate", TeamUpdateSchema);
+const TeamUpdate = model<ITeamUpdate>("TeamUpdate", TeamUpdateSchema);
 export default TeamUpdate;

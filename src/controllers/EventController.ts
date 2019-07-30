@@ -4,5 +4,4 @@ export class EventController {
   public getAllEvents() {
     return Event.find();
   }
-
 }

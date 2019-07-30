@@ -1,8 +1,7 @@
 import TeamUpdate from "../models/TeamUpdate";
 
 export class TeamUpdateController {
-  public getAllUpdates() {
-    return TeamUpdate.find();
+  public getLatestUpdate() {
+    return "Unable to report latest update.";
   }
-
 }
