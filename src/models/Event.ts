@@ -1,8 +1,8 @@
 import { MongoError } from "mongodb";
 import mongoose from "mongoose";
+import * as auth from "../../auth/auth.json";
 
 const uri: string = "mongodb://127.0.0.1:27017/firstdiscordbot";
-const auth = require("../../auth/auth.json");
 
 mongoose.connect(uri, {
   pass: auth.mongoPassword,
