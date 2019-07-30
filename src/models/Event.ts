@@ -1,20 +1,4 @@
-import { MongoError } from "mongodb";
 import mongoose from "mongoose";
-import * as auth from "../../auth/auth.json";
-
-const uri: string = "mongodb://127.0.0.1:27017/firstdiscordbot";
-
-mongoose.connect(uri, {
-  pass: auth.mongoPassword,
-  useNewUrlParser: true,
-  user: auth.mongoUserName,
-}, (err: MongoError) => {
-  if (err) {
-    console.log(err.message);
-  } else {
-    console.log("Succesfully Connected!");
-  }
-});
 
 export interface IEvent extends mongoose.Document {
   name: string;

@@ -1,11 +1,13 @@
 import * as Discord from "discord.js";
+import { MongoError } from "mongodb";
+import mongoose from "mongoose";
 import { Dictionary, Set } from "typescript-collections";
 import * as logger from "winston";
 import * as auth from "../auth/auth.json";
 import { BetCommand } from "./commands/BetCommand.js";
 import { ICommand } from "./commands/ICommand.js";
-import { EventController } from "./controllers/EventController";
-import { FrcTeamUpdates } from "./frc-team-updates";
+import { EventController } from "./controllers/EventController.js";
+import { TeamUpdateController } from "./controllers/TeamUpdateController.js";
 
 // Configure logger settings
 logger.configure({
@@ -15,8 +17,25 @@ logger.configure({
   ],
 });
 
-// Get Controllers
-// const eventController = new EventController();
+// Controllers
+let eventController: EventController = null;
+let teamUpdateController: TeamUpdateController = null;
+
+// Initialize database.
+const uri: string = "mongodb://127.0.0.1:27017/firstdiscordbot";
+mongoose.connect(uri, {
+  pass: auth.mongoPassword,
+  useNewUrlParser: true,
+  user: auth.mongoUserName,
+}, (err: MongoError) => {
+  if (err) {
+    logger.info(err.message);
+  } else {
+    eventController = new EventController();
+    teamUpdateController = new TeamUpdateController();
+    logger.info("Succesfully Connected!");
+  }
+});
 
 // Initialize Discord Bot
 const bot = new Discord.Client();
@@ -44,12 +63,10 @@ bot.on("ready", (evt) => {
 bot.on("message", async (message) => {
   // Our bot needs to know if it will execute a command
   // It will listen for messages that will start with `!`
-  console.log(message);
   const args = message.content.slice().split(/ +/);
   const commandTrigger = args.shift().toLowerCase();
-
   const commandSet = commandDict.getValue(commandTrigger);
-  console.log(commandTrigger);
+
   if (commandSet != null) {
     commandSet.forEach((command: ICommand) => {
       command.execute(message, args);
