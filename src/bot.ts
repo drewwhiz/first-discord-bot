@@ -5,6 +5,7 @@ import { Dictionary, Set } from "typescript-collections";
 import { configure, info, transports } from "winston";
 import auth from "../auth/auth.json";
 import { BetCommand } from "./commands/BetCommand.js";
+import { NextEventCommand } from "./commands/eventCommands/NextEventCommand.js";
 import { ICommand } from "./commands/ICommand.js";
 import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
 import { EventController } from "./controllers/EventController.js";
@@ -20,10 +21,13 @@ configure({
 let eventController: EventController = null;
 let teamUpdateController: TeamUpdateController = null;
 
+// Initialize Discord Bot
+const bot = new Client();
+const commandDict = new Dictionary<string, Set<ICommand>>();
+
 // Initialize database.
-const uri: string = "mongodb://127.0.0.1:27017/firstdiscordbot";
 connect(
-  uri,
+  auth.dbUri,
   {
     pass: auth.mongoPassword,
     useNewUrlParser: true,
@@ -33,30 +37,32 @@ connect(
     if (err) {
       info(err.message);
     } else {
-      eventController = new EventController();
-      teamUpdateController = new TeamUpdateController();
-      info("Succesfully Connected!");
+      bot.emit("initialize");
     }
   },
 );
 
-// Initialize Discord Bot
-const bot = new Client();
+bot.on("initialize", () => {
+  eventController = new EventController();
+  teamUpdateController = new TeamUpdateController();
+  info("Succesfully Connected!");
 
-const commands: ICommand[] = [
-  new BetCommand(),
-  new LatestTeamUpdateCommand(teamUpdateController),
-];
-const commandDict = new Dictionary<string, Set<ICommand>>();
+  // Initialize commands.
+  const commands: ICommand[] = [
+    new BetCommand(),
+    new LatestTeamUpdateCommand(teamUpdateController),
+    new NextEventCommand(eventController),
+  ];
 
-for (const command of commands) {
-  for (const trigger of command.triggers) {
-    if (commandDict.getValue(trigger) == null) {
-      commandDict.setValue(trigger, new Set<ICommand>());
+  for (const command of commands) {
+    for (const trigger of command.triggers) {
+      if (commandDict.getValue(trigger) == null) {
+        commandDict.setValue(trigger, new Set<ICommand>());
+      }
+      commandDict.getValue(trigger).add(command);
     }
-    commandDict.getValue(trigger).add(command);
   }
-}
+});
 
 bot.on("ready", (evt) => {
   info("Connected");

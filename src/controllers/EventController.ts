@@ -1,7 +1,8 @@
 import Event from "../models/Event";
 
 export class EventController {
-  public getAllEvents() {
-    return Event.find();
+  public getNextEvent() {
+    return "The next event has not been provided.";
   }
+
 }
