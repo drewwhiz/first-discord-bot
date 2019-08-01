@@ -3,7 +3,7 @@ import { error } from "winston";
 import Event, { EventSchema, IEvent } from "../models/Event";
 
 export class EventController {
-  public async getNextEvent() {
+  public async getNextEvent(): Promise<string> {
     try {
       const result = await connection
         .collection(Event.name, EventSchema)
