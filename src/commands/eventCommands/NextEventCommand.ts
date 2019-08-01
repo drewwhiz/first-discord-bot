@@ -13,9 +13,9 @@ export class NextEventCommand implements ICommand {
     this.controller = controller;
   }
 
-  public execute(message: Message, args: string[]): void {
+  public async execute(message: Message, args: string[]): Promise<void> {
     if (this.controller != null) {
-      message.channel.send(this.controller.getNextEvent());
+      message.channel.send(await this.controller.getNextEvent());
     }
   }
 }

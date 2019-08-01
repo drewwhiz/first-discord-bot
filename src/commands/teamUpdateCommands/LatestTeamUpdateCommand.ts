@@ -13,7 +13,7 @@ export class LatestTeamUpdateCommand implements ICommand {
     this.controller = controller;
   }
 
-  public execute(message: Message, args: string[]): void {
+  public async execute(message: Message, args: string[]): Promise<void> {
     if (this.controller != null) {
       message.channel.send(this.controller.getLatestUpdate());
     }

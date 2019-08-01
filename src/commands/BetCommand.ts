@@ -6,7 +6,7 @@ export class BetCommand implements ICommand {
   public triggers: string[] = ["bet"];
   public description: string = "Responds to 'bet' in the Discord.";
 
-  public execute(message: Message, args: string[]): void {
+  public async execute(message: Message, args: string[]): Promise<void> {
     message.channel.send("Do it. You won't.");
   }
 }
