@@ -1,10 +1,8 @@
-import { connection } from "mongoose";
 import { error } from "winston";
-import Event, { EventSchema, IEvent } from "../models/Event";
+import Event from "../models/Event";
 
 export class EventController {
   public async getNextEvent(ftc: boolean): Promise<string> {
-
     const query = Event
         .findOne({ startDate: {$gte: new Date() }, ftcSpecific: ftc })
         .sort({ startDate: "ascending", endDate: "ascending"});
