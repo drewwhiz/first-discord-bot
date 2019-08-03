@@ -15,7 +15,12 @@ export class NextEventCommand implements ICommand {
 
   public async execute(message: Message, args: string[]): Promise<void> {
     if (this.controller != null) {
-      message.channel.send(await this.controller.getNextEvent());
+      let ftc = false;
+      if (args != null && args.length > 0 && args[0] === "ftc") {
+        ftc = true;
+      }
+
+      message.channel.send(await this.controller.getNextEvent(ftc));
     }
   }
 }

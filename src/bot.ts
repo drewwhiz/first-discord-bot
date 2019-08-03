@@ -34,8 +34,8 @@ bot.on("ready", (evt) => {
 bot.on("message", async (message) => {
   // Our bot needs to know if it will execute a command
   // It will listen for messages that will start with `!`
-  const args = message.content.slice().split(/ +/);
-  const commandTrigger = args.shift().toLowerCase();
+  const args = message.content.toLowerCase().slice().split(/ +/);
+  const commandTrigger = args.shift();
   const commandSet =
     commandDict.getValue(commandTrigger) != null
       ? commandDict.getValue(commandTrigger).toArray()

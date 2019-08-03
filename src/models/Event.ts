@@ -5,15 +5,15 @@ export interface IEvent extends Document {
   startDate: Date;
   endDate: Date;
   location: string;
-  teamEvent: boolean;
+  ftcSpecific: boolean;
 }
 
 export const EventSchema = new Schema({
   endDate: { type: Date, required: true },
+  ftcSpecific: { type: Boolean, required: true },
   location: { type: String, required: true },
   name: { type: String, required: true },
   startDate: { type: Date, required: true },
-  teamEvent: { type: Boolean, required: true },
 });
 
 const Event = model<IEvent>("Event", EventSchema);
