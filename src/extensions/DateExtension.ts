@@ -13,6 +13,15 @@ interface Date {
   getTimezone: (this: Date) => string;
 }
 
+// This is being used to create Date static extension methods,
+//  so the interface name does not start with an "I".
+// tslint:disable-next-line: interface-name
+interface DateConstructor {
+  millisecondsPerDay: number;
+}
+
+Date.millisecondsPerDay = 24 * 60 * 60 * 1000;
+
 Date.prototype.getDayNameLocal = function(this: Date): string {
   return numberToDay(this.getDay());
 };
