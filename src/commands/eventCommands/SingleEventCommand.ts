@@ -2,8 +2,8 @@ import { Message } from "discord.js";
 import { EventController } from "../../controllers/EventController";
 import { ICommand } from "../ICommand";
 
-export class NextEventCommand implements ICommand {
-  public name: string = "nextEvent";
+export class SingleEventCommand implements ICommand {
+  public name: string = "singleEvent";
   public triggers: string[] = ["event"];
   public description: string = "Gets the next upcoming event.";
 

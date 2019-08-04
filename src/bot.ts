@@ -5,7 +5,7 @@ import { Dictionary, Set } from "typescript-collections";
 import { configure, error, info, transports } from "winston";
 import auth from "../auth/auth.json";
 import { BetCommand } from "./commands/BetCommand.js";
-import { NextEventCommand } from "./commands/eventCommands/NextEventCommand.js";
+import { SingleEventCommand } from "./commands/eventCommands/SingleEventCommand.js";
 import { ICommand } from "./commands/ICommand.js";
 import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
 import { EventController } from "./controllers/EventController.js";
@@ -79,7 +79,7 @@ connection.once("open", () => {
   const commands: ICommand[] = [
     new BetCommand(),
     new LatestTeamUpdateCommand(teamUpdateController),
-    new NextEventCommand(eventController),
+    new SingleEventCommand(eventController),
   ];
 
   for (const command of commands) {
