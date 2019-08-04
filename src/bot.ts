@@ -8,6 +8,7 @@ import { BetCommand } from "./commands/BetCommand.js";
 import { MultipleEventCommand } from "./commands/eventCommands/MultipleEventCommand.js";
 import { SingleEventCommand } from "./commands/eventCommands/SingleEventCommand.js";
 import { ICommand } from "./commands/ICommand.js";
+import { MainGoalCommand } from "./commands/MainGoalCommand.js";
 import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
 import { EventController } from "./controllers/EventController.js";
 import { TeamUpdateController } from "./controllers/TeamUpdateController.js";
@@ -79,6 +80,7 @@ connection.once("open", () => {
   // Initialize commands.
   const commands: ICommand[] = [
     new BetCommand(),
+    new MainGoalCommand(),
     new LatestTeamUpdateCommand(teamUpdateController),
     new SingleEventCommand(eventController),
     new MultipleEventCommand(eventController),
