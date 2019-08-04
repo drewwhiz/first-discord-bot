@@ -1,5 +1,6 @@
 import { error } from "winston";
-import Event from "../models/Event";
+import "../extensions/DateExtension";
+import Event, { IEvent } from "../models/Event";
 
 export class EventController {
   public async getNextEvent(ftc: boolean): Promise<string> {
@@ -9,13 +10,8 @@ export class EventController {
 
     try {
       const result = await query.exec();
-
       if (result != null) {
-        const name = result.name;
-        const startDate = result.startDate.toLocaleString();
-        const endDate = result.endDate.toLocaleString();
-        const location = result.location;
-        return `The next upcoming event is ${name}, starting ${startDate} and ending ${endDate} at ${location}.`;
+        return `All times are ${(new Date()).getTimezone()}.\n\n` + this.formatEventData(result);
       }
     } catch (e) {
       error(e.message);
@@ -23,4 +19,15 @@ export class EventController {
 
     return "There is no next event to report.";
   }
+
+  private formatEventData(event: IEvent): string {
+    if (event != null) {
+      return `The next upcoming event is ${event.name} at ${event.location},` +
+       ` starting ${event.startDate.getFullDateLocal()} at ${event.startDate.getTwelveHourTimeLocal()}` +
+       ` and ending at ${event.endDate.getFullDateLocal()} at ${event.endDate.getTwelveHourTimeLocal()}.`;
+    } else {
+      return "There is no event.";
+    }
+  }
+
 }

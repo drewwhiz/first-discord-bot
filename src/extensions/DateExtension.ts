@@ -8,31 +8,46 @@ interface Date {
   getMonthNameUtc: (this: Date) => string;
   getTwelveHourTimeLocal: (this: Date) => string;
   getTwelveHourTimeUtc: (this: Date) => string;
+  getFullDateLocal: (this: Date) => string;
+  getFullDateUtc: (this: Date) => string;
+  getTimezone: (this: Date) => string;
 }
 
-Date.prototype.getDayNameLocal = function(this: Date) {
+Date.prototype.getDayNameLocal = function(this: Date): string {
   return numberToDay(this.getDay());
 };
 
-Date.prototype.getDayNameUtc = function(this: Date) {
+Date.prototype.getDayNameUtc = function(this: Date): string {
   return numberToDay(this.getUTCDay());
 };
 
-Date.prototype.getMonthNameLocal = function(this: Date) {
+Date.prototype.getMonthNameLocal = function(this: Date): string {
   return numberToMonth(this.getMonth());
 };
 
-Date.prototype.getMonthNameUtc = function(this: Date) {
+Date.prototype.getMonthNameUtc = function(this: Date): string {
   return numberToMonth(this.getUTCMonth());
 };
 
-Date.prototype.getTwelveHourTimeLocal = function(this: Date) {
+Date.prototype.getTwelveHourTimeLocal = function(this: Date): string {
   return twelveHourConverter(this.getHours(), this.getMinutes());
 };
 
-Date.prototype.getTwelveHourTimeUtc = function(this: Date) {
+Date.prototype.getTwelveHourTimeUtc = function(this: Date): string {
   return twelveHourConverter(this.getUTCHours(), this.getUTCMinutes());
 };
+
+Date.prototype.getFullDateLocal = function(this: Date): string {
+  return `${this.getDate()} ${this.getMonthNameLocal()} ${this.getFullYear()}`;
+};
+
+Date.prototype.getFullDateUtc = function(this: Date): string {
+  return `${this.getUTCDate()} ${this.getMonthNameUtc()} ${this.getUTCFullYear()}`;
+};
+
+Date.prototype.getTimezone = function(this: Date): string {
+  return this.toString().split("(")[1].replace(")", "");
+}
 
 function twelveHourConverter(hours: number, minutes: number) {
   const suffix = hours >= 12 ? "PM" : "AM";
