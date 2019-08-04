@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { ICommand } from "./ICommand";
+import { ICommand } from "../ICommand";
 
 export class MainGoalCommand implements ICommand {
   public name: string = "mainGoal";
-  public triggers: string[] = ["goal", "goals", "#goals", "#goal"];
+  public triggers: string[] = ["goal", "goals"];
   public description: string = "Responds to 'goal' and 'goals' in the Discord.";
 
   public async execute(message: Message, args: string[]): Promise<void> {
