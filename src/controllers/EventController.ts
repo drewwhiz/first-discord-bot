@@ -89,7 +89,7 @@ export class EventController {
       return (
         `${event.name} at ${event.location},` +
         ` starting ${event.startDate.getFullDateLocal()} at ${event.startDate.getTwelveHourTimeLocal()}` +
-        ` and ending at ${event.endDate.getFullDateLocal()} at ${event.endDate.getTwelveHourTimeLocal()}.`
+        ` and ending ${event.endDate.getFullDateLocal()} at ${event.endDate.getTwelveHourTimeLocal()}.`
       );
     } else {
       return "There is no event.";
