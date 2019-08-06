@@ -61,9 +61,8 @@ bot.on("message", async (message) => {
 
 // Initialize database.
 connect(
-  auth.dbUri,
+  auth.dbUri + "/" + auth.dbName,
   {
-    dbName: auth.dbName,
     pass: auth.mongoPassword,
     useNewUrlParser: true,
     user: auth.mongoUserName,
