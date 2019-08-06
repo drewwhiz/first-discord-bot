@@ -36,8 +36,13 @@ bot.on("ready", () => {
 bot.on("message", async (message) => {
   // Our bot needs to know if it will execute a command
   // It will listen for messages that will start with `!`
-  const args = message.content.toLowerCase().slice().split(/ +/);
-  const commandTrigger = args.shift().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+  const args = message.content
+    .toLowerCase()
+    .slice()
+    .split(/ +/);
+  const commandTrigger = args
+    .shift()
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
   const commandSet =
     commandDict.getValue(commandTrigger) != null
       ? commandDict.getValue(commandTrigger).toArray()
@@ -58,6 +63,7 @@ bot.on("message", async (message) => {
 connect(
   auth.dbUri,
   {
+    dbName: auth.dbName,
     pass: auth.mongoPassword,
     useNewUrlParser: true,
     user: auth.mongoUserName,
