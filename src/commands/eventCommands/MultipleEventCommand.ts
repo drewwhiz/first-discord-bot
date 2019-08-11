@@ -5,13 +5,25 @@ import { ICommand } from "../ICommand";
 
 export class MultipleEventCommand implements ICommand {
   public name: string = "multipleEvent";
-  public triggers: string[] = ["events"];
   public description: string = "Gets a list of upcoming events.";
 
   private controller: EventController;
 
   public constructor(controller: EventController) {
     this.controller = controller;
+  }
+
+  public trigger(message: Message): boolean {
+    if (message != null) {
+      return (
+        message.content
+          .toLowerCase()
+          .split(" ")
+          .shift() === "events"
+      );
+    }
+
+    return false;
   }
 
   public async execute(message: Message, args: string[]): Promise<void> {

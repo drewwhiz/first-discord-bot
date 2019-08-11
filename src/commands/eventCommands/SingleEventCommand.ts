@@ -5,13 +5,24 @@ import { ICommand } from "../ICommand";
 
 export class SingleEventCommand implements ICommand {
   public name: string = "singleEvent";
-  public triggers: string[] = ["event"];
   public description: string = "Gets the next upcoming event.";
 
   private controller: EventController;
 
   public constructor(controller: EventController) {
     this.controller = controller;
+  }
+
+  public trigger(message: Message): boolean {
+    if (message != null) {
+      return (
+        message.content
+          .toLowerCase()
+          .split(" ")
+          .shift() === "event"
+      );
+    }
+    return false;
   }
 
   public async execute(message: Message, args: string[]): Promise<void> {
