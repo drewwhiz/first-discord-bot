@@ -12,6 +12,7 @@ import { ICommand } from "./commands/ICommand.js";
 import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
 import { EventController } from "./controllers/EventController.js";
 import { TeamUpdateController } from "./controllers/TeamUpdateController.js";
+import { ManualCommand } from "./commands/funCommands/ManualCommand.js";
 
 // Configure logger settings
 configure({
@@ -83,6 +84,7 @@ connection.once("open", () => {
   commands.push(new BetCommand());
   commands.push(new MainGoalCommand());
   commands.push(new GameCommand());
+  commands.push(new ManualCommand());
   commands.push(new LatestTeamUpdateCommand(teamUpdateController));
   commands.push(new SingleEventCommand(eventController));
   commands.push(new MultipleEventCommand(eventController));
