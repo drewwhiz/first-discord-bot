@@ -8,11 +8,11 @@ import { SingleEventCommand } from "./commands/eventCommands/SingleEventCommand.
 import { BetCommand } from "./commands/funCommands/BetCommand.js";
 import { GameCommand } from "./commands/funCommands/GameCommand.js";
 import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand.js";
+import { ManualCommand } from "./commands/funCommands/ManualCommand.js";
 import { ICommand } from "./commands/ICommand.js";
 import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
 import { EventController } from "./controllers/EventController.js";
 import { TeamUpdateController } from "./controllers/TeamUpdateController.js";
-import { ManualCommand } from "./commands/funCommands/ManualCommand.js";
 
 // Configure logger settings
 configure({
