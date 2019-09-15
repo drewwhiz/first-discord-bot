@@ -10,7 +10,7 @@ export class ManualCommand implements ICommand {
       const words = message.content
         .toLowerCase()
         .replace(/[.,\/#!$?%\^&\*;:{}=\-_`~()]/g, "")
-        .split("");
+        .split(" ");
 
       return words.includes("rtm");
     }
@@ -19,6 +19,7 @@ export class ManualCommand implements ICommand {
   }
 
   public async execute(message: Message, args: string[]): Promise<void> {
-    message.channel.send(`In case ${message.author.username} wasn't clear, you should probably (R)EAD (T)HE (M)ANUAL!`);
+    message.channel.send(
+      `In case ${message.member.displayName} wasn't clear, you should probably (R)EAD (T)HE (M)ANUAL!`);
   }
 }
