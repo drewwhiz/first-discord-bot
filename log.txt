@@ -1,0 +1,6 @@
+{"message":"Connected","level":"info"}
+{"message":"Logged in as: ","level":"info"}
+{"message":"538bot - (604799673248514058)","level":"info"}
+{"message":"[2/23/2020, 9:32:04 PM] drewwhis: Bet","level":"info"}
+{"message":"[2/23/2020, 9:44:45 PM] drewwhis: Bet","level":"info"}
+{"message":"[2/23/2020, 9:44:52 PM] drewwhis: Bet","level":"info"}

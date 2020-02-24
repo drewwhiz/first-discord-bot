@@ -1,18 +1,11 @@
 import { Client } from "discord.js";
-import { MongoError } from "mongodb";
-import { connect, connection } from "mongoose";
 import { configure, error, info, transports } from "winston";
 import auth from "../auth/auth.json";
-import { MultipleEventCommand } from "./commands/eventCommands/MultipleEventCommand.js";
-import { SingleEventCommand } from "./commands/eventCommands/SingleEventCommand.js";
-import { BetCommand } from "./commands/funCommands/BetCommand.js";
-import { GameCommand } from "./commands/funCommands/GameCommand.js";
-import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand.js";
-import { ManualCommand } from "./commands/funCommands/ManualCommand.js";
-import { ICommand } from "./commands/ICommand.js";
-import { LatestTeamUpdateCommand } from "./commands/teamUpdateCommands/LatestTeamUpdateCommand.js";
-import { EventController } from "./controllers/EventController.js";
-import { TeamUpdateController } from "./controllers/TeamUpdateController.js";
+import { BetCommand } from "./commands/funCommands/BetCommand";
+import { GameCommand } from "./commands/funCommands/GameCommand";
+import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand";
+import { ManualCommand } from "./commands/funCommands/ManualCommand";
+import { LogCommand } from "./commands/LogCommand.js";
 
 // Configure logger settings
 configure({
@@ -20,13 +13,15 @@ configure({
   transports: [new transports.Console()],
 });
 
-// Controllers
-let eventController: EventController = null;
-let teamUpdateController: TeamUpdateController = null;
-
 // Initialize Discord Bot
 const bot = new Client();
-const commands = [] as ICommand[];
+const commands = [
+  new BetCommand(),
+  new MainGoalCommand(),
+  new GameCommand(),
+  new ManualCommand(),
+  new LogCommand()
+];
 
 bot.on("ready", () => {
   info("Connected");
@@ -57,37 +52,5 @@ bot.on("message", async (message) => {
   }
 });
 
-// Initialize database.
-connect(
-  auth.dbUri + "/" + auth.dbName,
-  {
-    pass: auth.mongoPassword,
-    useNewUrlParser: true,
-    user: auth.mongoUserName,
-  },
-  (e: MongoError) => {
-    if (e) {
-      error(e.message);
-    }
-  },
-);
 
-connection.on("error", () => error("Unable to connect to database"));
-connection.once("open", () => {
-  // we're connected!
-  info("Succesfully Connected!");
-
-  eventController = new EventController();
-  teamUpdateController = new TeamUpdateController();
-
-  // Initialize commands.
-  commands.push(new BetCommand());
-  commands.push(new MainGoalCommand());
-  commands.push(new GameCommand());
-  commands.push(new ManualCommand());
-  commands.push(new LatestTeamUpdateCommand(teamUpdateController));
-  commands.push(new SingleEventCommand(eventController));
-  commands.push(new MultipleEventCommand(eventController));
-
-  bot.login(auth.token);
-});
+bot.login(auth.token);
