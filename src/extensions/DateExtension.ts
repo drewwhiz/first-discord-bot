@@ -11,6 +11,8 @@ interface Date {
   getFullDateLocal: (this: Date) => string;
   getFullDateUtc: (this: Date) => string;
   getTimezone: (this: Date) => string;
+  getIsoDate: (this: Date) => string;
+  getIsoTime: (this: Date) => string;
 }
 
 // This is being used to create Date static extension methods,
@@ -56,6 +58,14 @@ Date.prototype.getFullDateUtc = function(this: Date): string {
 
 Date.prototype.getTimezone = function(this: Date): string {
   return this.toString().split("(")[1].replace(")", "");
+}
+
+Date.prototype.getIsoDate = function(this: Date): string {
+  return this.toISOString().split('T')[0];
+}
+
+Date.prototype.getIsoTime = function(this: Date): string {
+  return this.toISOString().split('T')[1].split('Z')[0];
 }
 
 function twelveHourConverter(hours: number, minutes: number) {
