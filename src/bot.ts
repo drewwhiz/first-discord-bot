@@ -7,13 +7,13 @@ import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand";
 import { ManualCommand } from "./commands/funCommands/ManualCommand";
 import { LogCommand } from "./commands/LogCommand.js";
 
-// Configure logger settings
+// Configure default logger settings
 configure({
   level: "info",
   transports: [new transports.Console()],
 });
 
-// Initialize Discord Bot
+// Initialize Discord Bot commands
 const bot = new Client();
 const commands = [
   new BetCommand(),
@@ -23,24 +23,27 @@ const commands = [
   new LogCommand()
 ];
 
+// Connect
 bot.on("ready", () => {
   info("Connected");
   info("Logged in as: ");
   info(bot.user.username + " - (" + bot.user.id + ")");
 });
 
+// Handle message
 bot.on("message", async (message) => {
-  // Our bot needs to know if it will execute a command
-  // It will listen for messages that will start with `!`
+  // Ignore bot messages
   if (message.author.bot) {
     return;
   }
 
+  // Parse the message into words
   const args = message.content
     .toLowerCase()
     .slice()
     .split(/ +/);
 
+  // Execute triggered commands.
   for (const command of commands) {
     if (command != null && command.trigger(message)) {
       try {
@@ -52,5 +55,5 @@ bot.on("message", async (message) => {
   }
 });
 
-
+// Start bot.
 bot.login(auth.token);
