@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { Dictionary } from "typescript-collections";
 import { ICommand } from "../ICommand";
+import "../../extensions/StringExtension";
 
 export class GameCommand implements ICommand {
   private static COOLDOWN: number = 15 * 60 * 1000;
@@ -10,25 +11,18 @@ export class GameCommand implements ICommand {
   private lastLosses: Dictionary<string, Date> = new Dictionary<string, Date>();
 
   public trigger(message: Message): boolean {
-    if (message != null) {
-      const words = message.content
-        .toLowerCase()
-        .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-        .split(" ");
+    if (message != null && message.content.containsAny("game", "games")) {
+      const now = new Date();
+      const destination = message.channel.id;
 
-      if (words.includes("game") || words.includes("games")) {
-        const now = new Date();
-        const destination = message.channel.id;
-
-        if (destination != null) {
-          const lastLoss = this.lastLosses.getValue(destination);
-          if (
-            lastLoss == null ||
-            Math.abs(now.getTime() - lastLoss.getTime()) > GameCommand.COOLDOWN
-          ) {
-            this.lastLosses.setValue(destination, now);
-            return true;
-          }
+      if (destination != null) {
+        const lastLoss = this.lastLosses.getValue(destination);
+        if (
+          lastLoss == null ||
+          Math.abs(now.getTime() - lastLoss.getTime()) > GameCommand.COOLDOWN
+        ) {
+          this.lastLosses.setValue(destination, now);
+          return true;
         }
       }
     }

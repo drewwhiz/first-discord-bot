@@ -4,8 +4,8 @@ import { createLogger, transports } from "winston";
 import "../extensions/DateExtension";
 
 export class LogCommand implements ICommand {
-  name: string;  
-  description: string;
+  name: string = "log";
+  description: string = "Logs DMs to group DMs involving the bot.";
 
   date: string = (new Date()).getIsoDate();
 
