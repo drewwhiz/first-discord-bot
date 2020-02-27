@@ -13,11 +13,11 @@ export class LogCommand implements ICommand {
     new (transports.File)({ filename: `log/${this.date}.txt` })
   ]});
 
-  trigger(message: Message): boolean {
+  public trigger(message: Message): boolean {
     return !message.author.bot && (message.channel.type == "dm" || message.channel.type == "group");
   }
 
-  execute(message: Message, args: string[]): Promise<void> {
+  public async execute(message: Message, args: string[]): Promise<void> {
     let date = new Date();
     if (date.getIsoDate() != this.date) {
       this.date = date.getIsoDate();
@@ -28,6 +28,5 @@ export class LogCommand implements ICommand {
     let content = message.content;
 
     this.logger.info(`[${date.getIsoTime()}] ${sender}: ${content}`);
-    return;
   }
 }
