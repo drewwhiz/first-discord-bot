@@ -7,6 +7,7 @@ import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand";
 import { ManualCommand } from "./commands/funCommands/ManualCommand";
 import { LogCommand } from "./commands/LogCommand.js";
 import { DanceCommand } from "./commands/funCommands/DanceCommand.js";
+import { TeamCommand } from "./commands/frcCommands/TeamCommand.js";
 
 // Configure default logger settings
 configure({
@@ -22,7 +23,8 @@ const commands = [
   new GameCommand(),
   new ManualCommand(),
   new LogCommand(),
-  new DanceCommand()
+  new DanceCommand(),
+  new TeamCommand()
 ];
 
 // Connect
