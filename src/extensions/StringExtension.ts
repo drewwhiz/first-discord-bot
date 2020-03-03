@@ -1,5 +1,6 @@
 interface String {
   containsAny: (this: string, ...args: string[]) => boolean;
+  isFirstWord: (this: string, startText: string) => boolean;
 }
 
 String.prototype.containsAny = function(this: string, ...args: string[]): boolean {
@@ -16,4 +17,17 @@ String.prototype.containsAny = function(this: string, ...args: string[]): boolea
         .split(" ");
   
   return words.some(element => keywords.indexOf(element) >= 0);
+}
+
+String.prototype.isFirstWord = function(this: string, startText: string): boolean {
+  if (startText == null || startText.length == 0) return false;
+
+  const words = new String(this)
+        .toLowerCase()
+        .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
+        .split(" ");
+
+  if (words.length < 1) return false;
+
+  return startText.toLowerCase() == words[0];
 }

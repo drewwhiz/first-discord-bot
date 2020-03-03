@@ -8,6 +8,7 @@ import { ManualCommand } from "./commands/funCommands/ManualCommand";
 import { LogCommand } from "./commands/LogCommand.js";
 import { DanceCommand } from "./commands/funCommands/DanceCommand.js";
 import { TeamCommand } from "./commands/frcCommands/TeamCommand.js";
+import { ImagineCommand } from "./commands/funCommands/ImagineCommand.js";
 
 // Configure default logger settings
 configure({
@@ -24,7 +25,8 @@ const commands = [
   new ManualCommand(),
   new LogCommand(),
   new DanceCommand(),
-  new TeamCommand()
+  new TeamCommand(),
+  new ImagineCommand()
 ];
 
 // Connect
