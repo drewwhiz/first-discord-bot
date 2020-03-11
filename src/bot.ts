@@ -9,6 +9,8 @@ import { LogCommand } from "./commands/LogCommand.js";
 import { DanceCommand } from "./commands/funCommands/DanceCommand.js";
 import { TeamCommand } from "./commands/frcCommands/TeamCommand.js";
 import { ImagineCommand } from "./commands/funCommands/ImagineCommand.js";
+import { RespectsCommand } from "./commands/funCommands/RespectsCommand";
+import { DoubtCommand } from "./commands/funCommands/DoubtCommand";
 
 // Configure default logger settings
 configure({
@@ -20,6 +22,8 @@ configure({
 const bot = new Client();
 const commands = [
   new BetCommand(),
+  new RespectsCommand(),
+  new DoubtCommand(),
   new MainGoalCommand(),
   new GameCommand(),
   new ManualCommand(),

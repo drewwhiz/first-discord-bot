@@ -5,10 +5,11 @@
   "main": "dist/bot.js",
   "scripts": {
     "watch": "tsc -w",
-    "build": "tsc",
+    "build": "npm run copy-assets && tsc",
     "prestart": "npm run build",
     "start": "node dist/src/bot.js",
-    "test": "mocha -r ts-node/register test/**/*.test.ts"
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "copy-assets": "cp -rv img dist/img/"
   },
   "author": "Lawrence (Drew) Whisenant",
   "repository": {
