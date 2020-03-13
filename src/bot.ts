@@ -11,6 +11,7 @@ import { TeamCommand } from "./commands/frcCommands/TeamCommand.js";
 import { ImagineCommand } from "./commands/funCommands/ImagineCommand.js";
 import { RespectsCommand } from "./commands/funCommands/RespectsCommand";
 import { DoubtCommand } from "./commands/funCommands/DoubtCommand";
+import { AtMeCommand } from "./commands/funCommands/AtMeCommand";
 
 // Configure default logger settings
 configure({
@@ -21,6 +22,7 @@ configure({
 // Initialize Discord Bot commands
 const bot = new Client();
 const commands = [
+  new AtMeCommand(),
   new BetCommand(),
   new RespectsCommand(),
   new DoubtCommand(),
