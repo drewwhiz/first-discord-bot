@@ -2,5 +2,5 @@
 /dist
 /node_modules
 /.vscode
-/log
+log.txt
 __pycache__

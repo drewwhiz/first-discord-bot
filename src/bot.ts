@@ -12,6 +12,7 @@ import { ImagineCommand } from "./commands/funCommands/ImagineCommand.js";
 import { RespectsCommand } from "./commands/funCommands/RespectsCommand";
 import { DoubtCommand } from "./commands/funCommands/DoubtCommand";
 import { AtMeCommand } from "./commands/funCommands/AtMeCommand";
+import { TsimfdCommand } from "./commands/funCommands/TsimfdCommand";
 
 // Configure default logger settings
 configure({
@@ -22,6 +23,7 @@ configure({
 // Initialize Discord Bot commands
 const bot = new Client();
 const commands = [
+  new TsimfdCommand(),
   new AtMeCommand(),
   new BetCommand(),
   new RespectsCommand(),
