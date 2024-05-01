@@ -19,6 +19,8 @@ export class YikesCommand implements ICommand {
             const messageToReact =  await message.channel.messages.fetch(messageId);
             messageToReact.react(reactionEmoji);
             return;
+        } else {
+            message.channel.send(reactionEmoji.id);
         }
     }
 }
