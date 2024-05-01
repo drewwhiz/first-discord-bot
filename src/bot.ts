@@ -35,27 +35,28 @@ const bot = new Client({
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
-const commands = [
-  new TsimfdCommand(),
-  // TODO: Fix and re-enable
-  // new AtMeCommand(),
-  new BetCommand(),
-  new RespectsCommand(),
-  new DoubtCommand(),
-  new MainGoalCommand(),
-  new GameCommand(),
-  new ManualCommand(),
-  new LogCommand(),
-  new DanceCommand(),
-  new TeamCommand(),
-  new ImagineCommand(),
-  new BonkCommand()
-];
+let commands = [];
 
 // Connect
 bot.once(Events.ClientReady, readyClient => {
 	info(`Ready! Logged in as ${readyClient.user.tag}`);
+  commands = [
+    new TsimfdCommand(),
+    new AtMeCommand(readyClient.user.id),
+    new BetCommand(),
+    new RespectsCommand(),
+    new DoubtCommand(),
+    new MainGoalCommand(),
+    new GameCommand(),
+    new ManualCommand(),
+    new LogCommand(),
+    new DanceCommand(),
+    new TeamCommand(),
+    new ImagineCommand(),
+    new BonkCommand()
+  ];
 });
+
 
 // Handle message
 bot.addListener(Events.MessageCreate, async (message) => {
