@@ -13,6 +13,7 @@ import { RespectsCommand } from "./commands/funCommands/RespectsCommand";
 import { DoubtCommand } from "./commands/funCommands/DoubtCommand";
 import { AtMeCommand } from "./commands/funCommands/AtMeCommand";
 import { TsimfdCommand } from "./commands/funCommands/TsimfdCommand";
+import { BonkCommand } from "./commands/funCommands/BonkCommand";
 
 // Configure default logger settings
 configure({
@@ -34,7 +35,8 @@ const commands = [
   new LogCommand(),
   new DanceCommand(),
   new TeamCommand(),
-  new ImagineCommand()
+  new ImagineCommand(),
+  new BonkCommand()
 ];
 
 // Connect
