@@ -37,7 +37,8 @@ const bot = new Client({
 
 const commands = [
   new TsimfdCommand(),
-  new AtMeCommand(),
+  // TODO: Fix and re-enable
+  // new AtMeCommand(),
   new BetCommand(),
   new RespectsCommand(),
   new DoubtCommand(),
