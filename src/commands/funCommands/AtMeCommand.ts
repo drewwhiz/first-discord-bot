@@ -1,17 +1,21 @@
 import { ICommand } from "../ICommand";
-import { ChannelType, Message } from "discord.js";
+import { Message } from "discord.js";
 
 export class AtMeCommand implements ICommand {
     name: string = "don't @ me";
     description: string = "If tagged, tell the user not to tag the bot.";
+    userId: string;
+
+    constructor(userId: string) {
+        this.userId = userId;
+    }
 
     trigger(message: Message): boolean {
-        if (message.channel.type == ChannelType.DM) return false;
-        let user = message.mentions.users.find(user => user.username === 'FIRSTbot');
-        return user !== null;
+        const regex = new RegExp(`<@!?${this.userId}>`);
+        return regex.test(message.content);
     }
 
     async execute(message: Message, args: string[]): Promise<void> {
-        message.channel.send("Don't @ me.");
+        message.reply("Don't @ me.");
     }
 }

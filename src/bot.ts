@@ -35,10 +35,11 @@ const bot = new Client({
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
+const botUserId = bot.user.id;
+
 const commands = [
   new TsimfdCommand(),
-  // TODO: Fix and re-enable
-  // new AtMeCommand(),
+  new AtMeCommand(botUserId),
   new BetCommand(),
   new RespectsCommand(),
   new DoubtCommand(),
