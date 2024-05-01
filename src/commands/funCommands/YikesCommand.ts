@@ -4,13 +4,14 @@ import { Message, MessageType } from "discord.js";
 export class YikesCommand implements ICommand {
     name: string = "yikes";
     description: string = "Uses a yikes reaction on the message being replied to. If not replying, just messages the emoji.";
+    emojiName: string = "annayikes";
 
     trigger(message: Message): boolean {
         return message.content.trim().toLowerCase() === 'yikes';
     }
 
     async execute(message: Message, args: string[]): Promise<void> {
-        const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === 'annayikes');
+        const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === this.emojiName);
         if (reactionEmoji == null) return;
 
         const isReply = message.type == MessageType.Reply;
@@ -20,7 +21,7 @@ export class YikesCommand implements ICommand {
             messageToReact.react(reactionEmoji);
             return;
         } else {
-            message.channel.send(reactionEmoji.id);
+            message.channel.send(`<:${this.emojiName}:${reactionEmoji.id}>`);
         }
     }
 }
