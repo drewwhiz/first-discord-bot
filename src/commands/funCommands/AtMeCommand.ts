@@ -6,7 +6,7 @@ export class AtMeCommand implements ICommand {
     description: string = "If tagged, tell the user not to tag the bot.";
 
     trigger(message: Message): boolean {
-        let user = message.mentions.users.find(user => user.username === '538bot');
+        let user = message.mentions.users.find(user => user.username === 'FIRSTbot');
         return user !== null;
     }
 
