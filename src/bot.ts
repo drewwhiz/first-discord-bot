@@ -14,6 +14,7 @@ import { DoubtCommand } from "./commands/funCommands/DoubtCommand";
 import { AtMeCommand } from "./commands/funCommands/AtMeCommand";
 import { TsimfdCommand } from "./commands/funCommands/TsimfdCommand";
 import { BonkCommand } from "./commands/funCommands/BonkCommand";
+import { YikesCommand } from "./commands/funCommands/YikesCommand";
 
 // Configure default logger settings
 configure({
@@ -53,7 +54,8 @@ bot.once(Events.ClientReady, readyClient => {
     new DanceCommand(),
     new TeamCommand(),
     new ImagineCommand(),
-    new BonkCommand()
+    new BonkCommand(),
+    new YikesCommand()
   ];
 });
 
