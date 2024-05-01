@@ -8,7 +8,9 @@ export class BonkCommand implements ICommand {
   private getPhrase(content: string): string {
     const invariant = content.toLowerCase();
     if (invariant.indexOf("dual event") >= 0) return "dual event";
+    if (invariant.indexOf("double event") >= 0) return "double event";
     if (invariant.indexOf("triple event") >= 0) return "triple event";
+    if (invariant.indexOf("quadruple event") >= 0) return "quadruple event";
     return null;
   }
 
