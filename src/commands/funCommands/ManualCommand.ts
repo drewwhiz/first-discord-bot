@@ -13,6 +13,6 @@ export class ManualCommand implements ICommand {
 
   public async execute(message: Message, args: string[]): Promise<void> {
     message.channel.send(
-      `In case ${message.member.displayName} wasn't clear, you should probably (R)EAD (T)HE (M)ANUAL!`);
+      `In case ${message.author.displayName} wasn't clear, you should probably (R)EAD (T)HE (M)ANUAL!`);
   }
 }

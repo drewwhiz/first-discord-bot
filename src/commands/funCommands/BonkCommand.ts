@@ -19,7 +19,7 @@ export class BonkCommand implements ICommand {
   public async execute(message: Message, args: string[]): Promise<void> {
     const sender = message.author.toString();
     const forbiddenPhrase = this.getPhrase(message.content);
-    const text = `${sender}, did you just say "${forbiddenPhrase}}"?`;
+    const text = `${sender}, did you just say "${forbiddenPhrase}"?`;
 
     message.channel.send({
       content: text,

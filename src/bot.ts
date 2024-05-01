@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, Events, IntentsBitField, Partials } from "discord.js";
 import { configure, error, info, transports } from "winston";
 import auth from "../auth/auth.json";
 import { BetCommand } from "./commands/funCommands/BetCommand";
@@ -22,7 +22,19 @@ configure({
 });
 
 // Initialize Discord Bot commands
-const bot = new Client();
+const myIntents = new IntentsBitField();
+myIntents.add(
+  IntentsBitField.Flags.MessageContent, 
+  IntentsBitField.Flags.Guilds, 
+  IntentsBitField.Flags.GuildMessages,
+  IntentsBitField.Flags.DirectMessages
+);
+
+const bot = new Client({ 
+  intents: myIntents,
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction]
+});
+
 const commands = [
   new TsimfdCommand(),
   new AtMeCommand(),
@@ -40,14 +52,12 @@ const commands = [
 ];
 
 // Connect
-bot.on("ready", () => {
-  info("Connected");
-  info("Logged in as: ");
-  info(bot.user.username + " - (" + bot.user.id + ")");
+bot.once(Events.ClientReady, readyClient => {
+	info(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 // Handle message
-bot.on("message", async (message) => {
+bot.addListener(Events.MessageCreate, async (message) => {
   // Ignore bot messages
   if (message.author.bot) {
     return;
