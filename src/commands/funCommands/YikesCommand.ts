@@ -10,11 +10,14 @@ export class YikesCommand implements ICommand {
     }
 
     async execute(message: Message, args: string[]): Promise<void> {
+        const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === 'annayikes');
+        if (reactionEmoji == null) return;
+
         const isReply = message.type == MessageType.Reply;
         if (isReply) {
             const messageId = message.reference.messageId;
             const messageToReact =  await message.channel.messages.fetch(messageId);
-            messageToReact.react(':annayikes:');
+            messageToReact.react(reactionEmoji);
             return;
         }
     }
