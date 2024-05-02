@@ -1,38 +1,74 @@
-interface String {
-  containsAny: (this: string, ...args: string[]) => boolean;
-  isFirstWord: (this: string, startText: string) => boolean;
-  stripPunctuation: (this: string) => string;
+declare global {
+  interface String {
+    containsAnyWords: (this: string, ...args: string[]) => boolean;
+    containsAnyPhrases: (this: string, args: string[]) => boolean;
+    getFirstMatchingPhrase: (this: string, args: string[]) => string;
+    isFirstWord: (this: string, startText: string) => boolean;
+    stripPunctuation: (this: string) => string;
+  }
 }
 
-String.prototype.containsAny = function(this: string, ...args: string[]): boolean {
+String.prototype.containsAnyWords = function (this: string, ...args: string[]): boolean {
   if (args == null || args.length == 0) return false;
-  
+
   let keywords = [] as string[];
   args.forEach(element => {
     keywords.push(element.toLocaleLowerCase());
   });
 
   const words = new String(this)
-        .toLowerCase()
-        .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-        .split(" ");
-  
-  return words.some(element => keywords.indexOf(element) >= 0);
-}
+    .toLowerCase()
+    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
+    .split(" ");
 
-String.prototype.isFirstWord = function(this: string, startText: string): boolean {
+  return words.some(element => keywords.indexOf(element) >= 0);
+};
+
+String.prototype.containsAnyPhrases = function (this: string, args: string[]): boolean {
+  if (args == null || args.length == 0) return false;
+
+  let keywords = [] as string[];
+  args.forEach(element => {
+    keywords.push(element.toLocaleLowerCase());
+  });
+
+  const invariant = this.toLowerCase();
+  for (let i = 0; i < keywords.length; i++) {
+    if (invariant.indexOf(keywords[i]) >= 0) return true;
+  }
+
+  return false;
+};
+
+String.prototype.getFirstMatchingPhrase = function (this: string, args: string[]): string {
+  if (args == null || args.length == 0) return null;
+
+  let keywords = [] as string[];
+  args.forEach(element => {
+    keywords.push(element.toLocaleLowerCase());
+  });
+
+  const invariant = this.toLowerCase();
+  for (let i = 0; i < keywords.length; i++) {
+    if (invariant.indexOf(keywords[i]) >= 0) return keywords[i];
+  }
+
+  return null;
+};
+
+String.prototype.isFirstWord = function (this: string, startText: string): boolean {
   if (startText == null || startText.length == 0) return false;
 
   const words = new String(this)
-        .toLowerCase()
-        .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-        .split(" ");
+    .toLowerCase()
+    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
+    .split(" ");
 
   if (words.length < 1) return false;
 
   return startText.toLowerCase() == words[0];
-}
+};
 
-String.prototype.stripPunctuation = function(this: string): string {
-  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s{2,}/g," ");
-}
+String.prototype.stripPunctuation = function (this: string): string {
+  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s{2,}/g, " ");
+};

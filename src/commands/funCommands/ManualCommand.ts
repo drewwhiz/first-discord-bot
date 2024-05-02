@@ -1,7 +1,6 @@
 import { Message } from "discord.js";
-import { ICommand } from "../ICommand";
-import "../../extensions/StringExtension";
-
+import { ICommand } from "../ICommand.js";
+import "../../extensions/StringExtension.js";
 
 export class ManualCommand implements ICommand {
   public name: string = "manual";

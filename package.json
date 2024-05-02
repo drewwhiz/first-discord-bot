@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "description": "A Discord bot for FIRST Discord servers.",
   "main": "dist/bot.js",
+  "type": "module",
   "scripts": {
     "watch": "tsc -w",
     "build": "npm run copy-assets && tsc",
     "prestart": "npm run build",
     "start": "node dist/src/bot.js",
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "mocha",
     "copy-assets": "./scripts/copy-assets.sh"
   },
   "author": "Lawrence (Drew) Whisenant",

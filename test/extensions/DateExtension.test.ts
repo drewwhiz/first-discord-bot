@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import "mocha";
-import "../../src/extensions/DateExtension";
+import "../../src/extensions/DateExtension.js";
 
 describe("Date Extensions", () => {
   it("should return correct UTC day name", () => {

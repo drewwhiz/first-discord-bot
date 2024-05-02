@@ -1,6 +1,6 @@
-import { ICommand } from "../ICommand";
+import { ICommand } from "../ICommand.js";
 import { Message } from "discord.js";
-import "../../extensions/StringExtension";
+import "../../extensions/StringExtension.js";
 
 export class TsimfdCommand implements ICommand {
     private static readonly TSIMFD: string = "TSIMFD";
@@ -13,10 +13,10 @@ export class TsimfdCommand implements ICommand {
     }
 
     public async execute(message: Message, args: string[]): Promise<void> {
-        message.channel.send(TsimfdCommand.TSIMFD);
+        message.reply(TsimfdCommand.TSIMFD);
     }
 
     private containsCoolOrEquivalent(text: string) {
-        return text.containsAny("cool", "awesome", "neat", "dope") || TsimfdCommand.TSIMFD === text.toUpperCase();
+        return text.containsAnyWords("cool", "awesome", "neat", "dope") || TsimfdCommand.TSIMFD === text.toUpperCase();
     }
 }

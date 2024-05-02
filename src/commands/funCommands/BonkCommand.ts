@@ -1,29 +1,27 @@
-import { ICommand } from "../ICommand";
+import { readFileSync } from "fs";
+import { ICommand } from "../ICommand.js";
 import { Message } from "discord.js";
 
 export class BonkCommand implements ICommand {
   name: string = "bonk";
   description: string = "Sends the bonk meme if the user mentions a forbidden phrase.";
+  forbiddenPhrases: string[] = [];
 
-  private getPhrase(content: string): string {
-    const invariant = content.toLowerCase();
-    if (invariant.indexOf("dual event") >= 0) return "dual event";
-    if (invariant.indexOf("double event") >= 0) return "double event";
-    if (invariant.indexOf("triple event") >= 0) return "triple event";
-    if (invariant.indexOf("quadruple event") >= 0) return "quadruple event";
-    return null;
+  constructor() {
+    this.forbiddenPhrases = JSON.parse(readFileSync("data/forbiddenPhrases.json").toString());
   }
 
   public trigger(message: Message): boolean {
-    return this.getPhrase(message.content) != null;
+    return message.content.toLowerCase().containsAnyPhrases(this.forbiddenPhrases);
   }
 
   public async execute(message: Message, args: string[]): Promise<void> {
     const sender = message.author.toString();
-    const forbiddenPhrase = this.getPhrase(message.content);
-    const text = `${sender}, did you just say "${forbiddenPhrase}"?`;
+    const forbiddenPhrase = message.content.toLowerCase().getFirstMatchingPhrase(this.forbiddenPhrases);
+    if (forbiddenPhrase == null) return;
 
-    message.channel.send({
+    const text = `${sender}, did you just say "${forbiddenPhrase}"?`;
+    message.reply({
       content: text,
       files: ['./img/bonk.jpg']
     });
