@@ -1,6 +1,7 @@
 interface String {
   containsAny: (this: string, ...args: string[]) => boolean;
   isFirstWord: (this: string, startText: string) => boolean;
+  stripPunctuation: (this: string) => string;
 }
 
 String.prototype.containsAny = function(this: string, ...args: string[]): boolean {
@@ -30,4 +31,8 @@ String.prototype.isFirstWord = function(this: string, startText: string): boolea
   if (words.length < 1) return false;
 
   return startText.toLowerCase() == words[0];
+}
+
+String.prototype.stripPunctuation = function(this: string): string {
+  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s{2,}/g," ");
 }

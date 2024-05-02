@@ -7,7 +7,7 @@ export class YikesCommand implements ICommand {
     emojiName: string = "annayikes";
 
     trigger(message: Message): boolean {
-        return message.content.trim().toLowerCase() === 'yikes';
+        return message.content.stripPunctuation().trim().toLowerCase() === 'yikes';
     }
 
     async execute(message: Message, args: string[]): Promise<void> {
