@@ -1,6 +1,6 @@
-import { ICommand } from "../ICommand";
+import { ICommand } from "../ICommand.js";
 import { Message } from "discord.js";
-import { ISong } from "../../models/ISong";
+import { ISong } from "../../models/ISong.js";
 import { readFileSync } from "fs";
 
 export class DanceCommand implements ICommand {
@@ -24,6 +24,6 @@ export class DanceCommand implements ICommand {
       `Try ${song.name}` +
       (song.artist.trim() != "" ? ` by ${song.artist}` : "") +
       `!\n${song.url}`;
-    message.channel.send(reply);
+    message.reply(reply);
   }
 }

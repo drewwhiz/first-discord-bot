@@ -1,20 +1,22 @@
 import { Client, Events, IntentsBitField, Partials } from "discord.js";
-import { configure, error, info, transports } from "winston";
-import auth from "../auth/auth.json";
-import { BetCommand } from "./commands/funCommands/BetCommand";
-import { GameCommand } from "./commands/funCommands/GameCommand";
-import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand";
-import { ManualCommand } from "./commands/funCommands/ManualCommand";
+import winston from "winston";
+import auth from "../auth/auth.json" with { type: "json" };
+import { BetCommand } from "./commands/funCommands/BetCommand.js";
+import { GameCommand } from "./commands/funCommands/GameCommand.js";
+import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand.js";
+import { ManualCommand } from "./commands/funCommands/ManualCommand.js";
 import { LogCommand } from "./commands/LogCommand.js";
 import { DanceCommand } from "./commands/funCommands/DanceCommand.js";
 import { TeamCommand } from "./commands/frcCommands/TeamCommand.js";
 import { ImagineCommand } from "./commands/funCommands/ImagineCommand.js";
-import { RespectsCommand } from "./commands/funCommands/RespectsCommand";
-import { DoubtCommand } from "./commands/funCommands/DoubtCommand";
-import { AtMeCommand } from "./commands/funCommands/AtMeCommand";
-import { TsimfdCommand } from "./commands/funCommands/TsimfdCommand";
-import { BonkCommand } from "./commands/funCommands/BonkCommand";
-import { YikesCommand } from "./commands/funCommands/YikesCommand";
+import { RespectsCommand } from "./commands/funCommands/RespectsCommand.js";
+import { DoubtCommand } from "./commands/funCommands/DoubtCommand.js";
+import { AtMeCommand } from "./commands/funCommands/AtMeCommand.js";
+import { TsimfdCommand } from "./commands/funCommands/TsimfdCommand.js";
+import { BonkCommand } from "./commands/funCommands/BonkCommand.js";
+import { YikesCommand } from "./commands/funCommands/YikesCommand.js";
+
+const { configure, transports, error, info } = winston;
 
 // Configure default logger settings
 configure({

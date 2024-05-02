@@ -1,15 +1,19 @@
-import { ICommand } from "./ICommand";
+import { ICommand } from "./ICommand.js";
 import { ChannelType, Message } from "discord.js";
-import { createLogger, transports } from "winston";
-import "../extensions/DateExtension";
+import winston from "winston";
+import "../extensions/DateExtension.js";
+
+const { createLogger, transports } = winston;
 
 export class LogCommand implements ICommand {
   name: string = "log";
   description: string = "Logs DMs involving the bot.";
 
-  logger = createLogger( { transports: [
-    new (transports.File)({ filename: `log.txt` })
-  ]});
+  logger = createLogger({
+    transports: [
+      new (transports.File)({ filename: `log.txt` })
+    ]
+  });
 
   public trigger(message: Message): boolean {
     return !message.author.bot && (message.channel.type == ChannelType.DM);

@@ -1,4 +1,4 @@
-import { ICommand } from "../ICommand";
+import { ICommand } from "../ICommand.js";
 import { Message } from "discord.js";
 
 export class TeamCommand implements ICommand {

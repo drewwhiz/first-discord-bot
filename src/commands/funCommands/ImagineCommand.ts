@@ -1,6 +1,6 @@
-import { ICommand } from "../ICommand";
+import { ICommand } from "../ICommand.js";
 import { Message } from "discord.js";
-import "../../extensions/StringExtension";
+import "../../extensions/StringExtension.js";
 
 export class ImagineCommand implements ICommand {
   public name: string = "imagine";
