@@ -9,7 +9,7 @@
     "prestart": "npm run build",
     "start": "node dist/src/bot.js",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
-    "copy-assets": "cp -rv img dist/img/"
+    "copy-assets": "./scripts/copy-assets.sh"
   },
   "author": "Lawrence (Drew) Whisenant",
   "repository": {
