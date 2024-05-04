@@ -18,8 +18,8 @@ String.prototype.containsAnyWords = function (this: string, ...args: string[]): 
 
   const words = new String(this)
     .toLowerCase()
-    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-    .split(" ");
+    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, '')
+    .split(' ');
 
   return words.some(element => keywords.indexOf(element) >= 0);
 };
@@ -61,8 +61,8 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 
   const words = new String(this)
     .toLowerCase()
-    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-    .split(" ");
+    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, '')
+    .split(' ');
 
   if (words.length < 1) return false;
 
@@ -70,5 +70,5 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 };
 
 String.prototype.stripPunctuation = function (this: string): string {
-  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s{2,}/g, " ");
+  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s{2,}/g, ' ');
 };

@@ -1,13 +1,13 @@
-import { ICommand } from "./ICommand.js";
-import { ChannelType, Message } from "discord.js";
-import winston from "winston";
-import "../extensions/DateExtension.js";
+import { ICommand } from './ICommand.js';
+import { ChannelType, Message } from 'discord.js';
+import winston from 'winston';
+import '../extensions/DateExtension.js';
 
 const { createLogger, transports } = winston;
 
 export class LogCommand implements ICommand {
-  name: string = "log";
-  description: string = "Logs DMs involving the bot.";
+  name: string = 'log';
+  description: string = 'Logs DMs involving the bot.';
 
   logger = createLogger({
     transports: [

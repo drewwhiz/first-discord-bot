@@ -1,15 +1,15 @@
-import { Message } from "discord.js";
-import { ICommand } from "../ICommand.js";
-import "../../extensions/StringExtension.js";
+import { Message } from 'discord.js';
+import { ICommand } from '../ICommand.js';
+import '../../extensions/StringExtension.js';
 
 export class ManualCommand implements ICommand {
-  public name: string = "manual";
-  public description: string = "Tells people to read the manual.";
+  public name: string = 'manual';
+  public description: string = 'Tells people to read the manual.';
 
   private getText(content: string): string {
     const invariant = content.toLowerCase();
-    if (invariant.indexOf("rtm") >= 0) return "rtm";
-    if (invariant.indexOf("rtfm") >= 0) return "rtfm";
+    if (invariant.indexOf('rtm') >= 0) return 'rtm';
+    if (invariant.indexOf('rtfm') >= 0) return 'rtfm';
     return null;
   }
 

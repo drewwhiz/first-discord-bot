@@ -1,10 +1,10 @@
-import { ICommand } from "../ICommand.js";
-import { Message, MessageType } from "discord.js";
+import { ICommand } from '../ICommand.js';
+import { Message, MessageType } from 'discord.js';
 
 export class YikesCommand implements ICommand {
-    name: string = "yikes";
-    description: string = "Uses a yikes reaction on the message being replied to. If not replying, just messages the emoji.";
-    emojiName: string = "annayikes";
+    name: string = 'yikes';
+    description: string = 'Uses a yikes reaction on the message being replied to. If not replying, just messages the emoji.';
+    emojiName: string = 'annayikes';
 
     trigger(message: Message): boolean {
         return message.content.stripPunctuation().trim().toLowerCase() === 'yikes';

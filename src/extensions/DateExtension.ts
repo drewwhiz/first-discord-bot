@@ -55,7 +55,7 @@ Date.prototype.getFullDateUtc = function (this: Date): string {
 };
 
 Date.prototype.getTimezone = function (this: Date): string {
-  return this.toString().split("(")[1].replace(")", "");
+  return this.toString().split('(')[1].replace(')', '');
 };
 
 Date.prototype.getIsoDate = function (this: Date): string {
@@ -67,60 +67,60 @@ Date.prototype.getIsoTime = function (this: Date): string {
 };
 
 function twelveHourConverter(hours: number, minutes: number) {
-  const suffix = hours >= 12 ? "PM" : "AM";
+  const suffix = hours >= 12 ? 'PM' : 'AM';
   const convertedHours = hours - (hours > 12 ? 12 : 0) + (hours === 0 ? 12 : 0);
-  const convertedMinutes = `${minutes < 10 ? "0" : ""}${minutes}`;
+  const convertedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
   return `${convertedHours}:${convertedMinutes} ${suffix}`;
 }
 
 function numberToMonth(month: number) {
   switch (month) {
     case 0:
-      return "January";
+      return 'January';
     case 1:
-      return "February";
+      return 'February';
     case 2:
-      return "March";
+      return 'March';
     case 3:
-      return "April";
+      return 'April';
     case 4:
-      return "May";
+      return 'May';
     case 5:
-      return "June";
+      return 'June';
     case 6:
-      return "July";
+      return 'July';
     case 7:
-      return "August";
+      return 'August';
     case 8:
-      return "September";
+      return 'September';
     case 9:
-      return "October";
+      return 'October';
     case 10:
-      return "November";
+      return 'November';
     case 11:
-      return "December";
+      return 'December';
     default:
-      return "Invalid month specified.";
+      return 'Invalid month specified.';
   }
 }
 
 function numberToDay(day: number) {
   switch (day) {
     case 0:
-      return "Sunday";
+      return 'Sunday';
     case 1:
-      return "Monday";
+      return 'Monday';
     case 2:
-      return "Tuesday";
+      return 'Tuesday';
     case 3:
-      return "Wednesday";
+      return 'Wednesday';
     case 4:
-      return "Thursday";
+      return 'Thursday';
     case 5:
-      return "Friday";
+      return 'Friday';
     case 6:
-      return "Saturday";
+      return 'Saturday';
     default:
-      return "Invalid day specified.";
+      return 'Invalid day specified.';
   }
 }

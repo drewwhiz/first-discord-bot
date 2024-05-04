@@ -1,10 +1,10 @@
-import { ICommand } from "../ICommand.js";
-import { Message } from "discord.js";
-import "../../extensions/StringExtension.js";
+import { ICommand } from '../ICommand.js';
+import { Message } from 'discord.js';
+import '../../extensions/StringExtension.js';
 
 export class HearMeOutCommand implements ICommand {
-    name: string = "Hear Me Out";
-    description: string = "Chimes in with an appropriate response to 'Hear me out...'.";
+    name: string = 'Hear Me Out';
+    description: string = 'Chimes in with an appropriate response to \'Hear me out...\'.';
 
     public trigger(message: Message): boolean {
         const content = message.content.stripPunctuation().trim().toLowerCase();
