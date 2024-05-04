@@ -8,7 +8,7 @@ export class HearMeOutCommand implements ICommand {
 
     public trigger(message: Message): boolean {
         const content = message.content.stripPunctuation().trim().toLowerCase();
-        return content.startsWith('hear me out') || (content.length < 20 && content.includes('hear me out'));
+        return content.startsWith('hear me out') || (content.length < 30 && content.includes('hear me out'));
     }
 
     public async execute(message: Message, args: string[]): Promise<void> {
