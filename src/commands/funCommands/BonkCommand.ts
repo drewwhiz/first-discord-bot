@@ -15,7 +15,7 @@ export class BonkCommand implements ICommand {
     return message.content.toLowerCase().containsAnyPhrases(this.forbiddenPhrases);
   }
 
-  public async execute(message: Message, args: string[]): Promise<void> {
+  public async execute(message: Message): Promise<void> {
     const sender = message.author.toString();
     const forbiddenPhrase = message.content.toLowerCase().getFirstMatchingPhrase(this.forbiddenPhrases);
     if (forbiddenPhrase == null) return;

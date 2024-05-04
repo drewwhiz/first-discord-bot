@@ -10,7 +10,7 @@ export class YikesCommand implements ICommand {
         return message.content.stripPunctuation().trim().toLowerCase() === 'yikes';
     }
 
-    async execute(message: Message, args: string[]): Promise<void> {
+    async execute(message: Message): Promise<void> {
         const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === this.emojiName);
         if (reactionEmoji == null) return;
 

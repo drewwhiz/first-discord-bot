@@ -4,7 +4,7 @@ import '../../src/extensions/StringExtension.js';
 
 describe('String Extensions', () => {
   it('should strip punctuation', () => {
-    const textWithPunctuation = '.,\/#!$%\^&\abc*;:{}=\-_`~()';
+    const textWithPunctuation = '.,/#!$%^&abc*;:{}=-_`~()';
     expect(textWithPunctuation.stripPunctuation()).to.equal('abc');
   });
 
@@ -60,13 +60,11 @@ describe('String Extensions', () => {
   });
 
   it('should match second word', () => {
-    const phrases = ['first phrase', 'second phrase'];
     const text = 'this text contains the second phrase only';
     expect(text.containsAnyWords('third', 'second')).to.be.true;
   });
 
   it('should match no word', () => {
-    const phrases = ['first phrase', 'second phrase'];
     const text = 'this text contains no phrase';
     expect(text.containsAnyWords('banana', 'apple')).to.be.false;
   });

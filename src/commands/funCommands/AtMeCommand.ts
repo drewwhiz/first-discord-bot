@@ -15,7 +15,7 @@ export class AtMeCommand implements ICommand {
         return regex.test(message.content);
     }
 
-    async execute(message: Message, args: string[]): Promise<void> {
+    async execute(message: Message): Promise<void> {
         message.reply('Don\'t @ me.');
     }
 }

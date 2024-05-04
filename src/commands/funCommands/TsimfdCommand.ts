@@ -12,7 +12,7 @@ export class TsimfdCommand implements ICommand {
         return this.containsCoolOrEquivalent(message.content);
     }
 
-    public async execute(message: Message, args: string[]): Promise<void> {
+    public async execute(message: Message): Promise<void> {
         message.reply(TsimfdCommand.TSIMFD);
     }
 

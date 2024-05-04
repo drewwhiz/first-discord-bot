@@ -7,10 +7,10 @@ export class ImagineCommand implements ICommand {
   public description: string = 'Couldn\'t be me';
 
   public trigger(message: Message): boolean {
-    return message != null && message.content.isFirstWord('imagine');
+    return message != null && message.content.stripPunctuation().toLowerCase().startsWith('imagine');
   }
 
-  public async execute(message: Message, args: string[]): Promise<void> {
+  public async execute(message: Message): Promise<void> {
     message.reply('Couldn\'t be me.');
   }
 }

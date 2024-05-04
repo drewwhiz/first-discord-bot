@@ -5,5 +5,5 @@ export interface ICommand {
   description: string;
 
   trigger(message: Message): boolean;
-  execute(message: Message, args: string[]): Promise<void>;
+  execute(message: Message): Promise<void>;
 }

@@ -10,7 +10,7 @@ export class BetCommand implements ICommand {
     return message != null && message.content.containsAnyWords('bet');
   }
 
-  public async execute(message: Message, args: string[]): Promise<void> {
+  public async execute(message: Message): Promise<void> {
     message.reply('Do it. You won\'t.');
   }
 }

@@ -11,7 +11,7 @@ export class MainGoalCommand implements ICommand {
     return message != null && message.content.containsAnyWords('goal', 'goals');
   }
 
-  public async execute(message: Message, args: string[]): Promise<void> {
+  public async execute(message: Message): Promise<void> {
     message.reply(
       'My main goal is to blow up, then act like I don\'t know nobody. Hahahahahaha.',
     );

@@ -5,7 +5,6 @@ import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { GameCommand } from './commands/funCommands/GameCommand.js';
 import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
 import { ManualCommand } from './commands/funCommands/ManualCommand.js';
-import { LogCommand } from './commands/LogCommand.js';
 import { DanceCommand } from './commands/funCommands/DanceCommand.js';
 import { TeamCommand } from './commands/frcCommands/TeamCommand.js';
 import { ImagineCommand } from './commands/funCommands/ImagineCommand.js';
@@ -53,7 +52,6 @@ bot.once(Events.ClientReady, readyClient => {
     new MainGoalCommand(),
     new GameCommand(),
     new ManualCommand(),
-    new LogCommand(),
     new DanceCommand(),
     new TeamCommand(),
     new ImagineCommand(),
@@ -71,17 +69,11 @@ bot.addListener(Events.MessageCreate, async (message) => {
     return;
   }
 
-  // Parse the message into words
-  const args = message.content
-    .toLowerCase()
-    .slice()
-    .split(/ +/);
-
   // Execute triggered commands.
   for (const command of commands) {
     if (command != null && command.trigger(message)) {
       try {
-        await command.execute(message, args);
+        await command.execute(message);
       } catch (e) {
         error(e.message);
       }

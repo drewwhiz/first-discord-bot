@@ -15,12 +15,12 @@ export class DanceCommand implements ICommand {
     return message.content.toLowerCase().trim() == 'frc dance';
   }
 
-  public async execute(message: Message, args: string[]): Promise<void> {
+  public async execute(message: Message): Promise<void> {
     const songs = this.getSongs();
-    let index = Math.floor(Math.random() * songs.length);
+    const index = Math.floor(Math.random() * songs.length);
     const song = songs[index];
 
-    let reply: string =
+    const reply: string =
       `Try ${song.name}` +
       (song.artist.trim() != '' ? ` by ${song.artist}` : '') +
       `!\n${song.url}`;
