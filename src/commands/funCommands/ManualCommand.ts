@@ -27,13 +27,13 @@ export class ManualCommand implements ICommand {
     const text = acronym === 'rtm' ? '(R)EAD (T)HE (M)ANUAL' : '(R)EAD (T)HE (F)IRST (M)ANUAL';
     const messageContent = `In case that wasn't clear, you should probably ${text}!`
       + '\n'
-      + `FRC: ${this.frcManual}`
+      + `FRC: <${this.frcManual}>`
       + '\n'
-      + `FTC: ${this.ftcManual}`
+      + `FTC: <${this.ftcManual}>`
       + '\n'
-      + `FLL Challenge: ${this.fllChallengeManual}`
+      + `FLL Challenge: <${this.fllChallengeManual}>`
       + '\n'
-      + `FLL Explore: ${this.fllExploreManual}`;
+      + `FLL Explore: <${this.fllExploreManual}>`;
 
     message.channel.send(messageContent);
   }
