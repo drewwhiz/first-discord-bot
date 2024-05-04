@@ -25,7 +25,7 @@ export class ManualCommand implements ICommand {
   public async execute(message: Message): Promise<void> {
     const acronym = this.getText(message?.content);
     const text = acronym === 'rtm' ? '(R)EAD (T)HE (M)ANUAL' : '(R)EAD (T)HE (F)IRST (M)ANUAL';
-    const messageContent = `In case that wasn't clear, you should probably ${text}!]`
+    const messageContent = `In case that wasn't clear, you should probably ${text}!`
       + '\n'
       + `FRC: ${this.frcManual}`
       + '\n'
