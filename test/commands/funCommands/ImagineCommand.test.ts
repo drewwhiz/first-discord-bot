@@ -1,0 +1,35 @@
+import { Message } from 'discord.js';
+import { expect } from 'chai';
+import { ImagineCommand } from '../../../src/commands/funCommands/ImagineCommand.js';
+
+describe('Imagine Command', () => {
+    it('should trigger on starting with imagine', () => {
+        const content = 'IMAGINE my surprise';
+        const message = Message.prototype;
+        message.content = content;
+        const command = new ImagineCommand();
+
+        const result = command.trigger(message);
+        expect(result).to.be.true;
+    });
+
+    it('should not trigger without imagine', () => {
+        const content = 'this phrase doesn\'t have it';
+        const message = Message.prototype;
+        message.content = content;
+        const command = new ImagineCommand();
+
+        const result = command.trigger(message);
+        expect(result).to.be.false;
+    });
+
+    it('should not trigger without imagine starting', () => {
+        const content = 'this phrase has imagine in the wrong place';
+        const message = Message.prototype;
+        message.content = content;
+        const command = new ImagineCommand();
+
+        const result = command.trigger(message);
+        expect(result).to.be.false;
+    });
+});

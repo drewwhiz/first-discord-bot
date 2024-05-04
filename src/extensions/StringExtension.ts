@@ -11,15 +11,15 @@ declare global {
 String.prototype.containsAnyWords = function (this: string, ...args: string[]): boolean {
   if (args == null || args.length == 0) return false;
 
-  let keywords = [] as string[];
+  const keywords = [] as string[];
   args.forEach(element => {
     keywords.push(element.toLocaleLowerCase());
   });
 
   const words = new String(this)
     .toLowerCase()
-    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-    .split(" ");
+    .stripPunctuation()
+    .split(' ');
 
   return words.some(element => keywords.indexOf(element) >= 0);
 };
@@ -27,7 +27,7 @@ String.prototype.containsAnyWords = function (this: string, ...args: string[]): 
 String.prototype.containsAnyPhrases = function (this: string, args: string[]): boolean {
   if (args == null || args.length == 0) return false;
 
-  let keywords = [] as string[];
+  const keywords = [] as string[];
   args.forEach(element => {
     keywords.push(element.toLocaleLowerCase());
   });
@@ -43,7 +43,7 @@ String.prototype.containsAnyPhrases = function (this: string, args: string[]): b
 String.prototype.getFirstMatchingPhrase = function (this: string, args: string[]): string {
   if (args == null || args.length == 0) return null;
 
-  let keywords = [] as string[];
+  const keywords = [] as string[];
   args.forEach(element => {
     keywords.push(element.toLocaleLowerCase());
   });
@@ -61,8 +61,8 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 
   const words = new String(this)
     .toLowerCase()
-    .replace(/[.,\/#?!$%\^&\*;:{}=\-_`~()]/g, "")
-    .split(" ");
+    .stripPunctuation()
+    .split(' ');
 
   if (words.length < 1) return false;
 
@@ -70,5 +70,5 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 };
 
 String.prototype.stripPunctuation = function (this: string): string {
-  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').replace(/\s{2,}/g, " ");
+  return this.replace(/[.,\\/#!$%^&*;:{}=-_`~()]/g, '').replace(/\s{2,}/g, ' ');
 };

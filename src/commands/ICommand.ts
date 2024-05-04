@@ -1,9 +1,9 @@
-import { Message } from "discord.js";
+import { Message } from 'discord.js';
 
 export interface ICommand {
   name: string;
   description: string;
 
   trigger(message: Message): boolean;
-  execute(message: Message, args: string[]): Promise<void>;
+  execute(message: Message): Promise<void>;
 }

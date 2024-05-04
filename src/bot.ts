@@ -1,27 +1,26 @@
-import { Client, Events, IntentsBitField, Partials } from "discord.js";
-import winston from "winston";
-import auth from "../auth/auth.json" with { type: "json" };
-import { BetCommand } from "./commands/funCommands/BetCommand.js";
-import { GameCommand } from "./commands/funCommands/GameCommand.js";
-import { MainGoalCommand } from "./commands/funCommands/MainGoalCommand.js";
-import { ManualCommand } from "./commands/funCommands/ManualCommand.js";
-import { LogCommand } from "./commands/LogCommand.js";
-import { DanceCommand } from "./commands/funCommands/DanceCommand.js";
-import { TeamCommand } from "./commands/frcCommands/TeamCommand.js";
-import { ImagineCommand } from "./commands/funCommands/ImagineCommand.js";
-import { RespectsCommand } from "./commands/funCommands/RespectsCommand.js";
-import { DoubtCommand } from "./commands/funCommands/DoubtCommand.js";
-import { AtMeCommand } from "./commands/funCommands/AtMeCommand.js";
-import { TsimfdCommand } from "./commands/funCommands/TsimfdCommand.js";
-import { BonkCommand } from "./commands/funCommands/BonkCommand.js";
-import { YikesCommand } from "./commands/funCommands/YikesCommand.js";
-import { HearMeOutCommand } from "./commands/funCommands/HearMeOutCommand.js";
+import { Client, Events, IntentsBitField, Partials } from 'discord.js';
+import winston from 'winston';
+import auth from '../auth/auth.json' with { type: 'json' };
+import { BetCommand } from './commands/funCommands/BetCommand.js';
+import { GameCommand } from './commands/funCommands/GameCommand.js';
+import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
+import { ManualCommand } from './commands/funCommands/ManualCommand.js';
+import { DanceCommand } from './commands/funCommands/DanceCommand.js';
+import { TeamCommand } from './commands/frcCommands/TeamCommand.js';
+import { ImagineCommand } from './commands/funCommands/ImagineCommand.js';
+import { RespectsCommand } from './commands/funCommands/RespectsCommand.js';
+import { DoubtCommand } from './commands/funCommands/DoubtCommand.js';
+import { AtMeCommand } from './commands/funCommands/AtMeCommand.js';
+import { TsimfdCommand } from './commands/funCommands/TsimfdCommand.js';
+import { BonkCommand } from './commands/funCommands/BonkCommand.js';
+import { YikesCommand } from './commands/funCommands/YikesCommand.js';
+import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 
 const { configure, transports, error, info } = winston;
 
 // Configure default logger settings
 configure({
-  level: "info",
+  level: 'info',
   transports: [new transports.Console()],
 });
 
@@ -53,7 +52,6 @@ bot.once(Events.ClientReady, readyClient => {
     new MainGoalCommand(),
     new GameCommand(),
     new ManualCommand(),
-    new LogCommand(),
     new DanceCommand(),
     new TeamCommand(),
     new ImagineCommand(),
@@ -71,17 +69,11 @@ bot.addListener(Events.MessageCreate, async (message) => {
     return;
   }
 
-  // Parse the message into words
-  const args = message.content
-    .toLowerCase()
-    .slice()
-    .split(/ +/);
-
   // Execute triggered commands.
   for (const command of commands) {
     if (command != null && command.trigger(message)) {
       try {
-        await command.execute(message, args);
+        await command.execute(message);
       } catch (e) {
         error(e.message);
       }
