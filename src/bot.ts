@@ -16,6 +16,7 @@ import { YikesCommand } from './commands/funCommands/YikesCommand.js';
 import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 import { ChiefDelphiCommand } from './commands/frcCommands/ChiefDelphiCommand.js';
+import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -60,7 +61,8 @@ bot.once(Events.ClientReady, readyClient => {
     new YikesCommand(),
     new HearMeOutCommand(),
     new DocumentationCommand(),
-    new ChiefDelphiCommand()
+    new ChiefDelphiCommand(),
+    new PartLookupCommand()
   ];
 });
 
