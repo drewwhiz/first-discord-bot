@@ -70,5 +70,5 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 };
 
 String.prototype.stripPunctuation = function (this: string): string {
-  return this.replace(/[.,\\/#!$%^&*;:{}=-_`~()]/g, '').replace(/\s{2,}/g, ' ');
+  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g, '').replace(/\s{2,}/g, ' ');
 };
