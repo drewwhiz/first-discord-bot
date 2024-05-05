@@ -8,6 +8,11 @@ describe('String Extensions', () => {
     expect(textWithPunctuation.stripPunctuation()).to.equal('abc');
   });
 
+  it('REGRESSION TEST: should leave text alone', () => {
+    const text = 'Ax';
+    expect(text.stripPunctuation()).to.equal('Ax');
+  });
+
   it('should be first word', () => {
     const phrase = 'bananas are high in potassium';
     expect(phrase.isFirstWord('bananas')).to.be.true;

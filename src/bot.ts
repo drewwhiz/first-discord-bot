@@ -14,6 +14,7 @@ import { TsimfdCommand } from './commands/funCommands/TsimfdCommand.js';
 import { BonkCommand } from './commands/funCommands/BonkCommand.js';
 import { YikesCommand } from './commands/funCommands/YikesCommand.js';
 import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
+import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -56,7 +57,8 @@ bot.once(Events.ClientReady, readyClient => {
     new ImagineCommand(),
     new BonkCommand(),
     new YikesCommand(),
-    new HearMeOutCommand()
+    new HearMeOutCommand(),
+    new DocumentationCommand()
   ];
 });
 
