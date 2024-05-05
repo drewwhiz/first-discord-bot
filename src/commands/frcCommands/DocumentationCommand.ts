@@ -32,8 +32,8 @@ export class DocumentationCommand implements ICommand {
 
 
     trigger(message: Message<boolean>): boolean {
-        const content = message?.content?.toLowerCase() ?? '';
-        return content.startsWith('/doc') || content.startsWith('/docs');
+        const content = message?.content?.toLowerCase()?.stripPunctuation() ?? '';
+        return content.isFirstWord('doc') || content.isFirstWord('docs');
     }
 
     async execute(message: Message<boolean>): Promise<void> {
