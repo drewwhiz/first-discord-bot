@@ -1,0 +1,17 @@
+[
+    {
+        "prefix": "am-",
+        "urlFormat": "https://www.andymark.com/{0}",
+        "source": "AndyMark"
+    },
+    {
+        "prefix": "rev-",
+        "urlFormat": "https://www.revrobotics.com/{0}",
+        "source": "REV Robotics"
+    },
+    {
+        "prefix": "wcp-",
+        "urlFormat": "https://wcproducts.com/products/{0}",
+        "source": "West Coast Products"
+    }
+]
