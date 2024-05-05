@@ -15,6 +15,7 @@ import { BonkCommand } from './commands/funCommands/BonkCommand.js';
 import { YikesCommand } from './commands/funCommands/YikesCommand.js';
 import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
+import { ChiefDelphiCommand } from './commands/frcCommands/ChiefDelphiCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -58,7 +59,8 @@ bot.once(Events.ClientReady, readyClient => {
     new BonkCommand(),
     new YikesCommand(),
     new HearMeOutCommand(),
-    new DocumentationCommand()
+    new DocumentationCommand(),
+    new ChiefDelphiCommand()
   ];
 });
 
