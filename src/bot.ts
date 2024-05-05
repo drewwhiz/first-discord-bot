@@ -1,6 +1,5 @@
 import { Client, Events, IntentsBitField, Partials } from 'discord.js';
 import winston from 'winston';
-import auth from '../auth/auth.json' with { type: 'json' };
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { GameCommand } from './commands/funCommands/GameCommand.js';
 import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
@@ -82,4 +81,4 @@ bot.addListener(Events.MessageCreate, async (message) => {
 });
 
 // Start bot.
-bot.login(auth.token);
+bot.login(process.env.TOKEN);
