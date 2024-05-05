@@ -8,7 +8,7 @@
     "watch": "tsc -w",
     "build": "npm run copy-assets && tsc",
     "prestart": "npm run build",
-    "start": "node dist/src/bot.js",
+    "start": "node --env-file=.env dist/src/bot.js",
     "test": "mocha",
     "copy-assets": "./scripts/copy-assets.sh"
   },
