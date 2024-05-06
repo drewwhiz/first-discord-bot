@@ -19,11 +19,11 @@ export class TeamCommand implements ICommand {
     const reply =
       `Check out Team ${team} this season on`
       + '\n'
-      + `The Blue Alliance: <https://www.thebluealliance.com/team/${team}/${year}>`
+      + `- The Blue Alliance: <https://www.thebluealliance.com/team/${team}/${year}>`
       + '\n'
-      + `FRC Events: <https://frc-events.firstinspires.org/${year}/team/${team}>`
+      + `- FRC Events: <https://frc-events.firstinspires.org/${year}/team/${team}>`
       + '\n'
-      + `Statbotics: <https://www.statbotics.io/team/${team}/${year}>`;
+      + `- Statbotics: <https://www.statbotics.io/team/${team}/${year}>`;
 
     message.reply(reply);
   }
