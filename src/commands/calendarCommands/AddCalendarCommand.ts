@@ -1,15 +1,18 @@
 import { Message, PermissionFlagsBits } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogleCalendarDataServce.js';
+import { readFileSync } from 'fs';
 
 export class AddCalendarCommand implements ICommand {
     name: string = 'Add calendar';
     description: string = 'Adds a calendar to the collection';
 
     private readonly _service: IGoogleCalendarDataService;
+    private readonly _roles: string[];
 
     constructor(service: IGoogleCalendarDataService) {
         this._service = service;
+        this._roles = JSON.parse(readFileSync('data/calendarRoles.json').toString());;
     }
 
     trigger(message: Message<boolean>): boolean {
@@ -27,8 +30,8 @@ export class AddCalendarCommand implements ICommand {
         }
 
         const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
-        const isMentor = member.roles.cache.some(r => r.name === 'Mentor');
-        if (!isAdmin && !isMentor) {
+        const hasAllowedRole = member.roles.cache.some(r => this._roles.includes(r.name));
+        if (!isAdmin && !hasAllowedRole) {
             message.reply('Sorry, this action is restricted to certain users.');
             return;
         }

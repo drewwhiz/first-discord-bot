@@ -10,7 +10,8 @@
     "prestart": "npm run build",
     "start": "node --env-file=.env dist/src/bot.js",
     "test": "mocha",
-    "copy-assets": "./scripts/copy-assets.sh"
+    "copy-assets": "./scripts/copy-assets.sh",
+    "lint": "eslint src"
   },
   "author": "Lawrence (Drew) Whisenant",
   "repository": {
