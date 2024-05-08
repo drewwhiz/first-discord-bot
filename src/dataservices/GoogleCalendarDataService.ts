@@ -12,8 +12,9 @@ export class GoogleCalendarDataService implements IGoogleCalendarDataService {
 
     async getAll(): Promise<IGoogleCalendar[]> {
         const sql = 'SELECT * FROM GoogleCalendars';
-        const row = await this._database.get(sql);
-        return row as IGoogleCalendar[];
+        const results = await this._database.all(sql);
+        if (results == null) return [] as IGoogleCalendar[];
+        return results as IGoogleCalendar[];
     }
 
     async get(id: number): Promise<IGoogleCalendar> {
