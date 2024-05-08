@@ -17,6 +17,13 @@ import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 import { ChiefDelphiCommand } from './commands/frcCommands/ChiefDelphiCommand.js';
 import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
+import sqlite3 from 'sqlite3';
+import { Database, open } from 'sqlite';
+import { GoogleCalendarDataService } from './dataservices/GoogleCalendarDataService.js';
+import { AddCalendarCommand } from './commands/calendarCommands/AddCalendarCommand.js';
+import { ListCalendarCommand } from './commands/calendarCommands/ListCalendarCommand.js';
+import { RemoveCalendarCommand } from './commands/calendarCommands/RemoveCalendarCommand.js';
+
 
 const { configure, transports, error, info } = winston;
 
@@ -40,6 +47,22 @@ const bot = new Client({
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
+const openDb = async (): Promise<Database<sqlite3.Database,sqlite3.Statement>> => {
+  const db = await open({
+    filename: './database.db',
+    driver: sqlite3.Database
+  });
+
+  await db.migrate({
+    migrationsPath: './migrations'
+  });
+
+  return db;
+};
+
+const database = await openDb();
+const googleCalendarDataService = new GoogleCalendarDataService(database);
+
 let commands = [];
 
 // Connect
@@ -62,7 +85,10 @@ bot.once(Events.ClientReady, readyClient => {
     new HearMeOutCommand(),
     new DocumentationCommand(),
     new ChiefDelphiCommand(),
-    new PartLookupCommand()
+    new PartLookupCommand(),
+    new AddCalendarCommand(googleCalendarDataService),
+    new ListCalendarCommand(googleCalendarDataService),
+    new RemoveCalendarCommand(googleCalendarDataService)
   ];
 });
 

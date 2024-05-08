@@ -29,6 +29,9 @@ export class GoogleCalendarDataService implements IGoogleCalendarDataService {
     }
 
     async add(url: string): Promise<IGoogleCalendar> {
+        const matching = (await this.getAll()).filter(c => c.url == url);
+        if (matching.length > 0) return matching[0];
+
         const sql = 'INSERT INTO GoogleCalendars (url) VALUES (?)';
         const result = await this._database.run(sql, [url]);
         if (!result.lastID) return null;
