@@ -22,10 +22,17 @@ export class AddCalendarCommand implements ICommand {
     }
 
     async execute(message: Message<boolean>): Promise<void> {
-        const url = message.content.trim().split(' ')[1];
         const member = message.member;
         if (member == null) {
             message.reply('Sorry, this action is not supported in this context.');
+            return;
+        }
+
+        const url = message.content.trim().split(' ')[1].trim();
+        try {
+            new URL(url);
+        } catch {
+            message.reply('Calendars must be in a valid URL format (including http or https).');
             return;
         }
 
