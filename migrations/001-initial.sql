@@ -3,8 +3,8 @@
 --------------------------------------------------------------------------------
 
 CREATE TABLE GoogleCalendars (
-  id    INTEGER PRIMARY KEY,
-  url   TEXT    NOT NULL
+  id           INTEGER PRIMARY KEY,
+  calendarId   TEXT    NOT NULL
 );
 
 

@@ -28,13 +28,7 @@ export class AddCalendarCommand implements ICommand {
             return;
         }
 
-        const url = message.content.trim().split(' ')[1].trim();
-        try {
-            new URL(url);
-        } catch {
-            message.reply('Calendars must be in a valid URL format (including http or https).');
-            return;
-        }
+        const calendarId = message.content.trim().split(' ')[1].trim();
 
         const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
         const hasAllowedRole = member.roles.cache.some(r => this._roles.includes(r.name));
@@ -43,12 +37,12 @@ export class AddCalendarCommand implements ICommand {
             return;
         }
 
-        const result = await this._service.add(url);
+        const result = await this._service.add(calendarId);
         if (result == null) {
             message.reply('Unable to add the calendar at this time');
             return;
         }
 
-        message.reply(`Tracking calendar at: ${url}`);
+        message.reply(`Tracking calendar with ID: ${calendarId}`);
     }
 }

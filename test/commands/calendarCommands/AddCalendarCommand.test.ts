@@ -4,7 +4,7 @@ import { AddCalendarCommand } from '../../../src/commands/calendarCommands/AddCa
 
 describe('Add Calendar Command', () => {
     it('should trigger on /add-calendar with argument', () => {
-        const content = '/add-calendar url';
+        const content = '/add-calendar calendarId';
         const message = Message.prototype;
         message.content = content;
 
@@ -14,7 +14,7 @@ describe('Add Calendar Command', () => {
     });
 
     it('should trigger on add-calendar with argument', () => {
-        const content = 'add-calendar url';
+        const content = 'add-calendar calendarId';
         const message = Message.prototype;
         message.content = content;
 
@@ -24,7 +24,7 @@ describe('Add Calendar Command', () => {
     });
 
     it('should not trigger on /add-calendar with arguments', () => {
-        const content = '/add-calendar url 2';
+        const content = '/add-calendar calendarId 2';
         const message = Message.prototype;
         message.content = content;
 
@@ -34,7 +34,7 @@ describe('Add Calendar Command', () => {
     });
 
     it('should not trigger on add-calendar with arguments', () => {
-        const content = 'add-calendar url 2';
+        const content = 'add-calendar calendarId 2';
         const message = Message.prototype;
         message.content = content;
 

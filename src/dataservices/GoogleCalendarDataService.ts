@@ -29,20 +29,20 @@ export class GoogleCalendarDataService implements IGoogleCalendarDataService {
         return row.changes === 1;
     }
 
-    async add(url: string): Promise<IGoogleCalendar> {
-        const matching = (await this.getAll()).filter(c => c.url == url);
+    async add(calendarId: string): Promise<IGoogleCalendar> {
+        const matching = (await this.getAll()).filter(c => c.calendarId == calendarId);
         if (matching.length > 0) return matching[0];
 
-        const sql = 'INSERT INTO GoogleCalendars (url) VALUES (?)';
-        const result = await this._database.run(sql, [url]);
+        const sql = 'INSERT INTO GoogleCalendars (calendarId) VALUES (?)';
+        const result = await this._database.run(sql, [calendarId]);
         if (!result.lastID) return null;
         return await this.get(result.lastID);
     }
 
 
     async update(id: number, updatedRecord: IGoogleCalendar): Promise<IGoogleCalendar> {
-        const sql = 'UPDATE GoogleCalendars SET url = ? WHERE id = ?';
-        const result = await this._database.run(sql, [updatedRecord.url, id]);
+        const sql = 'UPDATE GoogleCalendars SET calendarId = ? WHERE id = ?';
+        const result = await this._database.run(sql, [updatedRecord.calendarId, id]);
         if (result.changes == 0) return await this.get(id);
         return updatedRecord;
     }

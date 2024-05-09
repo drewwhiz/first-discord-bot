@@ -4,7 +4,7 @@ import { RemoveCalendarCommand } from '../../../src/commands/calendarCommands/Re
 
 describe('Remove Calendar Command', () => {
     it('should trigger on /remove-calendar with argument', () => {
-        const content = '/remove-calendar url';
+        const content = '/remove-calendar calendarId';
         const message = Message.prototype;
         message.content = content;
 
@@ -14,7 +14,7 @@ describe('Remove Calendar Command', () => {
     });
 
     it('should trigger on remove-calendar with argument', () => {
-        const content = 'remove-calendar url';
+        const content = 'remove-calendar calendarId';
         const message = Message.prototype;
         message.content = content;
 
@@ -24,7 +24,7 @@ describe('Remove Calendar Command', () => {
     });
 
     it('should not trigger on /remove-calendar with arguments', () => {
-        const content = '/remove-calendar url 2';
+        const content = '/remove-calendar calendarId 2';
         const message = Message.prototype;
         message.content = content;
 
@@ -34,7 +34,7 @@ describe('Remove Calendar Command', () => {
     });
 
     it('should not trigger on remove-calendar with arguments', () => {
-        const content = 'remove-calendar url 2';
+        const content = 'remove-calendar calendarId 2';
         const message = Message.prototype;
         message.content = content;
 

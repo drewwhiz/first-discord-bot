@@ -22,7 +22,7 @@ export class RemoveCalendarCommand implements ICommand {
     }
 
     async execute(message: Message<boolean>): Promise<void> {
-        const url = message.content.trim().split(' ')[1];
+        const id = message.content.trim().split(' ')[1];
         const member = message.member;
         if (member == null) {
             message.reply('Sorry, this action is not supported in this context.');
@@ -36,7 +36,7 @@ export class RemoveCalendarCommand implements ICommand {
             return;
         }
 
-        const matchingCalendar = (await this._service.getAll()).filter(c => c.url === url);
+        const matchingCalendar = (await this._service.getAll()).filter(c => c.calendarId === id);
         if (matchingCalendar.length == 0) {
             message.reply('The requested calendar was not being tracked.');
             return;
@@ -52,6 +52,6 @@ export class RemoveCalendarCommand implements ICommand {
             return;
         }
 
-        message.reply(`No longer tracking calendar at: ${url}`);
+        message.reply(`No longer tracking calendar: ${id}`);
     }
 }

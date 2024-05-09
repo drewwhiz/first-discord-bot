@@ -31,7 +31,7 @@ export class ListCalendarCommand implements ICommand {
         }
 
         const replyStarter = 'We are currently tracking these calendars:';
-        const lines = calendars.map(c => `\n- <${c.url}>`).join('');
+        const lines = calendars.map(c => `\n- ${c.calendarId}`).join('');
         message.reply(replyStarter + lines);
     }
 }
