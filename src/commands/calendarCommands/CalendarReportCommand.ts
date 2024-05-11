@@ -24,7 +24,7 @@ export class CalendarReportCommand implements ICommand {
 
         const endDate = new Date();
         endDate.setHours(0, 0, 0, 0);
-        endDate.setDate(endDate.getDate() + 7);
+        endDate.setDate(endDate.getDate() + 8);
 
         const results = await this._service.reportEvents(startDate, endDate);
         if (results.length == 0) {
