@@ -1,4 +1,4 @@
-import { Client, Events, IntentsBitField, Partials } from 'discord.js';
+import { Client, Events, GuildBasedChannel, IntentsBitField, Partials } from 'discord.js';
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { GameCommand } from './commands/funCommands/GameCommand.js';
@@ -17,6 +17,16 @@ import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 import { ChiefDelphiCommand } from './commands/frcCommands/ChiefDelphiCommand.js';
 import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
+import sqlite3 from 'sqlite3';
+import { Database, open } from 'sqlite';
+import { GoogleCalendarDataService } from './dataservices/GoogleCalendarDataService.js';
+import { AddCalendarCommand } from './commands/calendarCommands/AddCalendarCommand.js';
+import { ListCalendarCommand } from './commands/calendarCommands/ListCalendarCommand.js';
+import { RemoveCalendarCommand } from './commands/calendarCommands/RemoveCalendarCommand.js';
+import { GoogleCalendarWebService } from './webservices/GoogleCalendarWebService.js';
+import * as nodeCron from 'node-cron';
+import { CalendarReportCommand } from './commands/calendarCommands/CalendarReportCommand.js';
+
 
 const { configure, transports, error, info } = winston;
 
@@ -40,11 +50,40 @@ const bot = new Client({
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
+const openDb = async (): Promise<Database<sqlite3.Database,sqlite3.Statement>> => {
+  const db = await open({
+    filename: './database.db',
+    driver: sqlite3.Database
+  });
+
+  await db.migrate({
+    migrationsPath: './migrations'
+  });
+
+  return db;
+};
+
+const database = await openDb();
 let commands = [];
 
 // Connect
 bot.once(Events.ClientReady, readyClient => {
 	info(`Ready! Logged in as ${readyClient.user.tag}`);
+
+  const googleCalendarDataService = new GoogleCalendarDataService(database);
+  const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
+
+  const generalChannels: GuildBasedChannel[] = [];
+  readyClient.guilds.cache.forEach(g => {
+    const generalChannel = g.channels.cache.find(c => c.name == 'general');
+    if (generalChannel) generalChannels.push(generalChannel);
+  });
+
+  const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService);
+  nodeCron.schedule('0 14 * * Sun', () => {
+    calendarReportCommand.sendReminder(generalChannels);
+  });
+
   commands = [
     new TsimfdCommand(),
     new AtMeCommand(readyClient.user.id),
@@ -62,7 +101,11 @@ bot.once(Events.ClientReady, readyClient => {
     new HearMeOutCommand(),
     new DocumentationCommand(),
     new ChiefDelphiCommand(),
-    new PartLookupCommand()
+    new PartLookupCommand(),
+    new AddCalendarCommand(googleCalendarDataService),
+    new ListCalendarCommand(googleCalendarDataService),
+    new RemoveCalendarCommand(googleCalendarDataService),
+    calendarReportCommand
   ];
 });
 
