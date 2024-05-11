@@ -30,8 +30,8 @@ export class GoogleCalendarWebService implements IGoogleCalendarWebService {
     private static async getData(calendarId: string, callback: (incoming: IEventSummary[]) => void) {
         const url = GoogleCalendarWebService.getCalendarApiUrl(calendarId);    
         return new Promise((resolve) => {
-            let data = [];
-            let results = [];
+            const data = [];
+            const results = [];
             https.get(url, res => {
                 res.on('data', chunk => {
                     data.push(chunk);
