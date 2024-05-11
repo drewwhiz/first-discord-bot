@@ -32,7 +32,7 @@ export class CalendarReportCommand implements ICommand {
         }
 
         const events = results.map(r => `\n- ${r.eventName}: ${r.start.getFullDateLocal()}${r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : ''}`).join();
-        return `Here are the upcoming events for the next week: ${events}`;
+        return `Here are the upcoming events for the next week (Central Time): ${events}`;
     }
 
     async execute(message: Message<boolean>): Promise<void> {
