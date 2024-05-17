@@ -23,8 +23,28 @@ describe('Calendar Report Command', () => {
         expect(result).to.be.true;
     });
 
-    it('should not trigger on /uPcoming data', () => {
+    it('should trigger on /uPcoming data', () => {
         const content = '/uPcoming data';
+        const message = Message.prototype;
+        message.content = content;
+
+        const command = new CalendarReportCommand(null);
+        const result = command.trigger(message);
+        expect(result).to.be.true;
+    });
+
+    it('should trigger on upcominG data', () => {
+        const content = 'upcominG data';
+        const message = Message.prototype;
+        message.content = content;
+
+        const command = new CalendarReportCommand(null);
+        const result = command.trigger(message);
+        expect(result).to.be.true;
+    });
+
+    it('should not trigger on /uPcoming data args', () => {
+        const content = '/uPcoming data args';
         const message = Message.prototype;
         message.content = content;
 
@@ -33,8 +53,8 @@ describe('Calendar Report Command', () => {
         expect(result).to.be.false;
     });
 
-    it('should trigger on upcominG data', () => {
-        const content = 'upcominG data';
+    it('should not trigger on upcominG data args', () => {
+        const content = 'upcominG data args';
         const message = Message.prototype;
         message.content = content;
 
