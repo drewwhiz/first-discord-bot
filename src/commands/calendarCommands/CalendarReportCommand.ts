@@ -45,15 +45,14 @@ export class CalendarReportCommand implements ICommand {
                 return new Date(startDate.setMonth(startDate.getMonth() + 1));
             case ITimeUnit.YEAR:
                 return new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+            default: return startDate;
         }
-
-        return startDate;
     }
 
     private async buildMessage(time: ITimeUnit): Promise<string> {
         // Start right now
         const startDate = new Date();
-        const endDate = CalendarReportCommand.getEndDate(startDate, time);
+        const endDate = CalendarReportCommand.getEndDate(new Date(), time);
         const results = await this._service.reportEvents(startDate, endDate);
         if (results.length == 0) {
             switch (time) {
