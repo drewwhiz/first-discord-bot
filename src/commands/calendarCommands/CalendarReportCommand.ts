@@ -65,22 +65,23 @@ export class CalendarReportCommand implements ICommand {
             }
         }
 
+        const timezone = new Date().toLocaleDateString(undefined, { day:'2-digit', timeZoneName: 'long' }).substring(4);
         const events = results.map(r => `- ${r.eventName}: ${r.start.getFullDateLocal()}${r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : ''}`);
         switch (time) {
             case ITimeUnit.DAY:
-                events.unshift('Here are the upcoming events for the next day (Central Time):');
+                events.unshift(`Here are the upcoming events for the next day (${timezone}):`);
                 break;
             case ITimeUnit.WEEK:
-                events.unshift('Here are the upcoming events for the next week (Central Time):');
+                events.unshift(`Here are the upcoming events for the next week (${timezone}):`);
                 break;
             case ITimeUnit.MONTH:
-                events.unshift('Here are the upcoming events for the next month (Central Time):');
+                events.unshift(`Here are the upcoming events for the next month (${timezone}):`);
                 break;
             case ITimeUnit.YEAR:
-                events.unshift('Here are the upcoming events for the next year (Central Time):');
+                events.unshift(`Here are the upcoming events for the next year (${timezone}):`);
                 break;
             default:
-                events.unshift('Here are the upcoming events requested (Central Time):');
+                events.unshift(`Here are the upcoming events requested (Timezone: ${timezone}):`);
                 break;
         }
 
