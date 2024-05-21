@@ -61,7 +61,7 @@ export class RandomCommand implements ICommand {
 
   private async simpleFlip(message: Message): Promise<void> {
     const isHeads = Math.random() >= 0.5;
-    await message.reply(`I got ${isHeads ? 'heads' : 'tails'}!`)
+    await message.reply(`I got ${isHeads ? 'heads' : 'tails'}!`);
   }
 
   private async countFlip(message: Message): Promise<void> {
@@ -74,13 +74,17 @@ export class RandomCommand implements ICommand {
     }
 
     if (count < 1) return;
+    await this.runFlips(message, count);
+  }
+
+  private async runFlips(message: Message, count: number): Promise<void> {
     if (count == 1) {
       await this.simpleFlip(message);
       return;
     }
 
     let heads = 0;
-    for (let i = 0; i < count ; i++) {
+    for (let i = 0; i < count; i++) {
       if (Math.random() >= 0.5) heads++;
     }
 
@@ -95,6 +99,11 @@ export class RandomCommand implements ICommand {
     }
 
     if (max < 1) return;
+    if (max == 2) {
+      const newReply = await message.reply('I see what you\'re trying to do...');
+      await this.simpleFlip(newReply);
+      return;
+    }
 
     const value = 1 + Math.floor(max * Math.random());
     await message.reply(`Between 1 and ${max}, I got ${value}! (Not factorial...)`);
@@ -108,8 +117,14 @@ export class RandomCommand implements ICommand {
       return;
     }
 
+    if (max == 2) {
+      const newReply = await message.reply('Why do it the hard way?');
+      await this.runFlips(newReply, count);
+      return;
+    }
+
     const rolls = [];
-    for (let i = 0; i < count ; i++) {
+    for (let i = 0; i < count; i++) {
       rolls.push(1 + Math.floor(max * Math.random()));
     }
 
@@ -117,7 +132,7 @@ export class RandomCommand implements ICommand {
     const minValue = Math.min(...rolls);
     const total = rolls.reduce((partialSum, a) => partialSum + a, 0);
     const average = total / count;
-    const standardDeviation = Math.sqrt(rolls.reduce((partialSum, a) => partialSum + Math.pow(a  - average, 2), 0) / (count - 1));
+    const standardDeviation = Math.sqrt(rolls.reduce((partialSum, a) => partialSum + Math.pow(a - average, 2), 0) / (count - 1));
 
     const reply = `I rolled from 1 to ${max} a total of ${count} times - here's what I got!`
       + `\n- Maximum: ${maxValue}`
