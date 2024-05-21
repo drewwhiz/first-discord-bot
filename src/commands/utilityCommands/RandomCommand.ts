@@ -2,6 +2,9 @@ import { Message } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { RandomRollCase } from '../../enum/RandomRollCase.js';
+import winston from 'winston';
+
+const { debug } = winston;
 
 export class RandomCommand implements ICommand {
   private static readonly FLIP_COUNT_REGEX = /^flip [1-9][0-9]*$/;
@@ -46,7 +49,7 @@ export class RandomCommand implements ICommand {
         await this.countRoll(message);
         break;
       case RandomRollCase.DICE_ROLL:
-        await this.diceRoll(message);
+        // TODO: dice roll.
         break;
     }
   }
@@ -137,17 +140,16 @@ export class RandomCommand implements ICommand {
       try {
         await this.singleRoll(message, parseInt(args[0]));
       } finally {
-        return;
+        debug(`RandomCommand unable to parse args on a count roll: ${args}`);
       }
+
+      return;
     }
 
     try {
       await this.multipleRoll(message, parseInt(args[0]), parseInt(args[1]));
     } finally {
-      return;
+      debug(`Unable to parse ${args[0]} or ${args[1]}.`);
     }
   }
-
-
-  private async diceRoll(message: Message): Promise<void> {}
 }
