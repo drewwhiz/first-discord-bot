@@ -41,6 +41,7 @@
     "node-cron": "^3.0.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "winston": "^3.13.0"
+    "winston": "^3.13.0",
+    "zalgo-generator": "^1.5.1"
   }
 }
