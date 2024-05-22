@@ -4,7 +4,7 @@ import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
 export class GameCommand implements ICommand {
-  private static COOLDOWN: number = 15 * 60 * 1000;
+  private static COOLDOWN: number = 24 * 60 * 60 * 1000;
 
   public name: string = 'game';
   public description: string = 'Loses the game.';

@@ -27,6 +27,7 @@ import { GoogleCalendarWebService } from './webservices/GoogleCalendarWebService
 import * as nodeCron from 'node-cron';
 import { CalendarReportCommand } from './commands/calendarCommands/CalendarReportCommand.js';
 import { RandomCommand } from './commands/utilityCommands/RandomCommand.js';
+import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -104,6 +105,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ChiefDelphiCommand(),
     new PartLookupCommand(),
     new RandomCommand(),
+    new GoodBotBadBotCommand(readyClient),
     new AddCalendarCommand(googleCalendarDataService),
     new ListCalendarCommand(googleCalendarDataService),
     new RemoveCalendarCommand(googleCalendarDataService),

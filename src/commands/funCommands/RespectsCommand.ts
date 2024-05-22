@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import { Dictionary } from 'typescript-collections';
 
 export class RespectsCommand implements ICommand {
-    private static COOLDOWN: number = 60 * 60 * 1000;
+    private static COOLDOWN: number = 24 * 60 * 60 * 1000;
 
     name: string = 'respect';
     description: string = 'Press F to Pay Respects';
