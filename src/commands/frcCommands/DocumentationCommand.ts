@@ -6,132 +6,132 @@ import { Dictionary } from 'typescript-collections';
 import '../../extensions/StringExtension.js';
 
 export class DocumentationCommand implements ICommand {
-    name: string = 'docs';
-    description: string = 'Fetch documentation for FRC';
+  name: string = 'docs';
+  description: string = 'Fetch documentation for FRC';
 
-    private readonly WPILIB_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
-    private readonly REVLIB_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
-    private readonly CTRE_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
+  private readonly WPILIB_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
+  private readonly REVLIB_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
+  private readonly CTRE_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
 
-    private readonly WPILIB: string = '<https://docs.wpilib.org/en/stable/>';
-    private readonly VIVID: string = '<https://frc-radio.vivid-hosting.net>';
+  private readonly WPILIB: string = '<https://docs.wpilib.org/en/stable/>';
+  private readonly VIVID: string = '<https://frc-radio.vivid-hosting.net>';
 
-    constructor() {
-        this.WPILIB_API.setValue(ProgrammingLanguage.CPP, '<https://github.wpilib.org/allwpilib/docs/release/cpp/index.html>');
-        this.WPILIB_API.setValue(ProgrammingLanguage.JAVA, '<https://github.wpilib.org/allwpilib/docs/release/java/index.html>');
-        this.WPILIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/robotpy/en/stable/>');
+  constructor() {
+    this.WPILIB_API.setValue(ProgrammingLanguage.CPP, '<https://github.wpilib.org/allwpilib/docs/release/cpp/index.html>');
+    this.WPILIB_API.setValue(ProgrammingLanguage.JAVA, '<https://github.wpilib.org/allwpilib/docs/release/java/index.html>');
+    this.WPILIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/robotpy/en/stable/>');
 
-        this.REVLIB_API.setValue(ProgrammingLanguage.CPP, '<https://codedocs.revrobotics.com/cpp/namespacerev.html>');
-        this.REVLIB_API.setValue(ProgrammingLanguage.JAVA, '<https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html>');
-        this.REVLIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/rev/en/stable/rev.html>');
+    this.REVLIB_API.setValue(ProgrammingLanguage.CPP, '<https://codedocs.revrobotics.com/cpp/namespacerev.html>');
+    this.REVLIB_API.setValue(ProgrammingLanguage.JAVA, '<https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html>');
+    this.REVLIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/rev/en/stable/rev.html>');
 
-        this.CTRE_API.setValue(ProgrammingLanguage.CPP, '<https://api.ctr-electronics.com/phoenix6/release/cpp/>');
-        this.CTRE_API.setValue(ProgrammingLanguage.JAVA, '<https://api.ctr-electronics.com/phoenix6/release/java/>');
-        this.CTRE_API.setValue(ProgrammingLanguage.PYTHON, '<https://api.ctr-electronics.com/phoenix6/release/python/>');
+    this.CTRE_API.setValue(ProgrammingLanguage.CPP, '<https://api.ctr-electronics.com/phoenix6/release/cpp/>');
+    this.CTRE_API.setValue(ProgrammingLanguage.JAVA, '<https://api.ctr-electronics.com/phoenix6/release/java/>');
+    this.CTRE_API.setValue(ProgrammingLanguage.PYTHON, '<https://api.ctr-electronics.com/phoenix6/release/python/>');
+  }
+
+
+  trigger(message: Message<boolean>): boolean {
+    const content = message?.content?.toLowerCase()?.stripPunctuation() ?? '';
+    return content.isFirstWord('doc') || content.isFirstWord('docs');
+  }
+
+  async execute(message: Message<boolean>): Promise<void> {
+    if (message?.content == null) return;
+
+    const request = message.content.toLowerCase().stripPunctuation().trim();
+    const language = this.getLanguage(request);
+    const sources = this.getDocRequests(request);
+    const reply = this.buildMessage(language, sources);
+    message.reply(reply);
+  }
+
+  buildLabviewMessage() {
+    let message = 'There are limited online resources for Labview (most are embedded). As a result, all available docs have been included.';
+    message += '\n';
+    message += `- WPILIB: ${this.WPILIB}`;
+    message += '\n';
+    message += `- Vivid Radio: ${this.VIVID}`;
+    return message;
+  }
+
+  getLanguageText(language: ProgrammingLanguage): string {
+    switch(language) {
+    case ProgrammingLanguage.LABVIEW: return 'Labview';
+    case ProgrammingLanguage.CPP: return 'C++';
+    case ProgrammingLanguage.PYTHON: return 'Python';
+    default: return 'Java';
+    }
+  }
+
+  buildMessage(language: ProgrammingLanguage, docs: DocumentationSource[]): string {
+    if (language === ProgrammingLanguage.LABVIEW) return this.buildLabviewMessage();
+
+    if (docs == null || docs.length == 0) {
+      docs = [ DocumentationSource.WPILIB, DocumentationSource.CTRE, DocumentationSource.REV, DocumentationSource.VIVID ];
     }
 
+    const languageText = this.getLanguageText(language);
+    let message = `Here are the requested documentation links for the ${languageText} programming language.`;
 
-    trigger(message: Message<boolean>): boolean {
-        const content = message?.content?.toLowerCase()?.stripPunctuation() ?? '';
-        return content.isFirstWord('doc') || content.isFirstWord('docs');
+    if (docs.includes(DocumentationSource.WPILIB)) {
+      message += `\n- WPILib: ${this.WPILIB}`;
+      message += `\n- WPILib API: ${this.WPILIB_API.getValue(language)}`
     }
 
-    async execute(message: Message<boolean>): Promise<void> {
-        if (message?.content == null) return;
-
-        const request = message.content.toLowerCase().stripPunctuation().trim();
-        const language = this.getLanguage(request);
-        const sources = this.getDocRequests(request);
-        const reply = this.buildMessage(language, sources);
-        message.reply(reply);
+    if (docs.includes(DocumentationSource.CTRE)) {
+      message += `\n- CTRE (Phoenix) API: ${this.CTRE_API.getValue(language)}`
     }
 
-    buildLabviewMessage() {
-        let message = 'There are limited online resources for Labview (most are embedded). As a result, all available docs have been included.';
-        message += '\n';
-        message += `- WPILIB: ${this.WPILIB}`;
-        message += '\n';
-        message += `- Vivid Radio: ${this.VIVID}`;
-        return message;
+    if (docs.includes(DocumentationSource.REV)) {
+      message += `\n- REVLib API: ${this.REVLIB_API.getValue(language)}`
     }
 
-    getLanguageText(language: ProgrammingLanguage): string {
-        switch(language) {
-            case ProgrammingLanguage.LABVIEW: return 'Labview';
-            case ProgrammingLanguage.CPP: return 'C++';
-            case ProgrammingLanguage.PYTHON: return 'Python';
-            default: return 'Java';
-        }
+    if (docs.includes(DocumentationSource.VIVID)) {
+      message += `\n- Vivid Hosting (Radio): ${this.VIVID}`
     }
 
-    buildMessage(language: ProgrammingLanguage, docs: DocumentationSource[]): string {
-        if (language === ProgrammingLanguage.LABVIEW) return this.buildLabviewMessage();
+    return message;
+  }
 
-        if (docs == null || docs.length == 0) {
-            docs = [ DocumentationSource.WPILIB, DocumentationSource.CTRE, DocumentationSource.REV, DocumentationSource.VIVID ];
-        }
+  getLanguage(request: string): ProgrammingLanguage {
+    if (request.includes('c++')) return ProgrammingLanguage.CPP;
+    else if (request.includes('cpp')) return ProgrammingLanguage.CPP;
+    else if (request.includes('labview')) return ProgrammingLanguage.LABVIEW;
+    else if (request.includes('python')) return ProgrammingLanguage.PYTHON;
+    else return ProgrammingLanguage.JAVA;
+  }
 
-        const languageText = this.getLanguageText(language);
-        let message = `Here are the requested documentation links for the ${languageText} programming language.`;
+  getDocRequests(request: string): DocumentationSource[] {
+    const sources : DocumentationSource[] = [];
 
-        if (docs.includes(DocumentationSource.WPILIB)) {
-            message += `\n- WPILib: ${this.WPILIB}`;
-            message += `\n- WPILib API: ${this.WPILIB_API.getValue(language)}`
-        }
-
-        if (docs.includes(DocumentationSource.CTRE)) {
-            message += `\n- CTRE (Phoenix) API: ${this.CTRE_API.getValue(language)}`
-        }
-
-        if (docs.includes(DocumentationSource.REV)) {
-            message += `\n- REVLib API: ${this.REVLIB_API.getValue(language)}`
-        }
-
-        if (docs.includes(DocumentationSource.VIVID)) {
-            message += `\n- Vivid Hosting (Radio): ${this.VIVID}`
-        }
-
-        return message;
-    }
-
-    getLanguage(request: string): ProgrammingLanguage {
-        if (request.includes('c++')) return ProgrammingLanguage.CPP;
-        else if (request.includes('cpp')) return ProgrammingLanguage.CPP;
-        else if (request.includes('labview')) return ProgrammingLanguage.LABVIEW;
-        else if (request.includes('python')) return ProgrammingLanguage.PYTHON;
-        else return ProgrammingLanguage.JAVA;
-    }
-
-    getDocRequests(request: string): DocumentationSource[] {
-        const sources : DocumentationSource[] = [];
-
-        if (
-            request.includes('wpi') 
+    if (
+      request.includes('wpi') 
             || request.includes('wpilib')
-        ) sources.push(DocumentationSource.WPILIB);
+    ) sources.push(DocumentationSource.WPILIB);
         
-        if (
-            request.includes('rev') 
+    if (
+      request.includes('rev') 
             || request.includes('revlib') 
             || request.includes('revrobotics')
             || request.includes('rev robotics')
-        ) sources.push(DocumentationSource.REV);
+    ) sources.push(DocumentationSource.REV);
         
-        if (
-            request.includes('ctr') 
+    if (
+      request.includes('ctr') 
             || request.includes('ctre') 
             || request.includes('ctrelectronics') 
             || request.includes('cross the road')
             || request.includes('cross the road electronics')
-        ) sources.push(DocumentationSource.CTRE);
+    ) sources.push(DocumentationSource.CTRE);
 
-        if (
-            request.includes('radio')
+    if (
+      request.includes('radio')
             || request.includes('vivid')
             || request.includes('network')
             || request.includes('networking')
-        ) sources.push(DocumentationSource.VIVID);
+    ) sources.push(DocumentationSource.VIVID);
 
-        return sources;
-    }
+    return sources;
+  }
 }

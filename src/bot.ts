@@ -72,7 +72,7 @@ let commands = [];
 
 // Connect
 bot.once(Events.ClientReady, readyClient => {
-	info(`Ready! Logged in as ${readyClient.user.tag}`);
+  info(`Ready! Logged in as ${readyClient.user.tag}`);
 
   const googleCalendarDataService = new GoogleCalendarDataService(database);
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);

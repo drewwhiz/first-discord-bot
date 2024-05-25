@@ -11,7 +11,8 @@
     "start": "node --env-file=.env dist/src/bot.js",
     "test": "mocha",
     "copy-assets": "./scripts/copy-assets.sh",
-    "lint": "eslint src"
+    "lint": "eslint .",
+    "fix": "eslint --fix ."
   },
   "author": "Lawrence (Drew) Whisenant",
   "repository": {
@@ -27,6 +28,7 @@
     "@types/node-cron": "^3.0.11",
     "chai": "^5.1.0",
     "eslint": "^8.57.0",
+    "eslint-plugin-mocha": "^10.4.3",
     "globals": "^15.1.0",
     "mocha": "^10.4.0",
     "ts-node": "^10.9.2",

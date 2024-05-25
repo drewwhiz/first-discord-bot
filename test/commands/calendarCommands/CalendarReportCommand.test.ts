@@ -2,64 +2,64 @@ import { Message } from 'discord.js';
 import { expect } from 'chai';
 import { CalendarReportCommand } from '../../../src/commands/calendarCommands/CalendarReportCommand.js';
 
-describe('Calendar Report Command', () => {
-    it('should trigger on /uPcoming', () => {
-        const content = '/uPcoming';
-        const message = Message.prototype;
-        message.content = content;
+describe('Calendar Report Command', function() {
+  it('should trigger on /uPcoming', function() {
+    const content = '/uPcoming';
+    const message = Message.prototype;
+    message.content = content;
 
-        const command = new CalendarReportCommand(null);
-        const result = command.trigger(message);
-        expect(result).to.be.true;
-    });
+    const command = new CalendarReportCommand(null);
+    const result = command.trigger(message);
+    expect(result).to.be.true;
+  });
 
-    it('should trigger on upcominG', () => {
-        const content = 'upcominG';
-        const message = Message.prototype;
-        message.content = content;
+  it('should trigger on upcominG', function() {
+    const content = 'upcominG';
+    const message = Message.prototype;
+    message.content = content;
 
-        const command = new CalendarReportCommand(null);
-        const result = command.trigger(message);
-        expect(result).to.be.true;
-    });
+    const command = new CalendarReportCommand(null);
+    const result = command.trigger(message);
+    expect(result).to.be.true;
+  });
 
-    it('should trigger on /uPcoming data', () => {
-        const content = '/uPcoming data';
-        const message = Message.prototype;
-        message.content = content;
+  it('should trigger on /uPcoming data', function() {
+    const content = '/uPcoming data';
+    const message = Message.prototype;
+    message.content = content;
 
-        const command = new CalendarReportCommand(null);
-        const result = command.trigger(message);
-        expect(result).to.be.true;
-    });
+    const command = new CalendarReportCommand(null);
+    const result = command.trigger(message);
+    expect(result).to.be.true;
+  });
 
-    it('should trigger on upcominG data', () => {
-        const content = 'upcominG data';
-        const message = Message.prototype;
-        message.content = content;
+  it('should trigger on upcominG data', function() {
+    const content = 'upcominG data';
+    const message = Message.prototype;
+    message.content = content;
 
-        const command = new CalendarReportCommand(null);
-        const result = command.trigger(message);
-        expect(result).to.be.true;
-    });
+    const command = new CalendarReportCommand(null);
+    const result = command.trigger(message);
+    expect(result).to.be.true;
+  });
 
-    it('should not trigger on /uPcoming data args', () => {
-        const content = '/uPcoming data args';
-        const message = Message.prototype;
-        message.content = content;
+  it('should not trigger on /uPcoming data args', function() {
+    const content = '/uPcoming data args';
+    const message = Message.prototype;
+    message.content = content;
 
-        const command = new CalendarReportCommand(null);
-        const result = command.trigger(message);
-        expect(result).to.be.false;
-    });
+    const command = new CalendarReportCommand(null);
+    const result = command.trigger(message);
+    expect(result).to.be.false;
+  });
 
-    it('should not trigger on upcominG data args', () => {
-        const content = 'upcominG data args';
-        const message = Message.prototype;
-        message.content = content;
+  it('should not trigger on upcominG data args', function() {
+    const content = 'upcominG data args';
+    const message = Message.prototype;
+    message.content = content;
 
-        const command = new CalendarReportCommand(null);
-        const result = command.trigger(message);
-        expect(result).to.be.false;
-    });
+    const command = new CalendarReportCommand(null);
+    const result = command.trigger(message);
+    expect(result).to.be.false;
+  });
 });
