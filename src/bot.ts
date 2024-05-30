@@ -30,6 +30,7 @@ import { RandomCommand } from './commands/utilityCommands/RandomCommand.js';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
 import { StopCommand } from './commands/funCommands/StopCommand.js';
+import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -109,6 +110,7 @@ bot.once(Events.ClientReady, readyClient => {
     new RandomCommand(),
     new GlitchCommand(),
     new StopCommand(),
+    new AcronymHelperCommand(),
     new GoodBotBadBotCommand(readyClient),
     new AddCalendarCommand(googleCalendarDataService),
     new ListCalendarCommand(googleCalendarDataService),
