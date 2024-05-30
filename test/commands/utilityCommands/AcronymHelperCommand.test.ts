@@ -9,7 +9,6 @@ import { IAcronym } from '../../../src/models/IAcronym.js';
 const stubObject = sinon.stubObject;
 
 describe('Acronym Helper Command', function() {
-
   it('should trigger on found', function() {
     const content = '?';
     const message = Message.prototype;
