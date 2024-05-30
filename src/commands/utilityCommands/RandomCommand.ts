@@ -36,21 +36,21 @@ export class RandomCommand implements ICommand {
     if (rollType == null) return;
 
     switch (rollType) {
-      case RandomRollCase.SIMPLE_FLIP:
-        await this.simpleFlip(message);
-        break;
-      case RandomRollCase.SIMPLE_ROLL:
-        await this.simpleRoll(message);
-        break;
-      case RandomRollCase.COUNT_FLIP:
-        await this.countFlip(message);
-        break;
-      case RandomRollCase.COUNT_ROLL:
-        await this.countRoll(message);
-        break;
-      case RandomRollCase.DICE_ROLL:
-        // TODO: dice roll.
-        break;
+    case RandomRollCase.SIMPLE_FLIP:
+      await this.simpleFlip(message);
+      break;
+    case RandomRollCase.SIMPLE_ROLL:
+      await this.simpleRoll(message);
+      break;
+    case RandomRollCase.COUNT_FLIP:
+      await this.countFlip(message);
+      break;
+    case RandomRollCase.COUNT_ROLL:
+      await this.countRoll(message);
+      break;
+    case RandomRollCase.DICE_ROLL:
+      // TODO: dice roll.
+      break;
     }
   }
 

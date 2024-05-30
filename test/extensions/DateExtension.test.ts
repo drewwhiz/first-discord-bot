@@ -2,13 +2,13 @@ import { expect } from 'chai';
 import 'mocha';
 import '../../src/extensions/DateExtension.js';
 
-describe('Date Extensions', () => {
-  it('should return correct UTC day name', () => {
+describe('Date Extensions', function() {
+  it('should return correct UTC day name', function() {
     const sunday = new Date('2019-08-04T03:00:00Z');
     expect(sunday.getDayNameUtc()).to.equal('Sunday');
   });
 
-  it('should return correct local day name', () => {
+  it('should return correct local day name', function() {
     const sundayMorning = new Date('2019-08-04T03:00:00Z');
     const morningOffset = sundayMorning.getTimezoneOffset();
     if (morningOffset >= 180) {
@@ -36,12 +36,12 @@ describe('Date Extensions', () => {
     }
   });
 
-  it('should return correct UTC month name', () => {
+  it('should return correct UTC month name', function() {
     const august = new Date('2019-08-01T03:00:00Z');
     expect(august.getMonthNameUtc()).to.equal('August');
   });
 
-  it('should return correct local month name', () => {
+  it('should return correct local month name', function() {
     const august = new Date('2019-08-01T03:00:00Z');
     const offset = august.getTimezoneOffset();
 
@@ -54,7 +54,7 @@ describe('Date Extensions', () => {
     }
   });
 
-  it('should return correct UTC time in 12 hour format', () => {
+  it('should return correct UTC time in 12 hour format', function() {
     const threePM = new Date('2019-08-01T15:00:00Z');
     expect(threePM.getTwelveHourTimeUtc()).to.equal('3:00 PM');
 
@@ -68,7 +68,7 @@ describe('Date Extensions', () => {
     expect(threeAM.getTwelveHourTimeUtc()).to.equal('3:00 AM');
   });
 
-  it('should return correct local time in 12 hour format', () => {
+  it('should return correct local time in 12 hour format', function() {
     const threePM = new Date('2019-08-01T15:00:00Z');
     let hours =
       threePM.getHours() -
@@ -120,12 +120,12 @@ describe('Date Extensions', () => {
     );
   });
 
-  it('should return correct full UTC date', () => {
+  it('should return correct full UTC date', function() {
     const sunday = new Date('2019-08-04T03:00:00Z');
     expect(sunday.getFullDateUtc()).to.equal('4 August 2019');
   });
 
-  it('should return correct full local date', () => {
+  it('should return correct full local date', function() {
     const sundayMorning = new Date('2019-08-04T03:00:00Z');
     const morningOffset = sundayMorning.getTimezoneOffset();
     if (morningOffset >= 180) {
