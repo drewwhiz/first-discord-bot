@@ -31,6 +31,7 @@ import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotComman
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
 import { StopCommand } from './commands/funCommands/StopCommand.js';
 import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCommand.js';
+import { AcronymDataService } from './dataservices/AcronymDataService.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -76,6 +77,8 @@ bot.once(Events.ClientReady, readyClient => {
 	info(`Ready! Logged in as ${readyClient.user.tag}`);
 
   const googleCalendarDataService = new GoogleCalendarDataService(database);
+  const acronymDataService = new AcronymDataService(database);
+
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
 
   const generalChannels: GuildBasedChannel[] = [];
@@ -110,7 +113,7 @@ bot.once(Events.ClientReady, readyClient => {
     new RandomCommand(),
     new GlitchCommand(),
     new StopCommand(),
-    new AcronymHelperCommand(),
+    new AcronymHelperCommand(acronymDataService),
     new GoodBotBadBotCommand(readyClient),
     new AddCalendarCommand(googleCalendarDataService),
     new ListCalendarCommand(googleCalendarDataService),
