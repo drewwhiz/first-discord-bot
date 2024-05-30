@@ -1,32 +1,27 @@
 import { Message } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
-import { IAcronym } from '../../models/IAcronym.js';
-import { readFileSync } from 'fs';
+import { IAcronymDataService } from '../../dataservices/interfaces/IAcronymDataService.js';
 
 export class AcronymHelperCommand implements ICommand {
   public name: string = 'acronym helper';
   public description: string = 'answers known acronyms';
 
-  private readonly _acronyms: IAcronym[];
+  private readonly _acronyms: IAcronymDataService;
 
-  constructor() {
-    this._acronyms = JSON.parse(readFileSync('data/acronyms.json').toString());
-  }
-
-  private getAcronym(message: Message): IAcronym {
-    if (!message.content.endsWith('?')) return null;
-    const content = message.content.stripPunctuation().trim();
-    const invariant = content.toUpperCase();
-    return this._acronyms.find(a => a.acronym == content || (!a.caseSensitive && a.acronym == invariant));
+  constructor(acronymDataService: IAcronymDataService) {
+    this._acronyms = acronymDataService;
   }
 
   public trigger(message: Message): boolean {
-    return this.getAcronym(message) != null;
+    if (!message.content.trim().endsWith('?')) return false;
+    const content = message.content.stripPunctuation().trim();
+    return this._acronyms.get(content) != null;
   }
 
   public async execute(message: Message): Promise<void> {
-    const acronym = this.getAcronym(message);
+    const content = message.content.stripPunctuation().trim();
+    const acronym = await this._acronyms.get(content);
     if (acronym == null) return;
     await message.reply(acronym.explanation);
   }
