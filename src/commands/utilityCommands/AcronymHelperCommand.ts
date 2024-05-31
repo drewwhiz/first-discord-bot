@@ -15,14 +15,14 @@ export class AcronymHelperCommand implements ICommand {
 
   public trigger(message: Message): boolean {
     if (!message.content.trim().endsWith('?')) return false;
-    let content = message.content.stripPunctuation().trim();
+    const content = message.content.stripPunctuation().trim();
     if (this._acronyms.get(content) != null) return true;
     if (!content.toLowerCase().endsWith('s')) return false;
     return this._acronyms.get(content.substring(0, content.length - 1)) != null;
   }
 
   public async execute(message: Message): Promise<void> {
-    let content = message.content.stripPunctuation().trim();
+    const content = message.content.stripPunctuation().trim();
     let acronym = await this._acronyms.get(content);
     if (acronym != null) {
       await message.reply(acronym.explanation);
