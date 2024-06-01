@@ -34,6 +34,7 @@ import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCo
 import { AcronymDataService } from './dataservices/AcronymDataService.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
+import { MagicEightBallCommand } from './commands/utilityCommands/MagicEightBallCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -113,6 +114,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ChiefDelphiCommand(),
     new PartLookupCommand(),
     new RandomCommand(new RandomNumberService()),
+    new MagicEightBallCommand(new RandomNumberService()),
     new GlitchCommand(),
     new StopCommand(),
     new WompCommand(),
