@@ -45,7 +45,7 @@ export class MagicEightBallCommand implements ICommand {
   }
 
   public async execute(message: Message): Promise<void> {
-    await message.reply(this.getAnswer())
+    await message.reply(this.getAnswer());
   }
 
   private getAnswer(): string {
