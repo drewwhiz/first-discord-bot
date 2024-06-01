@@ -76,19 +76,19 @@ export class DocumentationCommand implements ICommand {
 
     if (docs.includes(DocumentationSource.WPILIB)) {
       message += `\n- WPILib: ${this.WPILIB}`;
-      message += `\n- WPILib API: ${this.WPILIB_API.getValue(language)}`
+      message += `\n- WPILib API: ${this.WPILIB_API.getValue(language)}`;
     }
 
     if (docs.includes(DocumentationSource.CTRE)) {
-      message += `\n- CTRE (Phoenix) API: ${this.CTRE_API.getValue(language)}`
+      message += `\n- CTRE (Phoenix) API: ${this.CTRE_API.getValue(language)}`;
     }
 
     if (docs.includes(DocumentationSource.REV)) {
-      message += `\n- REVLib API: ${this.REVLIB_API.getValue(language)}`
+      message += `\n- REVLib API: ${this.REVLIB_API.getValue(language)}`;
     }
 
     if (docs.includes(DocumentationSource.VIVID)) {
-      message += `\n- Vivid Hosting (Radio): ${this.VIVID}`
+      message += `\n- Vivid Hosting (Radio): ${this.VIVID}`;
     }
 
     return message;

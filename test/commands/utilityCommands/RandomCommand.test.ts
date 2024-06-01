@@ -1,13 +1,14 @@
 import { Message } from 'discord.js';
 import { expect } from 'chai';
 import { RandomCommand } from '../../../src/commands/utilityCommands/RandomCommand.js';
+import { RandomNumberService } from '../../../src/services/RandomNumberService.js';
 
 describe('Random Command', function() {
   it('should trigger on fLip', function() {
     const content = 'fLip';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -17,7 +18,7 @@ describe('Random Command', function() {
     const content = '/flip';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -27,7 +28,7 @@ describe('Random Command', function() {
     const content = 'RolL';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -37,7 +38,7 @@ describe('Random Command', function() {
     const content = 'flip 4';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -47,7 +48,7 @@ describe('Random Command', function() {
     const content = 'flip a';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -57,7 +58,7 @@ describe('Random Command', function() {
     const content = 'roll 4';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -67,7 +68,7 @@ describe('Random Command', function() {
     const content = 'roll a';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -77,7 +78,7 @@ describe('Random Command', function() {
     const content = 'flip 4 5';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -87,7 +88,7 @@ describe('Random Command', function() {
     const content = 'roll 4 5';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -97,7 +98,7 @@ describe('Random Command', function() {
     const content = 'roll 4 a';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -107,7 +108,7 @@ describe('Random Command', function() {
     const content = 'roll 4 5 6';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -117,7 +118,7 @@ describe('Random Command', function() {
     const content = 'roll d4';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -127,7 +128,7 @@ describe('Random Command', function() {
     const content = 'roll d4 5';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
@@ -137,7 +138,7 @@ describe('Random Command', function() {
     const content = 'roll d5';
     const message = Message.prototype;
     message.content = content;
-    const command = new RandomCommand();
+    const command = new RandomCommand(new RandomNumberService());
 
     const result = command.trigger(message);
     expect(result).to.be.false;
