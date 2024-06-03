@@ -35,6 +35,7 @@ import { AcronymDataService } from './dataservices/AcronymDataService.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
 import { MagicEightBallCommand } from './commands/utilityCommands/MagicEightBallCommand.js';
+import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -118,6 +119,7 @@ bot.once(Events.ClientReady, readyClient => {
     new GlitchCommand(),
     new StopCommand(),
     new WompCommand(),
+    new ConvertUnitCommand(),
     new AcronymHelperCommand(acronymDataService),
     new GoodBotBadBotCommand(readyClient),
     new AddCalendarCommand(googleCalendarDataService),
