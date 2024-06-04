@@ -42,7 +42,7 @@ const { configure, transports, error, info } = winston;
 
 // Configure default logger settings
 configure({
-  level: 'info',
+  level: 'debug',
   transports: [new transports.Console()],
 });
 
