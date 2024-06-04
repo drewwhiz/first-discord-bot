@@ -13,7 +13,8 @@ export default [
     rules: {
       quotes: ['error', 'single'],
       indent: ['error', 2],
-      semi: ['error', 'always']
+      semi: ['error', 'always'],
+      "no-console": ['error']
     }
   },
 

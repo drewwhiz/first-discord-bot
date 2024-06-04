@@ -43,6 +43,7 @@
     "axios": "^1.6.8",
     "convert-units": "^2.3.4",
     "discord.js": "^14.14.1",
+    "mathjs": "^13.0.0",
     "node-cron": "^3.0.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
