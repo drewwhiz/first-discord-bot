@@ -33,6 +33,16 @@ describe('Convert Unit Command', function() {
     expect(result).to.be.true;
   });
 
+  it('should trigger on convert help something', function() {
+    const content = 'convert help something';
+    const message = Message.prototype;
+    message.content = content;
+    const command = new ConvertUnitCommand();
+
+    const result = command.trigger(message);
+    expect(result).to.be.true;
+  });
+
   it('should not trigger on message containing convert', function() {
     const content = 'I want to convert';
     const message = Message.prototype;

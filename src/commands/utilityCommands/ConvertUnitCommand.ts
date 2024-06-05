@@ -33,7 +33,7 @@ export class ConvertUnitCommand implements ICommand {
         + '\n\n'
         + 'Note: Expressions must use parentheses if fractions are involved so the units are interpreted correctly.'
         + '\n\n'
-        + 'Most SI decimal (*e.g.*, kilo) and binary (*e.g.*, kibi) prefixes are supported.\n\n'
+        + 'Decimal prefixes `quecto` through `deci` and `deca` through `quetta` are supported, as are binary prefixes `kibi` through `yobi`. Use `convert help prefix` for more information.\n\n'
         + 'Supported measurement types include: Length, Surface Area, Volume, Liquid Volume, Angles, Time, Frequency, Mass, Electric Current, Temperature, Amount of Substance, Luminous Intensity, Force, Energy, Power, Pressure, Electricity and Magnetism, and Binary.\n\n'
         + 'For a list of units in a given category, `convert help [Measurement]`';
       await message.reply(reply);
@@ -41,6 +41,46 @@ export class ConvertUnitCommand implements ICommand {
     }
 
     const measurement = invariant.replace(this.HELP, '').stripPunctuation().trim().toLowerCase();
+    if (measurement === 'prefix' || measurement === 'prefixes') {
+      const reply = 'Supported decimal prefixes include:'
+        + '\n- `deca` (`da`)'
+        + '\n- `hecto` (`h`)'
+        + '\n- `kilo` (`k`)'
+        + '\n- `mega` (`M`)'
+        + '\n- `giga` (`G`)'
+        + '\n- `tera` (`T`)'
+        + '\n- `peta` (`P`)'
+        + '\n- `exa` (`E`)'
+        + '\n- `zetta` (`Z`)'
+        + '\n- `yotta` (`Y`)'
+        + '\n- `ronna` (`R`)'
+        + '\n- `quetta` (`Q`)'
+        + '\n- `deci` (`d`)'
+        + '\n- `centi` (`c`)'
+        + '\n- `milli` (`m`)'
+        + '\n- `micro` (`u`)'
+        + '\n- `nano` (`n`)'
+        + '\n- `pico` (`p`)'
+        + '\n- `femto` (`f`)'
+        + '\n- `atto` (`a`)'
+        + '\n- `zepto` (`z`)'
+        + '\n- `yocto` (`y`)'
+        + '\n- `ronto` (`r`)'
+        + '\n- `quecto` (`q`)'
+        + '\n\n'
+        + 'Supported binary prefixes include:'
+        + '\n- `kibi` (`Ki`)'
+        + '\n- `mebi` (`Mi`)'
+        + '\n- `gibi` (`Gi`)'
+        + '\n- `tebi` (`Ti`)'
+        + '\n- `pebi` (`Pi`)'
+        + '\n- `exi` (`Ei`)'
+        + '\n- `zebi` (`Zi`)'
+        + '\n- `yobi` (`Yi`)';
+      await message.reply(reply);
+      return;
+    }
+
     const unitList = this.getUnitList(measurement);
     if (unitList == null) return;
 
