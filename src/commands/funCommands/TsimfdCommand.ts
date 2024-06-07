@@ -1,9 +1,10 @@
 import { ICommand } from '../ICommand.js';
-import { Message } from 'discord.js';
+import { ChannelType, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 
 export class TsimfdCommand implements ICommand {
   private static readonly TSIMFD: string = 'TSIMFD';
+  private static readonly ALLOWED_CHANNEL: string = 'mentor-talk';
 
   name: string = 'TSIMFD';
   description: string = 'Chimes in with an appropriate reaction.';
@@ -13,7 +14,17 @@ export class TsimfdCommand implements ICommand {
   }
 
   public async execute(message: Message): Promise<void> {
-    message.reply(TsimfdCommand.TSIMFD);
+    const isInChannel = message.channel.type === ChannelType.GuildText;
+    if (!isInChannel) {
+      await message.reply(TsimfdCommand.TSIMFD);
+      return;
+    }
+
+    const isInAllowedChannel = isInChannel && message.channel?.name === TsimfdCommand.ALLOWED_CHANNEL;
+    if (isInAllowedChannel) {
+      await message.reply(TsimfdCommand.TSIMFD);
+      return;
+    }
   }
 
   private containsCoolOrEquivalent(text: string) {
