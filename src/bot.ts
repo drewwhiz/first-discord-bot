@@ -36,6 +36,9 @@ import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
 import { MagicEightBallCommand } from './commands/utilityCommands/MagicEightBallCommand.js';
 import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitCommand.js';
+import { ReminderDataService } from './dataservices/ReminderDataService.js';
+import { ReminderScheduleService } from './services/ReminderScheduleService.js';
+import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -82,8 +85,10 @@ bot.once(Events.ClientReady, readyClient => {
 
   const googleCalendarDataService = new GoogleCalendarDataService(database);
   const acronymDataService = new AcronymDataService(database);
+  const reminderDataService = new ReminderDataService(database);
 
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
+  const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
 
   const generalChannels: GuildBasedChannel[] = [];
   readyClient.guilds.cache.forEach(g => {
@@ -125,6 +130,7 @@ bot.once(Events.ClientReady, readyClient => {
     new AddCalendarCommand(googleCalendarDataService),
     new ListCalendarCommand(googleCalendarDataService),
     new RemoveCalendarCommand(googleCalendarDataService),
+    new ReminderCommand(reminderScheduleService),
     calendarReportCommand
   ];
 });
