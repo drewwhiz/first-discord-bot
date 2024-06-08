@@ -27,5 +27,4 @@ jobs:
         - run: npm run lint
         - run: npm test
         - run: npm version patch
-        - run: git tag -a $(npm pkg get version) -m 'automatic version bump'
         - run: git push --tags
