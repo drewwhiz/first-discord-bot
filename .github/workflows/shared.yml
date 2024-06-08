@@ -2,7 +2,7 @@ on:
     workflow_call:
 
 jobs:
-    reusable_workflow_job:
+    build:
         runs-on: self-hosted
         strategy:
             matrix:
