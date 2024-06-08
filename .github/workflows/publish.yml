@@ -27,6 +27,5 @@ jobs:
         - run: npm run lint
         - run: npm test
         - run: npm version patch
-        - run: git add package.json
-        - run: git commit -m 'bump version'
+        - run: git push
         - run: git push --tags
