@@ -39,6 +39,7 @@ import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitComman
 import { ReminderDataService } from './dataservices/ReminderDataService.js';
 import { ReminderScheduleService } from './services/ReminderScheduleService.js';
 import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
+import { LolCommand } from './commands/funCommands/LolCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -119,6 +120,7 @@ bot.once(Events.ClientReady, readyClient => {
     new DocumentationCommand(),
     new ChiefDelphiCommand(),
     new PartLookupCommand(),
+    new LolCommand(),
     new RandomCommand(new RandomNumberService()),
     new MagicEightBallCommand(new RandomNumberService()),
     new GlitchCommand(),
