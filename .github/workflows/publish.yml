@@ -7,6 +7,10 @@ on:
 jobs:
   publish:
     runs-on: self-hosted
+    strategy:
+      matrix:
+          node-version: [20.x]
+          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     permissions:
       contents: 'write'
       packages: 'write'
@@ -26,6 +30,11 @@ jobs:
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - name: Install Dependencies
         run: npm ci
         shell: bash
