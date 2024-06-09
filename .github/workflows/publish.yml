@@ -1,11 +1,15 @@
 name: Publish
 
 on:
-  push:
-    branches: [ "main" ]
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
 
 jobs:
   publish:
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted
     strategy:
       matrix:
@@ -15,7 +19,6 @@ jobs:
       contents: 'write'
       packages: 'write'
       actions: 'read'
-    if: ${{ !endsWith(github.event.pusher.name, '[bot]') }}
     steps:
       - uses: actions/create-github-app-token@v1
         id: app-token
@@ -38,7 +41,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
         shell: bash
-      - name: Bump version
+      - name: Apply major version bump if indicated
+        if: contains(github.event.pull_request.labels.*.name, 'major')
+        run: npm version major
+      - name: Apply minor version bump if indicated
+        if: contains(github.event.pull_request.labels.*.name, 'minor')
+        run: npm version minor
+      - name: Apply patch version bump if no major or minor or if indicated
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'patch') || (!contains(github.event.pull_request.labels.*.name, 'major') && !contains(github.event.pull_request.labels.*.name, 'minor')) }}
         run: npm version patch
       - name: Push changes
         run: git push
