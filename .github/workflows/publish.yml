@@ -9,18 +9,9 @@ jobs:
     runs-on: self-hosted
     if: ${{ github.event.pusher.name != 'github-actions[bot]' }}
     steps:
-        - name: 'Checkout source'
-          uses: 'actions/checkout@v4'
+        - uses: actions/checkout@v4
           with:
-            ref: ${{ github.ref }}
-        - name: 'Version Bump'
-          id: version-bump
-          uses: 'phips28/gh-action-bump-version@v9.1.6'
-          with:
-            tag-prefix: 'v'
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        - name: 'Output'
-          env:
-            NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-          run: echo "new tag $NEW_TAG"
+            persist-credentials: false
+        - run: npm version patch
+        - run: git push
+        - run: git push --tags
