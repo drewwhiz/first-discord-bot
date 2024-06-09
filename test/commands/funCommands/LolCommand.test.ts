@@ -32,4 +32,14 @@ describe('Lol Command', function() {
     const result = command.trigger(message);
     expect(result).to.be.false;
   });
+
+  it('should trigger on LoLoL', function() {
+    const content = 'LoLoL';
+    const message = Message.prototype;
+    message.content = content;
+    const command = new LolCommand();
+
+    const result = command.trigger(message);
+    expect(result).to.be.true;
+  });
 });
