@@ -15,7 +15,7 @@ jobs:
       contents: 'write'
       packages: 'write'
       actions: 'read'
-    if: ${{ github.event.pusher.name != 'github-actions[bot]' }}
+    if: ${{ !endsWith(github.event.pusher.name, '[bot]') }}
     steps:
       - uses: actions/create-github-app-token@v1
         id: app-token
