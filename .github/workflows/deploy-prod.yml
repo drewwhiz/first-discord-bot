@@ -1,8 +1,8 @@
-name: Test
+name: Production
 
 on:
     workflow_run:
-        workflows: ["Publish"]
+        workflows: ["Test"]
         types: [completed]
 jobs:
   deploy:
@@ -10,11 +10,11 @@ jobs:
     runs-on: self-hosted
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-        - name: Deploy to QA
+        - name: Deploy to Production
           uses: appleboy/ssh-action@v1.0.3
           with:
-              host: ${{ secrets.QA_HOSTNAME }}
-              username: ${{ secrets.QA_USERNAME }}
+              host: ${{ secrets.PRODUCTION_HOSTNAME }}
+              username: ${{ secrets.PRODUCTION_USERNAME }}
               key: ${{ secrets.PRIVATE_KEY }}
               port: 22
               script_stop: true
