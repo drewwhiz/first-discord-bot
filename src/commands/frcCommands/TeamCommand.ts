@@ -20,7 +20,7 @@ export class TeamCommand implements ICommand {
   }
 
   public async execute(message: Message): Promise<void> {
-    const year = new Date().getFullYear();
+    const year = await this._firstPublicApi.getCurrentFrcSeason();
     const team = Number(message.content.trim());
 
     const reply =
@@ -30,8 +30,16 @@ export class TeamCommand implements ICommand {
       + '\n'
       + `- FRC Events: <https://frc-events.firstinspires.org/${year}/team/${team}>`
       + '\n'
-      + `- Statbotics: <https://www.statbotics.io/team/${team}/${year}>`;
+      + `- Statbotics: <https://www.statbotics.io/team/${team}/${year}>`
+      + '\n\n'
+      + 'If this season is not yet available, you can also try last season on'
+      + '\n'
+      + `- The Blue Alliance: <https://www.thebluealliance.com/team/${team}/${year - 1}>`
+      + '\n'
+      + `- FRC Events: <https://frc-events.firstinspires.org/${year - 1}/team/${team}>`
+      + '\n'
+      + `- Statbotics: <https://www.statbotics.io/team/${team}/${year - 1}>`;
 
-    message.reply(reply);
+    await message.reply(reply);
   }
 }
