@@ -2,7 +2,7 @@
 
 ![build workflow](https://github.com/drewwhis/first-discord-bot/actions/workflows/build.yml/badge.svg)
 ![publish workflow](https://github.com/drewwhis/first-discord-bot/actions/workflows/publish.yml/badge.svg)
-![deploy workflow](https://github.com/drewwhis/first-discord-bot/actions/workflows/deploy.yml/badge.svg)
+![deploy qa workflow](https://github.com/drewwhis/first-discord-bot/actions/workflows/deploy-qa.yml/badge.svg)
 
 ## Environment Variables
 

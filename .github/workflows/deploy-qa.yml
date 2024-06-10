@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy Test
 
 on:
     workflow_run:
@@ -17,9 +17,10 @@ jobs:
               username: ${{ secrets.QA_USERNAME }}
               key: ${{ secrets.PRIVATE_KEY }}
               port: 22
+              script_stop: true
               script: |
+                ~/.nvm/versions/node/v20.12.2/bin/pm2 stop first-discord-bot
                 cd ~/first-discord-bot
-                pm2 stop first-discord-bot
                 git reset --hard origin/main 
-                npm ci
-                pm2 restart first-discord-bot
+                ~/.nvm/versions/node/v20.12.2/bin/npm ci
+                ~/.nvm/versions/node/v20.12.2/bin/pm2 restart first-discord-bot
