@@ -1,13 +1,14 @@
 name: deploy
 
 on:
-  push:
-    branches:
-      - main
+    workflow_run:
+        workflows: ["Publish"]
+        types: [completed]
 jobs:
   deploy:
     name: Deploy
     runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
         - name: Deploy to QA
           uses: appleboy/ssh-action@v1.0.3
