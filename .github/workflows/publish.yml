@@ -34,13 +34,10 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - name: Install Dependencies
-        run: npm ci
-        shell: bash
       - name: Apply major version bump if indicated
         if: contains(github.event.pull_request.labels.*.name, 'major')
         run: npm version major
