@@ -40,6 +40,7 @@ import { ReminderDataService } from './dataservices/ReminderDataService.js';
 import { ReminderScheduleService } from './services/ReminderScheduleService.js';
 import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
+import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -89,6 +90,7 @@ bot.once(Events.ClientReady, readyClient => {
   const reminderDataService = new ReminderDataService(database);
 
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
+  const firstPublicApiWebService = new FirstPublicApiWebService();
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
 
   const generalChannels: GuildBasedChannel[] = [];
@@ -112,7 +114,7 @@ bot.once(Events.ClientReady, readyClient => {
     new GameCommand(),
     new ManualCommand(),
     new DanceCommand(),
-    new TeamCommand(),
+    new TeamCommand(firstPublicApiWebService),
     new ImagineCommand(),
     new BonkCommand(),
     new YikesCommand(),

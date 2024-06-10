@@ -1,9 +1,16 @@
+import { IFirstPublicApiWebService } from '../../webservices/interfaces/IFirstPublicApiWebService.js';
 import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
 export class TeamCommand implements ICommand {
   name: string = 'team';
   description: string = 'Gets the URL of a team\'s Blue Alliance page for the current year.';
+
+  private readonly _firstPublicApi: IFirstPublicApiWebService;
+
+  constructor(firstPublicApi: IFirstPublicApiWebService) {
+    this._firstPublicApi = firstPublicApi;
+  }
 
   public trigger(message: Message): boolean {
     if (message.content.includes('.')) return false;
