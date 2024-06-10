@@ -32,7 +32,7 @@ export class TeamCommand implements ICommand {
       + '\n'
       + `- Statbotics: <https://www.statbotics.io/team/${team}/${year}>`
       + '\n\n'
-      + 'If this season is not yet available, you can also try last season on'
+      + 'If data for the current season is not yet available, you can also try last season on'
       + '\n'
       + `- The Blue Alliance: <https://www.thebluealliance.com/team/${team}/${year - 1}>`
       + '\n'
