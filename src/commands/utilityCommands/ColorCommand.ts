@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import sharp from 'sharp';
 
 export class ColorCommand implements ICommand {
   public name: string = 'color';
@@ -91,7 +92,11 @@ export class ColorCommand implements ICommand {
   public async execute(message: Message): Promise<void> {
     let colors = ColorCommand.convertPotentialHexCode(message.content);
     if (colors != null) {
-      // TODO: Handle hex
+      await message.reply({
+        files: [{
+          attachment: await ColorCommand.createRGBImage(colors)
+        }]
+      });
       return;
     }
 
@@ -99,13 +104,45 @@ export class ColorCommand implements ICommand {
     if (colors == null) return;
 
     if (colors.length === 3) {
-      // TODO: handle rgb
-      return;
+      await message.reply({
+        files: [{
+          attachment: await ColorCommand.createRGBImage(colors)
+        }]
+      }); return;
     }
 
     if (colors.length === 4) {
-      // todo: handle rgba
-      return;
+      await message.reply({
+        files: [{
+          attachment: await ColorCommand.createRGBAImage(colors)
+        }]
+      }); return;
     }
+  }
+
+  private static async createRGBImage(colors: number[]): Promise<Buffer> {
+    return await sharp({
+      create: {
+        width: 2048,
+        height: 2048,
+        channels: 3,
+        background: { r: colors[0], g: colors[1], b: colors[2] }
+      }
+    })
+      .png()
+      .toBuffer();
+  }
+
+  private static async createRGBAImage(colors: number[]): Promise<Buffer> {
+    return await sharp({
+      create: {
+        width: 2048,
+        height: 2048,
+        channels: 4,
+        background: { r: colors[0], g: colors[1], b: colors[2], alpha: colors[3] }
+      }
+    })
+      .png()
+      .toBuffer();
   }
 }
