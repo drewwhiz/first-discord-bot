@@ -25,7 +25,7 @@ export class TeamCommand implements ICommand {
     const team = Number(message.content.trim());
 
     const reply =
-      `Check out Team ${team} this season on`
+      `Check out Team ${team} this season (${year}) on`
       + '\n'
       + `- The Blue Alliance: <https://www.thebluealliance.com/team/${team}/${year}>`
       + '\n'
@@ -33,7 +33,7 @@ export class TeamCommand implements ICommand {
       + '\n'
       + `- Statbotics: <https://www.statbotics.io/team/${team}/${year}>`
       + '\n\n'
-      + 'If data for the current season is not yet available, you can also try last season on'
+      + `If data for the current season is not yet available, you can also try last season (${year - 1}) on`
       + '\n'
       + `- The Blue Alliance: <https://www.thebluealliance.com/team/${team}/${year - 1}>`
       + '\n'
