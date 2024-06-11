@@ -9,6 +9,7 @@ on:
 
 jobs:
   publish:
+    name: Publish
     if: github.event.pull_request.merged == true
     runs-on: self-hosted
     strategy:
