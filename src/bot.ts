@@ -42,6 +42,7 @@ import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 import { ProgramDataService } from './dataservices/ProgramDataService.js';
+import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -129,6 +130,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ChiefDelphiCommand(),
     new PartLookupCommand(),
     new LolCommand(),
+    new ColorCommand(),
     new RandomCommand(new RandomNumberService()),
     new MagicEightBallCommand(new RandomNumberService()),
     new GlitchCommand(),
