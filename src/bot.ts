@@ -43,6 +43,8 @@ import { LolCommand } from './commands/funCommands/LolCommand.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 import { ProgramDataService } from './dataservices/ProgramDataService.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
+import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
+import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -91,6 +93,7 @@ bot.once(Events.ClientReady, readyClient => {
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
   const programDataService = new ProgramDataService(database);
+  const brandColorDataService = new BrandColorDataService(database);
 
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
@@ -131,6 +134,7 @@ bot.once(Events.ClientReady, readyClient => {
     new PartLookupCommand(),
     new LolCommand(),
     new ColorCommand(),
+    new BrandCommand(brandColorDataService),
     new RandomCommand(new RandomNumberService()),
     new MagicEightBallCommand(new RandomNumberService()),
     new GlitchCommand(),
