@@ -41,6 +41,7 @@ import { ReminderScheduleService } from './services/ReminderScheduleService.js';
 import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
+import { ProgramDataService } from './dataservices/ProgramDataService.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -88,9 +89,10 @@ bot.once(Events.ClientReady, readyClient => {
   const googleCalendarDataService = new GoogleCalendarDataService(database);
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
+  const programDataService = new ProgramDataService(database);
 
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
-  const firstPublicApiWebService = new FirstPublicApiWebService();
+  const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
 
   const generalChannels: GuildBasedChannel[] = [];
@@ -102,6 +104,10 @@ bot.once(Events.ClientReady, readyClient => {
   const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService);
   nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
+  });
+
+  nodeCron.schedule('0 0 3 * * *', async () => {
+    await firstPublicApiWebService.updateAllSeasons();
   });
 
   commands = [

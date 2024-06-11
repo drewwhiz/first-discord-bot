@@ -1,3 +1,6 @@
+import { IFirstProgram } from '../../models/IFirstProgram.js';
+
 export interface IFirstPublicApiWebService {
-    getCurrentFrcSeason(): Promise<number>;
+    getCurrentSeason(program: IFirstProgram, override: boolean): Promise<number>;
+    updateAllSeasons(): Promise<boolean>;
 }

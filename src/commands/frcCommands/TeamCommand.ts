@@ -1,3 +1,4 @@
+import { IFirstProgram } from '../../models/IFirstProgram.js';
 import { IFirstPublicApiWebService } from '../../webservices/interfaces/IFirstPublicApiWebService.js';
 import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
@@ -20,7 +21,7 @@ export class TeamCommand implements ICommand {
   }
 
   public async execute(message: Message): Promise<void> {
-    const year = await this._firstPublicApi.getCurrentFrcSeason();
+    const year = await this._firstPublicApi.getCurrentSeason(IFirstProgram.FRC, false);
     const team = Number(message.content.trim());
 
     const reply =
