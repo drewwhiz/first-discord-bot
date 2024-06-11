@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
-import sharp from 'sharp';
+import { ColorUtilities } from '../../utility/ColorUtilities.js';
 
 export class ColorCommand implements ICommand {
   public name: string = 'color';
@@ -94,7 +94,7 @@ export class ColorCommand implements ICommand {
     if (colors != null) {
       await message.reply({
         files: [{
-          attachment: await ColorCommand.createRGBImage(colors)
+          attachment: await ColorUtilities.createRGBImage(colors, 2048)
         }]
       });
       return;
@@ -106,7 +106,7 @@ export class ColorCommand implements ICommand {
     if (colors.length === 3) {
       await message.reply({
         files: [{
-          attachment: await ColorCommand.createRGBImage(colors)
+          attachment: await ColorUtilities.createRGBImage(colors, 2048)
         }]
       }); return;
     }
@@ -114,35 +114,9 @@ export class ColorCommand implements ICommand {
     if (colors.length === 4) {
       await message.reply({
         files: [{
-          attachment: await ColorCommand.createRGBAImage(colors)
+          attachment: await ColorUtilities.createRGBAImage(colors, 2048)
         }]
       }); return;
     }
-  }
-
-  private static async createRGBImage(colors: number[]): Promise<Buffer> {
-    return await sharp({
-      create: {
-        width: 2048,
-        height: 2048,
-        channels: 3,
-        background: { r: colors[0], g: colors[1], b: colors[2] }
-      }
-    })
-      .png()
-      .toBuffer();
-  }
-
-  private static async createRGBAImage(colors: number[]): Promise<Buffer> {
-    return await sharp({
-      create: {
-        width: 2048,
-        height: 2048,
-        channels: 4,
-        background: { r: colors[0], g: colors[1], b: colors[2], alpha: colors[3] }
-      }
-    })
-      .png()
-      .toBuffer();
   }
 }
