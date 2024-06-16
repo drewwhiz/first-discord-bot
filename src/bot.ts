@@ -46,8 +46,8 @@ import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import { VexCommand } from './commands/funCommands/VexCommand.js';
+import { CooldownDataService } from './dataservices/CooldownDataService.js';
 import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
-
 
 const { configure, transports, error, info } = winston;
 
@@ -96,6 +96,7 @@ bot.once(Events.ClientReady, readyClient => {
   const reminderDataService = new ReminderDataService(database);
   const programDataService = new ProgramDataService(database);
   const brandColorDataService = new BrandColorDataService(database);
+  const cooldownDataService = new CooldownDataService(database);
 
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
@@ -120,10 +121,10 @@ bot.once(Events.ClientReady, readyClient => {
     new TsimfdCommand(),
     new AtMeCommand(readyClient.user.id),
     new BetCommand(),
-    new RespectsCommand(),
-    new DoubtCommand(),
-    new MainGoalCommand(),
-    new GameCommand(),
+    new RespectsCommand(cooldownDataService),
+    new DoubtCommand(cooldownDataService),
+    new MainGoalCommand(cooldownDataService),
+    new GameCommand(cooldownDataService),
     new ManualCommand(),
     new DanceCommand(),
     new TeamCommand(firstPublicApiWebService),
@@ -149,7 +150,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ListCalendarCommand(googleCalendarDataService),
     new RemoveCalendarCommand(googleCalendarDataService),
     new ReminderCommand(reminderScheduleService),
-    new VexCommand(),
+    new VexCommand(cooldownDataService),
     new YouProblemCommand(),
     calendarReportCommand
   ];

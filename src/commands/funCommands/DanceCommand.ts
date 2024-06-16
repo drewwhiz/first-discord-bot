@@ -4,8 +4,8 @@ import { ISong } from '../../models/ISong.js';
 import { readFileSync } from 'fs';
 
 export class DanceCommand implements ICommand {
-  name: string = 'dance';
-  description: string = 'Randomly selects an FRC Dance.';
+  public readonly name: string = 'dance';
+  public readonly description: string = 'Randomly selects an FRC Dance.';
 
   private getSongs(): ISong[] {
     return JSON.parse(readFileSync('data/songs.json').toString());

@@ -6,8 +6,8 @@ import { Dictionary } from 'typescript-collections';
 import '../../extensions/StringExtension.js';
 
 export class DocumentationCommand implements ICommand {
-  name: string = 'docs';
-  description: string = 'Fetch documentation for FRC';
+  public readonly name: string = 'docs';
+  public readonly description: string = 'Fetch documentation for FRC';
 
   private readonly WPILIB_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();
   private readonly REVLIB_API: Dictionary<ProgrammingLanguage, string> = new Dictionary<ProgrammingLanguage, string>();

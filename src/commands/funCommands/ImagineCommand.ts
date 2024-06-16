@@ -3,8 +3,8 @@ import { Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 
 export class ImagineCommand implements ICommand {
-  public name: string = 'imagine';
-  public description: string = 'Couldn\'t be me';
+  public readonly name: string = 'imagine';
+  public readonly description: string = 'Couldn\'t be me';
 
   public trigger(message: Message): boolean {
     return message != null && message.content.stripPunctuation().toLowerCase().startsWith('imagine');

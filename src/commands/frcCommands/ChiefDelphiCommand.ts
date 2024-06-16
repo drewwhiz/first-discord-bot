@@ -3,8 +3,8 @@ import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
 export class ChiefDelphiCommand implements ICommand {
-  name: string = 'Chief Delphi';
-  description: string = 'Look up something on Chief Delphi';
+  public readonly name: string = 'Chief Delphi';
+  public readonly description: string = 'Look up something on Chief Delphi';
 
   private readonly CD_URL: string = 'https://www.chiefdelphi.com/search?q=';
 

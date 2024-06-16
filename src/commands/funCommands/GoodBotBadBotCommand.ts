@@ -3,8 +3,8 @@ import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
 export class GoodBotBadBotCommand implements ICommand {
-  public name: string = 'good bot, bad bot';
-  public description: string = 'Reacts to good bot replies and bad bot messages';
+  public readonly name: string = 'good bot, bad bot';
+  public readonly description: string = 'Reacts to good bot replies and bad bot messages';
   private static readonly GOODBOT_EMOJI = '🫡';
   private static readonly BADBOT_EMOJI = '😢';
 

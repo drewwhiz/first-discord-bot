@@ -7,7 +7,7 @@ describe('Vex Command', function () {
     const content = 'vex';
     const message = Message.prototype;
     message.content = content;
-    const command = new VexCommand();
+    const command = new VexCommand(null);
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -17,7 +17,7 @@ describe('Vex Command', function () {
     const content = 'I feel strongly about vex and other things';
     const message = Message.prototype;
     message.content = content;
-    const command = new VexCommand();
+    const command = new VexCommand(null);
 
     const result = command.trigger(message);
     expect(result).to.be.true;
@@ -27,7 +27,7 @@ describe('Vex Command', function () {
     const content = 'vexing';
     const message = Message.prototype;
     message.content = content;
-    const command = new VexCommand();
+    const command = new VexCommand(null);
 
     const result = command.trigger(message);
     expect(result).to.be.false;

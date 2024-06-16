@@ -12,8 +12,8 @@ export class RandomCommand implements ICommand {
   private static readonly ROLL_COUNT_REGEX = /^roll [1-9][0-9]*(\s[1-9][0-9]*)?$/;
   // TODO: dice private static readonly ROLL_DICE_REGEX = /^roll d(2|4|6|8|10|12|20|100)(\s[1-9][0-9]*)?$/;
 
-  public name: string = 'random';
-  public description: string = 'Sends some generated random number data.';
+  public readonly name: string = 'random';
+  public readonly description: string = 'Sends some generated random number data.';
   private readonly _random: IRandomNumberService;
 
   constructor(random: IRandomNumberService) {

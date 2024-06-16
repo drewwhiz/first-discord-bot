@@ -1,28 +1,43 @@
 import { Message } from 'discord.js';
 import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
+import { DateTimeUtilities } from '../../utility/DateTimeUtilities.js';
 
 export class MainGoalCommand implements ICommand {
-  private static COOLDOWN: number = 24 * 60 * 60 * 1000;
+  private static COOLDOWN_HOURS: number = 24; // one day
 
-  private lastTime: Date;
-
-  public name: string = 'mainGoal';
-  public description: string =
+  public readonly name: string = 'mainGoal';
+  public readonly description: string =
     'Responds to messages containing \'goal\' in the Discord.';
 
+  private readonly _coolDowns: ICooldownDataService;
+
+  constructor(coolDowns: ICooldownDataService) {
+    this._coolDowns = coolDowns;
+  }
+
   public trigger(message: Message): boolean {
-    return message != null && message.content.containsAnyWords('goal', 'goals');
+    const invariant = message.content.toLowerCase().stripPunctuation().trim();
+    return invariant.containsAnyWords('goal', 'goals');
   }
 
   public async execute(message: Message): Promise<void> {
-    const now = new Date();
-    if (this.lastTime != null) {
-      if (now.getTime() - this.lastTime.getTime() < MainGoalCommand.COOLDOWN) return;
+    let activeCooldown = await this._coolDowns.getByKeys(this.name, message.channelId);
+    if (activeCooldown == null) {
+      activeCooldown = {
+        id: 0,
+        commandName: this.name,
+        channelId: message.channelId,
+        deadline: null
+      };
     }
 
-    this.lastTime = now;
-    message.reply(
+    if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
+    activeCooldown.deadline = DateTimeUtilities.getFutureTimeUTCString(MainGoalCommand.COOLDOWN_HOURS);
+    await this._coolDowns.upsert(activeCooldown);
+
+    await message.reply(
       'My main goal is to blow up, then act like I don\'t know nobody. Hahahahahaha.',
     );
   }

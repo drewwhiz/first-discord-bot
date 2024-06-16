@@ -3,8 +3,8 @@ import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
 export class LolCommand implements ICommand {
-  public name: string = 'lol';
-  public description: string = 'replies to lol';
+  public readonly name: string = 'lol';
+  public readonly description: string = 'replies to lol';
 
   public trigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();

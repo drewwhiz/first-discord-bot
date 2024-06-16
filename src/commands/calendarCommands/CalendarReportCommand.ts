@@ -6,8 +6,8 @@ import '../../extensions/StringExtension.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
 
 export class CalendarReportCommand implements ICommand {
-  name: string = 'List calendars';
-  description: string = 'List all of the calendars being tracked';
+  public readonly name: string = 'List calendars';
+  public readonly description: string = 'List all of the calendars being tracked';
 
   private readonly _service: IGoogleCalendarWebService;
 

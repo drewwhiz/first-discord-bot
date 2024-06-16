@@ -3,8 +3,8 @@ import { ICommand } from '../ICommand.js';
 import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogleCalendarDataServce.js';
 
 export class ListCalendarCommand implements ICommand {
-  name: string = 'List calendars';
-  description: string = 'List all of the calendars being tracked';
+  public readonly name: string = 'List calendars';
+  public readonly description: string = 'List all of the calendars being tracked';
 
   private readonly _service: IGoogleCalendarDataService;
 

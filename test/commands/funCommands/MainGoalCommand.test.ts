@@ -8,7 +8,7 @@ describe('Main Goal Command', function() {
     const message = Message.prototype;
     message.content = content;
         
-    const command = new MainGoalCommand();
+    const command = new MainGoalCommand(null);
     const result = command.trigger(message);
     expect(result).to.be.true;
   });
@@ -18,7 +18,7 @@ describe('Main Goal Command', function() {
     const message = Message.prototype;
     message.content = content;
         
-    const command = new MainGoalCommand();
+    const command = new MainGoalCommand(null);
     const result = command.trigger(message);
     expect(result).to.be.true;
   });
@@ -28,7 +28,7 @@ describe('Main Goal Command', function() {
     const message = Message.prototype;
     message.content = content;
         
-    const command = new MainGoalCommand();
+    const command = new MainGoalCommand(null);
     const result = command.trigger(message);
     expect(result).to.be.false;
   });

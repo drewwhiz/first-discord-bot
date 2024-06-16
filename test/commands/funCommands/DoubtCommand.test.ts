@@ -13,7 +13,7 @@ describe('Doubt Command', function() {
       return channel;
     });
 
-    const command = new DoubtCommand();
+    const command = new DoubtCommand(null);
     const result = command.trigger(mock.object);
     expect(result).to.be.true;
   });
@@ -27,52 +27,8 @@ describe('Doubt Command', function() {
       return channel;
     });
 
-    const command = new DoubtCommand();
+    const command = new DoubtCommand(null);
     const result = command.trigger(mock.object);
     expect(result).to.be.false;
-  });
-
-  it('should not trigger in cooldown', function() {
-    const mock = TypeMoq.Mock.ofType<Message>();
-    mock.setup(m => m.content).returns(() => 'x');
-    mock.setup(m => m.channel).returns(() => {
-      const channel = TextChannel.prototype;
-      channel.id = '1';
-      return channel;
-    });
-
-    const command = new DoubtCommand();
-
-    const result = command.trigger(mock.object);
-    expect(result).to.be.true;
-
-    const secondResult = command.trigger(mock.object);
-    expect(secondResult).to.be.false;
-  });
-
-  it('should trigger in cooldown on another channel', function() {
-    const firstMock = TypeMoq.Mock.ofType<Message>();
-    firstMock.setup(m => m.content).returns(() => 'x');
-    firstMock.setup(m => m.channel).returns(() => {
-      const channel = TextChannel.prototype;
-      channel.id = '1';
-      return channel;
-    });
-
-    const command = new DoubtCommand();
-
-    const firstResult = command.trigger(firstMock.object);
-    expect(firstResult).to.be.true;
-
-    const secondMock = TypeMoq.Mock.ofType<Message>();
-    secondMock.setup(m => m.content).returns(() => 'x');
-    secondMock.setup(m => m.channel).returns(() => {
-      const channel = TextChannel.prototype;
-      channel.id = '2';
-      return channel;
-    });
-
-    const secondResult = command.trigger(secondMock.object);
-    expect(secondResult).to.be.true;
   });
 });

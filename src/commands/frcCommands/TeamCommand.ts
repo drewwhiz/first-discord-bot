@@ -4,8 +4,8 @@ import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
 export class TeamCommand implements ICommand {
-  name: string = 'team';
-  description: string = 'Gets the URL of a team\'s Blue Alliance page for the current year.';
+  public readonly name: string = 'team';
+  public readonly description: string = 'Gets the URL of a team\'s Blue Alliance page for the current year.';
 
   private readonly _firstPublicApi: IFirstPublicApiWebService;
 

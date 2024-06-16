@@ -1,39 +1,40 @@
 import { Message } from 'discord.js';
-import { Dictionary } from 'typescript-collections';
 import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
+import { DateTimeUtilities } from '../../utility/DateTimeUtilities.js';
 
 export class GameCommand implements ICommand {
-  private static COOLDOWN: number = 24 * 60 * 60 * 1000;
+  private static COOLDOWN_HOURS: number = 24; // One day
 
-  public name: string = 'game';
-  public description: string = 'Loses the game.';
-  private lastLosses: Dictionary<string, Date> = new Dictionary<string, Date>();
+  public readonly name: string = 'game';
+  public readonly description: string = 'Loses the game.';
+
+  private readonly _coolDowns: ICooldownDataService;
+
+  constructor(coolDowns: ICooldownDataService) {
+    this._coolDowns = coolDowns;
+  }
 
   public trigger(message: Message): boolean {
-    if (message == null) return false;
-    const hasGame = message.content.stripPunctuation().toLowerCase().containsAnyWords('game', 'games');
-    if (!hasGame) return false;
-
-    const destination = message.channel?.id;
-    if (destination == null) return false;
-
-    const now = new Date();
-    const lastLoss = this.lastLosses.getValue(destination);
-    if (lastLoss == null) {
-      this.lastLosses.setValue(destination, now);
-      return true;
-    }
-
-    if (Math.abs(now.getTime() - lastLoss.getTime()) > GameCommand.COOLDOWN) {
-      this.lastLosses.setValue(destination, now);
-      return true;
-    }
-
-    return false;
+    const invariant = message.content.stripPunctuation().toLowerCase().trim();
+    return invariant.containsAnyWords('game', 'games');
   }
 
   public async execute(message: Message): Promise<void> {
-    message.reply('I just lost the game.');
+    let activeCooldown = await this._coolDowns.getByKeys(this.name, message.channelId);
+    if (activeCooldown == null) {
+      activeCooldown = {
+        id: 0,
+        commandName: this.name,
+        channelId: message.channelId,
+        deadline: null
+      };
+    }
+
+    if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
+    activeCooldown.deadline = DateTimeUtilities.getFutureTimeUTCString(GameCommand.COOLDOWN_HOURS);
+    await this._coolDowns.upsert(activeCooldown);
+    await message.reply('I just lost the game.');
   }
 }

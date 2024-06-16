@@ -4,8 +4,8 @@ import '../../extensions/StringExtension.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
 
 export class ColorCommand implements ICommand {
-  public name: string = 'color';
-  public description: string = 'Generates a color from an RGB code';
+  public readonly name: string = 'color';
+  public readonly description: string = 'Generates a color from an RGB code';
 
   private static convertPotentialHexCode(input: string): number[] {
     if (input == null) return null;
