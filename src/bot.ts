@@ -45,6 +45,7 @@ import { ProgramDataService } from './dataservices/ProgramDataService.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
+import { VexCommand } from './commands/funCommands/VexCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -147,6 +148,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ListCalendarCommand(googleCalendarDataService),
     new RemoveCalendarCommand(googleCalendarDataService),
     new ReminderCommand(reminderScheduleService),
+    new VexCommand(),
     calendarReportCommand
   ];
 });
