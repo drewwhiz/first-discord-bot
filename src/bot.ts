@@ -121,9 +121,9 @@ bot.once(Events.ClientReady, readyClient => {
     new TsimfdCommand(),
     new AtMeCommand(readyClient.user.id),
     new BetCommand(),
-    new RespectsCommand(),
+    new RespectsCommand(cooldownDataService),
     new DoubtCommand(cooldownDataService),
-    new MainGoalCommand(),
+    new MainGoalCommand(cooldownDataService),
     new GameCommand(cooldownDataService),
     new ManualCommand(),
     new DanceCommand(),
@@ -150,7 +150,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ListCalendarCommand(googleCalendarDataService),
     new RemoveCalendarCommand(googleCalendarDataService),
     new ReminderCommand(reminderScheduleService),
-    new VexCommand(),
+    new VexCommand(cooldownDataService),
     calendarReportCommand
   ];
 });
