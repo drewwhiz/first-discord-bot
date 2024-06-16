@@ -71,5 +71,5 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 
 String.prototype.stripPunctuation = function (this: string): string {
   // eslint-disable-next-line
-  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\?]/g, '').replace(/\s{2,}/g, ' ');
+  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"\?]/g, '').replace(/\s{2,}/g, ' ');
 };

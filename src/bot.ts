@@ -46,6 +46,7 @@ import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import { VexCommand } from './commands/funCommands/VexCommand.js';
+import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -149,6 +150,7 @@ bot.once(Events.ClientReady, readyClient => {
     new RemoveCalendarCommand(googleCalendarDataService),
     new ReminderCommand(reminderScheduleService),
     new VexCommand(),
+    new YouProblemCommand(),
     calendarReportCommand
   ];
 });
