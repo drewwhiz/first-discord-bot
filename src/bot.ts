@@ -46,6 +46,7 @@ import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import { VexCommand } from './commands/funCommands/VexCommand.js';
+import { CooldownDataService } from './dataservices/CooldownDataService.js';
 
 
 const { configure, transports, error, info } = winston;
@@ -95,6 +96,7 @@ bot.once(Events.ClientReady, readyClient => {
   const reminderDataService = new ReminderDataService(database);
   const programDataService = new ProgramDataService(database);
   const brandColorDataService = new BrandColorDataService(database);
+  const cooldownDataService = new CooldownDataService(database);
 
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
@@ -122,7 +124,7 @@ bot.once(Events.ClientReady, readyClient => {
     new RespectsCommand(),
     new DoubtCommand(),
     new MainGoalCommand(),
-    new GameCommand(),
+    new GameCommand(cooldownDataService),
     new ManualCommand(),
     new DanceCommand(),
     new TeamCommand(firstPublicApiWebService),
