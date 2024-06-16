@@ -49,7 +49,6 @@ import { VexCommand } from './commands/funCommands/VexCommand.js';
 import { CooldownDataService } from './dataservices/CooldownDataService.js';
 import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
 
-
 const { configure, transports, error, info } = winston;
 
 // Configure default logger settings
