@@ -2,8 +2,8 @@ import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
 export class WompCommand implements ICommand {
-  name: string = 'womp';
-  description: string = 'Womp womp';
+  public readonly name: string = 'womp';
+  public readonly description: string = 'Womp womp';
 
   trigger(message: Message): boolean {
     const content = message.content.toLowerCase().stripPunctuation().trim();

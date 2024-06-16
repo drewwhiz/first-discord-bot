@@ -7,8 +7,8 @@ export class ReminderCommand implements ICommand {
   private static readonly HELP = '!remindme help';
   private readonly _reminderSchedule: IReminderScheduleService;
 
-  name: string = 'remind me';
-  description: string = 'schedules reminders';
+  public readonly name: string = 'remind me';
+  public readonly description: string = 'schedules reminders';
 
   constructor(reminderCrons: IReminderScheduleService) {
     this._reminderSchedule = reminderCrons;

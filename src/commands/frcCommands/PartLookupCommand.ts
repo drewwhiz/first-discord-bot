@@ -5,8 +5,8 @@ import { IProductSource } from '../../models/IProductSource.js';
 import '../../extensions/StringExtension.js';
 
 export class PartLookupCommand implements ICommand {
-  name: string = 'part lookup';
-  description: string = 'Lookup links to parts.';
+  public readonly name: string = 'part lookup';
+  public readonly description: string = 'Lookup links to parts.';
   sources: IProductSource[];
 
   constructor() {

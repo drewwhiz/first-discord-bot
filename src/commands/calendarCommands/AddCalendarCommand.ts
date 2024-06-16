@@ -4,8 +4,8 @@ import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogl
 import { readFileSync } from 'fs';
 
 export class AddCalendarCommand implements ICommand {
-  name: string = 'Add calendar';
-  description: string = 'Adds a calendar to the collection';
+  public readonly name: string = 'Add calendar';
+  public readonly description: string = 'Adds a calendar to the collection';
 
   private readonly _service: IGoogleCalendarDataService;
   private readonly _roles: string[];

@@ -5,8 +5,8 @@ import { IAcronymDataService } from '../../dataservices/interfaces/IAcronymDataS
 import { IAcronym } from '../../models/IAcronym.js';
 
 export class AcronymHelperCommand implements ICommand {
-  public name: string = 'acronym helper';
-  public description: string = 'answers known acronyms';
+  public readonly name: string = 'acronym helper';
+  public readonly description: string = 'answers known acronyms';
 
   private static readonly TSIMFD: string = 'TSIMFD';
   private static readonly CHANNEL_RESTRICT: string = 'mentor-talk';

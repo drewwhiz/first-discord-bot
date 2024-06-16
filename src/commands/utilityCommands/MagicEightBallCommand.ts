@@ -27,8 +27,8 @@ export class MagicEightBallCommand implements ICommand {
     'Signs point to yes'
   ];
 
-  public name: string = 'magic 8 ball';
-  public description: string = 'Gives magic 8 ball responses';
+  public readonly name: string = 'magic 8 ball';
+  public readonly description: string = 'Gives magic 8 ball responses';
 
   private readonly _random: IRandomNumberService;
 

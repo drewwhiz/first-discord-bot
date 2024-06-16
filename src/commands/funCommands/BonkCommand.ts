@@ -3,8 +3,8 @@ import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
 export class BonkCommand implements ICommand {
-  name: string = 'bonk';
-  description: string = 'Sends the bonk meme if the user mentions a forbidden phrase.';
+  public readonly name: string = 'bonk';
+  public readonly description: string = 'Sends the bonk meme if the user mentions a forbidden phrase.';
   forbiddenPhrases: string[] = [];
 
   constructor() {

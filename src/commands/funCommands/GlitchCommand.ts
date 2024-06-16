@@ -4,8 +4,8 @@ import '../../extensions/StringExtension.js';
 import { zalgoGeneration } from 'zalgo-generator';
 
 export class GlitchCommand implements ICommand {
-  public name: string = 'glitch';
-  public description: string = 'Generates glitch text.';
+  public readonly name: string = 'glitch';
+  public readonly description: string = 'Generates glitch text.';
 
   public trigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();

@@ -2,8 +2,8 @@ import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
 export class AtMeCommand implements ICommand {
-  name: string = 'don\'t @ me';
-  description: string = 'If tagged, tell the user not to tag the bot.';
+  public readonly name: string = 'don\'t @ me';
+  public readonly description: string = 'If tagged, tell the user not to tag the bot.';
   userId: string;
 
   constructor(userId: string) {

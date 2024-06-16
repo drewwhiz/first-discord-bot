@@ -8,8 +8,8 @@ export class ManualCommand implements ICommand {
   private readonly fllChallengeManual: string = 'https://www.firstinspires.org/resource-library/fll/challenge/challenge-and-resources';
   private readonly fllExploreManual: string = 'https://www.firstinspires.org/resource-library/fll/explore/challenge-and-resources';
 
-  public name: string = 'manual';
-  public description: string = 'Tells people to read the manual.';
+  public readonly name: string = 'manual';
+  public readonly description: string = 'Tells people to read the manual.';
 
   private getText(content: string): string {
     const invariant = content.toLowerCase();

@@ -12,8 +12,8 @@ export class ConvertUnitCommand implements ICommand {
   private static readonly CONVERT_REGEX = /^convert .* .* to .*$/;
   private static readonly HELP = 'convert help';
 
-  public name: string = 'convert';
-  public description: string = 'converts units';
+  public readonly name: string = 'convert';
+  public readonly description: string = 'converts units';
 
   public trigger(message: Message): boolean {
     const content = message.content.toLowerCase().trim();

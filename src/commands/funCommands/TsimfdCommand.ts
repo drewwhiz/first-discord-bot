@@ -6,8 +6,8 @@ export class TsimfdCommand implements ICommand {
   private static readonly TSIMFD: string = 'TSIMFD';
   private static readonly ALLOWED_CHANNEL: string = 'mentor-talk';
 
-  name: string = 'TSIMFD';
-  description: string = 'Chimes in with an appropriate reaction.';
+  public readonly name: string = 'TSIMFD';
+  public readonly description: string = 'Chimes in with an appropriate reaction.';
 
   public trigger(message: Message): boolean {
     return this.containsCoolOrEquivalent(message.content);

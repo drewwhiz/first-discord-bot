@@ -4,8 +4,8 @@ import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogl
 import { readFileSync } from 'fs';
 
 export class RemoveCalendarCommand implements ICommand {
-  name: string = 'Remove calendar';
-  description: string = 'Removes a calendar from the collection';
+  public readonly name: string = 'Remove calendar';
+  public readonly description: string = 'Removes a calendar from the collection';
 
   private readonly _service: IGoogleCalendarDataService;
   private readonly _roles: string[];
