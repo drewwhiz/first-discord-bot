@@ -122,7 +122,7 @@ bot.once(Events.ClientReady, readyClient => {
     new AtMeCommand(readyClient.user.id),
     new BetCommand(),
     new RespectsCommand(),
-    new DoubtCommand(),
+    new DoubtCommand(cooldownDataService),
     new MainGoalCommand(),
     new GameCommand(cooldownDataService),
     new ManualCommand(),

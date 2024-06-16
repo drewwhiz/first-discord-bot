@@ -7,8 +7,8 @@ import { DateTimeUtilities } from '../../utility/DateTimeUtilities.js';
 export class GameCommand implements ICommand {
   private static COOLDOWN_HOURS: number = 24; // One day
 
-  public name: string = 'game';
-  public description: string = 'Loses the game.';
+  public readonly name: string = 'game';
+  public readonly description: string = 'Loses the game.';
 
   private readonly _coolDowns: ICooldownDataService;
 
