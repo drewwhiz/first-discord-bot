@@ -50,6 +50,7 @@ import { CooldownDataService } from './dataservices/CooldownDataService.js';
 import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
 import { WeatherApiWebService } from './webservices/WeatherApiWebService.js';
 import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
+import { EsdCommand } from './commands/funCommands/EsdCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -156,6 +157,7 @@ bot.once(Events.ClientReady, readyClient => {
     new VexCommand(cooldownDataService),
     new YouProblemCommand(),
     new WeatherCommand(weatherService),
+    new EsdCommand(weatherService),
     calendarReportCommand
   ];
 });
