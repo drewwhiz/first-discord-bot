@@ -1,40 +1,23 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
-import { DateTimeUtilities } from '../../utility/DateTimeUtilities.js';
+import { CooldownCommandBase } from '../CooldownCommandBase.js';
 
-export class GameCommand implements ICommand {
-  private static COOLDOWN_HOURS: number = 24; // One day
+export class GameCommand extends CooldownCommandBase {
+  public override readonly name: string = 'game';
+  public override readonly description: string = 'Loses the game.';
+  public override readonly cooldownHours: number = 24;
 
-  public readonly name: string = 'game';
-  public readonly description: string = 'Loses the game.';
-
-  private readonly _coolDowns: ICooldownDataService;
-
-  constructor(coolDowns: ICooldownDataService) {
-    this._coolDowns = coolDowns;
+  public constructor(cooldowns: ICooldownDataService) {
+    super(cooldowns);
   }
 
-  public trigger(message: Message): boolean {
+  public override trigger(message: Message): boolean {
     const invariant = message.content.stripPunctuation().toLowerCase().trim();
     return invariant.containsAnyWords('game', 'games');
   }
 
-  public async execute(message: Message): Promise<void> {
-    let activeCooldown = await this._coolDowns.getByKeys(this.name, message.channelId);
-    if (activeCooldown == null) {
-      activeCooldown = {
-        id: 0,
-        commandName: this.name,
-        channelId: message.channelId,
-        deadline: null
-      };
-    }
-
-    if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
-    activeCooldown.deadline = DateTimeUtilities.getFutureTimeUTCString(GameCommand.COOLDOWN_HOURS);
-    await this._coolDowns.upsert(activeCooldown);
+  public override async action(message: Message): Promise<void> {
     await message.reply('I just lost the game.');
   }
 }

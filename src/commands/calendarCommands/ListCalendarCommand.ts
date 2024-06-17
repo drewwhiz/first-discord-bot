@@ -8,16 +8,16 @@ export class ListCalendarCommand implements ICommand {
 
   private readonly _service: IGoogleCalendarDataService;
 
-  constructor(service: IGoogleCalendarDataService) {
+  public constructor(service: IGoogleCalendarDataService) {
     this._service = service;
   }
 
-  trigger(message: Message<boolean>): boolean {
+  public trigger(message: Message<boolean>): boolean {
     const content = message.content.trim().toLowerCase();
     return content.startsWith('list-calendar') || content.startsWith('/list-calendar');
   }
 
-  async execute(message: Message<boolean>): Promise<void> {
+  public async execute(message: Message<boolean>): Promise<void> {
     const member = message.member;
     if (member == null) {
       message.reply('Sorry, this action is not supported in this context.');

@@ -13,7 +13,7 @@ export class AcronymHelperCommand implements ICommand {
 
   private readonly _acronyms: IAcronymDataService;
 
-  constructor(acronymDataService: IAcronymDataService) {
+  public constructor(acronymDataService: IAcronymDataService) {
     this._acronyms = acronymDataService;
   }
 

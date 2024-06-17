@@ -12,11 +12,11 @@ export class GoogleCalendarWebService implements IGoogleCalendarWebService {
 
   private readonly _dataService: IGoogleCalendarDataService;
 
-  constructor(dataService: IGoogleCalendarDataService) {
+  public constructor(dataService: IGoogleCalendarDataService) {
     this._dataService = dataService;
   }
 
-  async reportEvents(rangeStart: Date, rangeEnd: Date): Promise<IEventSummary[]> {
+  public async reportEvents(rangeStart: Date, rangeEnd: Date): Promise<IEventSummary[]> {
     const calendars = await this._dataService.getAll();
     const results: IEventSummary[] = [];
     for (let i = 0; i < calendars.length; i++) {

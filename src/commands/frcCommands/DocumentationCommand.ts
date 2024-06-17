@@ -16,7 +16,7 @@ export class DocumentationCommand implements ICommand {
   private readonly WPILIB: string = '<https://docs.wpilib.org/en/stable/>';
   private readonly VIVID: string = '<https://frc-radio.vivid-hosting.net>';
 
-  constructor() {
+  public constructor() {
     this.WPILIB_API.setValue(ProgrammingLanguage.CPP, '<https://github.wpilib.org/allwpilib/docs/release/cpp/index.html>');
     this.WPILIB_API.setValue(ProgrammingLanguage.JAVA, '<https://github.wpilib.org/allwpilib/docs/release/java/index.html>');
     this.WPILIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/robotpy/en/stable/>');
@@ -31,12 +31,12 @@ export class DocumentationCommand implements ICommand {
   }
 
 
-  trigger(message: Message<boolean>): boolean {
+  public trigger(message: Message<boolean>): boolean {
     const content = message?.content?.toLowerCase()?.stripPunctuation() ?? '';
     return content.isFirstWord('doc') || content.isFirstWord('docs');
   }
 
-  async execute(message: Message<boolean>): Promise<void> {
+  public async execute(message: Message<boolean>): Promise<void> {
     if (message?.content == null) return;
 
     const request = message.content.toLowerCase().stripPunctuation().trim();
@@ -46,7 +46,7 @@ export class DocumentationCommand implements ICommand {
     message.reply(reply);
   }
 
-  buildLabviewMessage() {
+  private buildLabviewMessage() {
     let message = 'There are limited online resources for Labview (most are embedded). As a result, all available docs have been included.';
     message += '\n';
     message += `- WPILIB: ${this.WPILIB}`;
@@ -55,7 +55,7 @@ export class DocumentationCommand implements ICommand {
     return message;
   }
 
-  getLanguageText(language: ProgrammingLanguage): string {
+  private getLanguageText(language: ProgrammingLanguage): string {
     switch(language) {
     case ProgrammingLanguage.LABVIEW: return 'Labview';
     case ProgrammingLanguage.CPP: return 'C++';
@@ -64,7 +64,7 @@ export class DocumentationCommand implements ICommand {
     }
   }
 
-  buildMessage(language: ProgrammingLanguage, docs: DocumentationSource[]): string {
+  private buildMessage(language: ProgrammingLanguage, docs: DocumentationSource[]): string {
     if (language === ProgrammingLanguage.LABVIEW) return this.buildLabviewMessage();
 
     if (docs == null || docs.length == 0) {
@@ -94,7 +94,7 @@ export class DocumentationCommand implements ICommand {
     return message;
   }
 
-  getLanguage(request: string): ProgrammingLanguage {
+  private getLanguage(request: string): ProgrammingLanguage {
     if (request.includes('c++')) return ProgrammingLanguage.CPP;
     else if (request.includes('cpp')) return ProgrammingLanguage.CPP;
     else if (request.includes('labview')) return ProgrammingLanguage.LABVIEW;
@@ -102,7 +102,7 @@ export class DocumentationCommand implements ICommand {
     else return ProgrammingLanguage.JAVA;
   }
 
-  getDocRequests(request: string): DocumentationSource[] {
+  private getDocRequests(request: string): DocumentationSource[] {
     const sources : DocumentationSource[] = [];
 
     if (

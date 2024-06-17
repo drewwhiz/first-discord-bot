@@ -10,17 +10,17 @@ export class ReminderCommand implements ICommand {
   public readonly name: string = 'remind me';
   public readonly description: string = 'schedules reminders';
 
-  constructor(reminderCrons: IReminderScheduleService) {
+  public constructor(reminderCrons: IReminderScheduleService) {
     this._reminderSchedule = reminderCrons;
   }
 
-  trigger(message: Message<boolean>): boolean {
+  public trigger(message: Message<boolean>): boolean {
     const invariant = message.content.trim();
     const hasStart = invariant.startsWith(ReminderCommand.REMIND_ME);
     return hasStart;
   }
 
-  async execute(message: Message<boolean>): Promise<void> {
+  public async execute(message: Message<boolean>): Promise<void> {
     const invariant = message.content.trim();
     if (invariant === ReminderCommand.HELP) {
       await ReminderCommand.handleHelp(message);

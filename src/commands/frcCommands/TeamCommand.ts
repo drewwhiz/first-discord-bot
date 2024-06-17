@@ -9,7 +9,7 @@ export class TeamCommand implements ICommand {
 
   private readonly _firstPublicApi: IFirstPublicApiWebService;
 
-  constructor(firstPublicApi: IFirstPublicApiWebService) {
+  public constructor(firstPublicApi: IFirstPublicApiWebService) {
     this._firstPublicApi = firstPublicApi;
   }
 

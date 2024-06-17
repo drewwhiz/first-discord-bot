@@ -10,7 +10,7 @@ export class BrandCommand implements ICommand {
 
   private readonly _brandColors: IBrandColorDataService;
 
-  constructor(brandColors: IBrandColorDataService) {
+  public constructor(brandColors: IBrandColorDataService) {
     this._brandColors = brandColors;
   }
 

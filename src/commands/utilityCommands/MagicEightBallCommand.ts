@@ -32,7 +32,7 @@ export class MagicEightBallCommand implements ICommand {
 
   private readonly _random: IRandomNumberService;
 
-  constructor(random: IRandomNumberService) {
+  public constructor(random: IRandomNumberService) {
     this._random = random;
   }
 

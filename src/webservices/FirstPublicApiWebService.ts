@@ -17,11 +17,11 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
 
   private readonly _programData: IProgramDataService;
 
-  constructor(programData: IProgramDataService) {
+  public constructor(programData: IProgramDataService) {
     this._programData = programData;
   }
 
-  async updateAllSeasons(): Promise<boolean> {
+  public async updateAllSeasons(): Promise<boolean> {
     await this.getCurrentSeason(IFirstProgram.FRC, true);
     await this.getCurrentSeason(IFirstProgram.FTC, true);
     await this.getCurrentSeason(IFirstProgram.FLL, true);
@@ -29,7 +29,7 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
     return true;
   }
 
-  private static async fetchCurrentSeasonYear(program: IFirstProgram) {
+  private static async fetchCurrentSeasonYear(program: IFirstProgram): Promise<number> {
     const programCode = ProgramUtilities.mapProgramToCode(program);
     if (programCode == null) return new Date().getFullYear();
 

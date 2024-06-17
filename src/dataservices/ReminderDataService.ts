@@ -6,11 +6,11 @@ import sqlite3 from 'sqlite3';
 export class ReminderDataService implements IReminderDataService {
   private readonly _database: Database<sqlite3.Database, sqlite3.Statement>;
 
-  constructor(database: Database<sqlite3.Database, sqlite3.Statement>) {
+  public constructor(database: Database<sqlite3.Database, sqlite3.Statement>) {
     this._database = database;
   }
 
-  async add(reminder: IReminder): Promise<IReminder> {
+  public async add(reminder: IReminder): Promise<IReminder> {
     const matching = (await this.getAll()).filter(r => r.id == reminder.id);
     if (matching.length > 0) return matching[0];
 
@@ -20,20 +20,20 @@ export class ReminderDataService implements IReminderDataService {
     return await this.get(result.lastID);
   }
 
-  async get(id: number): Promise<IReminder> {
+  public async get(id: number): Promise<IReminder> {
     const sql = 'SELECT * FROM Reminders WHERE id = ?';
     const row = await this._database.get(sql, [id]);
     return row as IReminder;
   }
 
-  async getAll(): Promise<IReminder[]> {
+  public async getAll(): Promise<IReminder[]> {
     const sql = 'SELECT * FROM Reminders';
     const results = await this._database.all(sql);
     if (results == null) return [] as IReminder[];
     return results as IReminder[];
   }
 
-  async delete(id: number): Promise<boolean> {
+  public async delete(id: number): Promise<boolean> {
     const sql = 'DELETE FROM Reminders WHERE id = ?';
     const row = await this._database.run(sql, [id]);
     return row.changes === 1;
