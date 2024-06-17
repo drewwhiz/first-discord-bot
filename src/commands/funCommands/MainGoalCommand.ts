@@ -9,7 +9,7 @@ export class MainGoalCommand extends CooldownCommandBase {
     'Responds to messages containing \'goal\' in the Discord.';
   public override readonly cooldownHours: number = 24;
 
-  constructor(cooldowns: ICooldownDataService) {
+  public constructor(cooldowns: ICooldownDataService) {
     super(cooldowns);
   }
 

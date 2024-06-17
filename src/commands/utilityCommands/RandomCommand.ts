@@ -16,7 +16,7 @@ export class RandomCommand implements ICommand {
   public readonly description: string = 'Sends some generated random number data.';
   private readonly _random: IRandomNumberService;
 
-  constructor(random: IRandomNumberService) {
+  public constructor(random: IRandomNumberService) {
     this._random = random;
   }
 

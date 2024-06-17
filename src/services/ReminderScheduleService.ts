@@ -7,7 +7,7 @@ import { IReminder } from '../models/IReminder.js';
 export class ReminderScheduleService implements IReminderScheduleService {
   private readonly _reminders: IReminderDataService;
 
-  constructor(reminders: IReminderDataService, client: Client<true>) {
+  public constructor(reminders: IReminderDataService, client: Client<true>) {
     this._reminders = reminders;
     this.loadStoredReminders(client);
   }
@@ -21,7 +21,7 @@ export class ReminderScheduleService implements IReminderScheduleService {
     }
   }
 
-  async handleLoadReminder(client: Client<true>, reminder: IReminder): Promise<void> {
+  private async handleLoadReminder(client: Client<true>, reminder: IReminder): Promise<void> {
     if (reminder == null) return;
 
     if (client == null) {
@@ -47,7 +47,7 @@ export class ReminderScheduleService implements IReminderScheduleService {
     });
   }
 
-  async handleReminder(message: Message<boolean>, reminder: string, deadline: Date): Promise<void> {
+  public async handleReminder(message: Message<boolean>, reminder: string, deadline: Date): Promise<void> {
     const client = message.client;
     if (client == null) {
       await message.reply('Unable to schedule reminder.');

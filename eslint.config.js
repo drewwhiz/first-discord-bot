@@ -14,7 +14,8 @@ export default [
       quotes: ['error', 'single'],
       indent: ['error', 2],
       semi: ['error', 'always'],
-      "no-console": ['error']
+      "no-console": ['error'],
+      "@typescript-eslint/explicit-member-accessibility": ['error']
     }
   },
 

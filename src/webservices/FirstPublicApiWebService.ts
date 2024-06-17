@@ -17,11 +17,11 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
 
   private readonly _programData: IProgramDataService;
 
-  constructor(programData: IProgramDataService) {
+  public constructor(programData: IProgramDataService) {
     this._programData = programData;
   }
 
-  async updateAllSeasons(): Promise<boolean> {
+  public async updateAllSeasons(): Promise<boolean> {
     await this.getCurrentSeason(IFirstProgram.FRC, true);
     await this.getCurrentSeason(IFirstProgram.FTC, true);
     await this.getCurrentSeason(IFirstProgram.FLL, true);

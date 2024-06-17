@@ -8,7 +8,7 @@ export class ChiefDelphiCommand implements ICommand {
 
   private readonly CD_URL: string = 'https://www.chiefdelphi.com/search?q=';
 
-  trigger(message: Message<boolean>): boolean {
+  public trigger(message: Message<boolean>): boolean {
     const text = message?.content;
     if (text == null) return false;
 
@@ -17,7 +17,7 @@ export class ChiefDelphiCommand implements ICommand {
     return regex.test(strippedText);
   }
 
-  async execute(message: Message<boolean>): Promise<void> {
+  public async execute(message: Message<boolean>): Promise<void> {
     const content = message.content.trim();
     const whiteSpaceContent = content.replace(/[\s]/g, ' ');
     const firstSpace = whiteSpaceContent.indexOf(' ');

@@ -10,18 +10,18 @@ export class RemoveCalendarCommand implements ICommand {
   private readonly _service: IGoogleCalendarDataService;
   private readonly _roles: string[];
 
-  constructor(service: IGoogleCalendarDataService) {
+  public constructor(service: IGoogleCalendarDataService) {
     this._service = service;
     this._roles = JSON.parse(readFileSync('data/calendarRoles.json').toString());;
   }
 
-  trigger(message: Message<boolean>): boolean {
+  public trigger(message: Message<boolean>): boolean {
     const content = message.content.trim().toLowerCase();
     if (content.split(' ').length !== 2) return false;
     return content.startsWith('remove-calendar ') || content.startsWith('/remove-calendar ');
   }
 
-  async execute(message: Message<boolean>): Promise<void> {
+  public async execute(message: Message<boolean>): Promise<void> {
     const id = message.content.trim().split(' ')[1];
     const member = message.member;
     if (member == null) {

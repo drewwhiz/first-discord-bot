@@ -10,7 +10,7 @@ export class GoodBotBadBotCommand implements ICommand {
 
   private client: Client;
 
-  constructor(client: Client) {
+  public constructor(client: Client) {
     this.client = client;
   }
 

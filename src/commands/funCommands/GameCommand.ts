@@ -8,7 +8,7 @@ export class GameCommand extends CooldownCommandBase {
   public override readonly description: string = 'Loses the game.';
   public override readonly cooldownHours: number = 24;
 
-  constructor(cooldowns: ICooldownDataService) {
+  public constructor(cooldowns: ICooldownDataService) {
     super(cooldowns);
   }
 

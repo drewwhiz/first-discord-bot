@@ -11,11 +11,11 @@ export class CalendarReportCommand implements ICommand {
 
   private readonly _service: IGoogleCalendarWebService;
 
-  constructor(service: IGoogleCalendarWebService) {
+  public constructor(service: IGoogleCalendarWebService) {
     this._service = service;
   }
 
-  trigger(message: Message<boolean>): boolean {
+  public trigger(message: Message<boolean>): boolean {
     const content: string = message.content.toLowerCase().stripPunctuation().trim();
     const args = content.split(' ');
     if (args.length > 2) return false;
@@ -132,7 +132,7 @@ export class CalendarReportCommand implements ICommand {
     }
   }
 
-  async execute(message: Message<boolean>): Promise<void> {
+  public async execute(message: Message<boolean>): Promise<void> {
     const content: string = message.content.toLowerCase().stripPunctuation().trim();
     const args = content.split(' ');
     const timeString = args.length == 2 ? args[1] : 'week';

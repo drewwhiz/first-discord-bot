@@ -8,7 +8,7 @@ export class VexCommand extends CooldownCommandBase {
   public override readonly description: string = 'Responds appropriately to vex';
   public override readonly cooldownHours: number = 1;
 
-  constructor(cooldowns: ICooldownDataService) {
+  public constructor(cooldowns: ICooldownDataService) {
     super(cooldowns);
   }
 
