@@ -29,7 +29,7 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
     return true;
   }
 
-  private static async fetchCurrentSeasonYear(program: IFirstProgram) {
+  private static async fetchCurrentSeasonYear(program: IFirstProgram): Promise<number> {
     const programCode = ProgramUtilities.mapProgramToCode(program);
     if (programCode == null) return new Date().getFullYear();
 

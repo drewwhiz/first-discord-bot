@@ -6,7 +6,8 @@
     "target": "ES2021",
     "moduleResolution": "NodeNext",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "noImplicitOverride": true
   },
   "lib": ["ES2021"]
 }

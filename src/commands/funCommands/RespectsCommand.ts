@@ -1,39 +1,21 @@
-import { ICommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
-import { DateTimeUtilities } from '../../utility/DateTimeUtilities.js';
+import { CooldownCommandBase } from '../CooldownCommandBase.js';
 
-export class RespectsCommand implements ICommand {
-  private static COOLDOWN_HOURS: number = 24; // one day
+export class RespectsCommand extends CooldownCommandBase {
+  public override readonly name: string = 'respect';
+  public override readonly description: string = 'Press F to Pay Respects';
+  public override readonly cooldownHours: number = 24;
 
-  public readonly name: string = 'respect';
-  public readonly description: string = 'Press F to Pay Respects';
-
-  private readonly _coolDowns: ICooldownDataService;
-
-  constructor(coolDowns: ICooldownDataService) {
-    this._coolDowns = coolDowns;
+  constructor(cooldowns: ICooldownDataService) {
+    super(cooldowns);
   }
 
-  trigger(message: Message): boolean {
+  override trigger(message: Message): boolean {
     return message.content.stripPunctuation().trim().toLowerCase() == 'f';
   }
 
-  async execute(message: Message): Promise<void> {
-    let activeCooldown = await this._coolDowns.getByKeys(this.name, message.channelId);
-    if (activeCooldown == null) {
-      activeCooldown = {
-        id: 0,
-        commandName: this.name,
-        channelId: message.channelId,
-        deadline: null
-      };
-    }
-
-    if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
-    activeCooldown.deadline = DateTimeUtilities.getFutureTimeUTCString(RespectsCommand.COOLDOWN_HOURS);
-    await this._coolDowns.upsert(activeCooldown);
-
+  override async action(message: Message): Promise<void> {
     await message.channel.send({
       files: ['./img/respects.jpeg']
     });
