@@ -16,9 +16,9 @@ export class EsdCommand implements ICommand {
   public trigger(message: Message<boolean>): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.containsAnyWords('esd') || invariant.containsAnyPhrases([
-        'electrostatic discharge', 
-        'electro static discharge',
-        'electrostaticdischarge'
+      'electrostatic discharge', 
+      'electro static discharge',
+      'electrostaticdischarge'
     ]);
   }
 
