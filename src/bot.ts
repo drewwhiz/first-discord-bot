@@ -48,6 +48,8 @@ import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import { VexCommand } from './commands/funCommands/VexCommand.js';
 import { CooldownDataService } from './dataservices/CooldownDataService.js';
 import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
+import { WeatherApiWebService } from './webservices/WeatherApiWebService.js';
+import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -101,6 +103,7 @@ bot.once(Events.ClientReady, readyClient => {
   const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
+  const weatherService = new WeatherApiWebService();
 
   const generalChannels: GuildBasedChannel[] = [];
   readyClient.guilds.cache.forEach(g => {
@@ -152,6 +155,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ReminderCommand(reminderScheduleService),
     new VexCommand(cooldownDataService),
     new YouProblemCommand(),
+    new WeatherCommand(weatherService),
     calendarReportCommand
   ];
 });
