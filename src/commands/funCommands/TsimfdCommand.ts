@@ -4,7 +4,6 @@ import '../../extensions/StringExtension.js';
 
 export class TsimfdCommand implements ICommand {
   private static readonly TSIMFD: string = 'TSIMFD';
-  private static readonly ALLOWED_CHANNEL: string = 'mentor-talk';
 
   public readonly name: string = 'TSIMFD';
   public readonly description: string = 'Chimes in with an appropriate reaction.';
@@ -14,17 +13,18 @@ export class TsimfdCommand implements ICommand {
   }
 
   public async execute(message: Message): Promise<void> {
-    const isInChannel = message.channel.type === ChannelType.GuildText;
-    if (!isInChannel) {
+    const isInServerTextChannel = message.channel.type === ChannelType.GuildText;
+    if (!isInServerTextChannel) {
       await message.reply(TsimfdCommand.TSIMFD);
       return;
     }
 
-    const isInAllowedChannel = isInChannel && message.channel?.name === TsimfdCommand.ALLOWED_CHANNEL;
-    if (isInAllowedChannel) {
-      await message.reply(TsimfdCommand.TSIMFD);
-      return;
-    }
+    const isAllowed = process.env.RESTRICTED_CHANNEL == null
+      || process.env.RESTRICTED_CHANNEL.length === 0
+      || message.channel?.name === process.env.RESTRICTED_CHANNEL;
+
+    if (!isAllowed) return;
+    await message.reply(TsimfdCommand.TSIMFD);
   }
 
   private containsCoolOrEquivalent(text: string) {
