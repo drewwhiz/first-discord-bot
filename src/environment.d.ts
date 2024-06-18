@@ -5,6 +5,7 @@ declare global {
       GOOGLE_API_KEY: string;
       WEATHER_API_KEY: string;
       DEFAULT_ZIP: string;
+      RESTRICTED_CHANNEL: string;
     }
   }
 }
