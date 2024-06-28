@@ -53,6 +53,7 @@ import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
 import { EsdCommand } from './commands/funCommands/EsdCommand.js';
 import { ShockerCommand } from './commands/funCommands/ShockerCommand.js';
 import { RoshamboCommand } from './commands/funCommands/RoshamboCommand.js';
+import { PoopCommand } from './commands/funCommands/PoopCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -162,6 +163,7 @@ bot.once(Events.ClientReady, readyClient => {
     new RoshamboCommand(new RandomNumberService()),
     new WeatherCommand(weatherService),
     new EsdCommand(weatherService),
+    new PoopCommand(),
     calendarReportCommand
   ];
 });
