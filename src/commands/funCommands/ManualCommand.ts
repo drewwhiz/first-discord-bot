@@ -13,8 +13,9 @@ export class ManualCommand implements ICommand {
 
   private getText(content: string): string {
     const invariant = content.toLowerCase();
-    if (invariant.indexOf('rtm') >= 0) return 'rtm';
-    if (invariant.indexOf('rtfm') >= 0) return 'rtfm';
+    if (invariant.containsAnyWords('rtfm')) return 'rtfm';
+    if (invariant.containsAnyWords('rtm')) return 'rtm';
+
     return null;
   }
 
