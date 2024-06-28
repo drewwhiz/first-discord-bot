@@ -33,5 +33,13 @@ describe('Manual Command', function() {
     expect(result).to.be.false;
   });
 
+  it('should not trigger on word containing phrase', function() {
+    const content = 'this contains no department key phrase';
+    const message = Message.prototype;
+    message.content = content;
+    const command = new ManualCommand();
 
+    const result = command.trigger(message);
+    expect(result).to.be.false;
+  });
 });
