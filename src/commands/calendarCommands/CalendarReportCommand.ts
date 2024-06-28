@@ -66,7 +66,12 @@ export class CalendarReportCommand implements ICommand {
     }
 
     const timezone = new Date().toLocaleDateString(undefined, { day:'2-digit', timeZoneName: 'long' }).substring(4);
-    const events = results.map(r => `- ${r.eventName}: ${r.start.getFullDateLocal()}${r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : ''}`);
+    const events = results.map(r => {
+      const startString = r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : '';
+      const locationString = r.location != null ? ` (at ${r.location})` : '';
+      return `- ${r.eventName}: ${r.start.getFullDateLocal()}${startString}${locationString}`;
+    });
+    
     switch (time) {
     case ITimeUnit.DAY:
       events.unshift(`Here are the upcoming events for the next day (${timezone}):`);
