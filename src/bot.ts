@@ -52,6 +52,7 @@ import { WeatherApiWebService } from './webservices/WeatherApiWebService.js';
 import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
 import { EsdCommand } from './commands/funCommands/EsdCommand.js';
 import { ShockerCommand } from './commands/funCommands/ShockerCommand.js';
+import { RoshamboCommand } from './commands/funCommands/RoshamboCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -158,6 +159,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ReminderCommand(reminderScheduleService),
     new VexCommand(cooldownDataService),
     new YouProblemCommand(),
+    new RoshamboCommand(new RandomNumberService()),
     new WeatherCommand(weatherService),
     new EsdCommand(weatherService),
     calendarReportCommand
