@@ -9,6 +9,7 @@ export class GoogleCalendarWebService implements IGoogleCalendarWebService {
   private static readonly API_ENDPOINT_PREFIX: string = 'calendar/v3/calendars';
   private static readonly EVENTS_ENDPOINT: string = 'events';
   private static readonly KEY_PARAMETER: string = 'key=';
+  private static readonly SINGLE_EVENTS_PARAMETER: string = 'singleEvents=';
 
   private readonly _dataService: IGoogleCalendarDataService;
 
@@ -47,7 +48,8 @@ export class GoogleCalendarWebService implements IGoogleCalendarWebService {
               start: i.start?.dateTime == null ? new Date(i.start?.date) : new Date(i.start?.dateTime),
               isStartDateTime: i.start?.dateTime != null,
               end: i.end?.dateTime == null ? new Date(i.end?.date) : new Date(i.end?.dateTime),
-              isEndDateTime: i.end?.dateTime != null
+              isEndDateTime: i.end?.dateTime != null,
+              location: i.location
             });
           });
           resolve(callback(results));
@@ -68,6 +70,9 @@ export class GoogleCalendarWebService implements IGoogleCalendarWebService {
             + GoogleCalendarWebService.EVENTS_ENDPOINT
             + '?'
             + GoogleCalendarWebService.KEY_PARAMETER
-            + process.env.GOOGLE_API_KEY;
+            + process.env.GOOGLE_API_KEY
+            + '&'
+            + GoogleCalendarWebService.SINGLE_EVENTS_PARAMETER
+            + 'true';
   }
 }

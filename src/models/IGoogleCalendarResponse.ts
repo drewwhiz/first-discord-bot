@@ -6,6 +6,7 @@ export interface IGoogleCalendarResponse {
 
 export interface IGoogleCalendarEvent {
     summary: string;
+    location: string;
     created: string;
     updated: string;
     start: {
@@ -26,4 +27,5 @@ export interface IEventSummary {
     end: Date;
     isStartDateTime: boolean;
     isEndDateTime: boolean;
+    location: string;
 }
