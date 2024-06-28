@@ -51,6 +51,7 @@ import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
 import { WeatherApiWebService } from './webservices/WeatherApiWebService.js';
 import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
 import { EsdCommand } from './commands/funCommands/EsdCommand.js';
+import { ShockerCommand } from './commands/funCommands/ShockerCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -147,6 +148,7 @@ bot.once(Events.ClientReady, readyClient => {
     new GlitchCommand(),
     new StopCommand(),
     new WompCommand(),
+    new ShockerCommand(),
     new ConvertUnitCommand(),
     new AcronymHelperCommand(acronymDataService),
     new GoodBotBadBotCommand(readyClient),
