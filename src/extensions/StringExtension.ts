@@ -1,3 +1,5 @@
+import emojiRegex from 'emoji-regex';
+
 declare global {
   interface String {
     containsAnyWords: (this: string, ...args: string[]) => boolean;
@@ -70,6 +72,13 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 };
 
 String.prototype.stripPunctuation = function (this: string): string {
+  let currentString = `${this}`;
+  const regex = emojiRegex();
+  for (const match of currentString.matchAll(regex)) {
+    const emoji = match[0];
+    currentString = currentString.replace(emoji, ' ');
+  }
+
   // eslint-disable-next-line
-  return this.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'‘’"“”\?]/g, '').replace(/\s{2,}/g, ' ');
+  return currentString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'‘’"“”\?]/g, '').replace(/\s{2,}/g, ' ');
 };
