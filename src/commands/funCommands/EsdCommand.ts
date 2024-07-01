@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import '../../extensions/StringExtension.js';
 
-export class EsdCommand implements ICommand {
+export class EsdCommand implements IMessageCommand {
   public readonly name: string = 'esd';
   public readonly description: string = 'check ESD conditions';
 

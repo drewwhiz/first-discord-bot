@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogleCalendarDataServce.js';
 
-export class ListCalendarCommand implements ICommand {
+export class ListCalendarCommand implements IMessageCommand {
   public readonly name: string = 'List calendars';
   public readonly description: string = 'List all of the calendars being tracked';
 

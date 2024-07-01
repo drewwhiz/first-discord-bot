@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IBrandColorDataService } from '../../dataservices/interfaces/IBrandColorDataService.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
 
-export class BrandCommand implements ICommand {
+export class BrandCommand implements IMessageCommand {
   public name: string = 'brand';
   public description: string = 'Reports branding colors';
 

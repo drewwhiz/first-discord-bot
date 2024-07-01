@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { readFileSync } from 'fs';
 import { IProductSource } from '../../models/IProductSource.js';
 import '../../extensions/StringExtension.js';
 
-export class PartLookupCommand implements ICommand {
+export class PartLookupCommand implements IMessageCommand {
   public readonly name: string = 'part lookup';
   public readonly description: string = 'Lookup links to parts.';
   private _sources: IProductSource[];

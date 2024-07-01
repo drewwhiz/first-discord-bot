@@ -1,10 +1,10 @@
 import { ChannelType, Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IAcronymDataService } from '../../dataservices/interfaces/IAcronymDataService.js';
 import { IAcronym } from '../../models/IAcronym.js';
 
-export class AcronymHelperCommand implements ICommand {
+export class AcronymHelperCommand implements IMessageCommand {
   public readonly name: string = 'acronym helper';
   public readonly description: string = 'answers known acronyms';
 

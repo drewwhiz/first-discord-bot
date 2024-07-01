@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
-export class BetCommand implements ICommand {
+export class BetCommand implements IMessageCommand {
   public readonly name: string = 'bet';
   public readonly description: string = 'Responds to \'bet\' in the Discord.';
 

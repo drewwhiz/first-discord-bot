@@ -1,7 +1,7 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message, MessageType } from 'discord.js';
 
-export class YikesCommand implements ICommand {
+export class YikesCommand implements IMessageCommand {
   public readonly name: string = 'yikes';
   public readonly description: string = 'Uses a yikes reaction on the message being replied to. If not replying, just messages the emoji.';
   private readonly _emojiName: string = 'annayikes';

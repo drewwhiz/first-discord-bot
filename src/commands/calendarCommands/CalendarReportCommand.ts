@@ -1,11 +1,11 @@
 import { GuildBasedChannel, Message, TextChannel } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { IGoogleCalendarWebService } from '../../webservices/interfaces/IGoogleCalendarWebService.js';
 import '../../extensions/DateExtension.js';
 import '../../extensions/StringExtension.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
 
-export class CalendarReportCommand implements ICommand {
+export class CalendarReportCommand implements IMessageCommand {
   public readonly name: string = 'List calendars';
   public readonly description: string = 'List all of the calendars being tracked';
 

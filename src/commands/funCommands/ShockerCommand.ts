@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
-export class ShockerCommand implements ICommand {
+export class ShockerCommand implements IMessageCommand {
   public readonly name: string = 'shocker';
   public readonly description: string = 'Responds to shocker.';
 

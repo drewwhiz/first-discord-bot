@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
-export class YouProblemCommand implements ICommand {
+export class YouProblemCommand implements IMessageCommand {
   public name: string = 'you program';
   public description: string = 'Responds with something being a "you problem."';
 

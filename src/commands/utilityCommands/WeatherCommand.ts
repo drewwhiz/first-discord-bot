@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 
-export class WeatherCommand implements ICommand {
+export class WeatherCommand implements IMessageCommand {
   public readonly name: string = 'weather';
   public readonly description: string = 'Responds to weather requests.';
   private static readonly ZIP_REGEX = /^[0-9]{5}(-[0-9]{4})?$/;

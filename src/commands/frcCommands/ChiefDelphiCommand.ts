@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
-export class ChiefDelphiCommand implements ICommand {
+export class ChiefDelphiCommand implements IMessageCommand {
   public readonly name: string = 'Chief Delphi';
   public readonly description: string = 'Look up something on Chief Delphi';
 

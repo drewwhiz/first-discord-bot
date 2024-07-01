@@ -1,9 +1,9 @@
 import { IFirstProgram } from '../../models/IFirstProgram.js';
 import { IFirstPublicApiWebService } from '../../webservices/interfaces/IFirstPublicApiWebService.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
-export class TeamCommand implements ICommand {
+export class TeamCommand implements IMessageCommand {
   public readonly name: string = 'team';
   public readonly description: string = 'Gets the URL of a team\'s Blue Alliance page for the current year.';
 

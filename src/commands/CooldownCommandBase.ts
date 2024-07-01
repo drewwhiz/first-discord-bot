@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { ICommand } from './ICommand.js';
+import { IMessageCommand } from './ICommand.js';
 import { ICooldownDataService } from '../dataservices/interfaces/ICooldownDataService.js';
 import { DateTimeUtilities } from '../utility/DateTimeUtilities.js';
 
-export abstract class CooldownCommandBase implements ICommand {
+export abstract class CooldownCommandBase implements IMessageCommand {
   public readonly name: string;
   public readonly description: string;
   protected readonly cooldownHours: number;

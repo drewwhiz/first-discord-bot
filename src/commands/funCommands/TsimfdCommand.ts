@@ -1,8 +1,8 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { ChannelType, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 
-export class TsimfdCommand implements ICommand {
+export class TsimfdCommand implements IMessageCommand {
   private static readonly TSIMFD: string = 'TSIMFD';
 
   public readonly name: string = 'TSIMFD';

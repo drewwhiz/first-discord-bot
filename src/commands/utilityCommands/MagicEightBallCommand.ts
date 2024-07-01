@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
 
-export class MagicEightBallCommand implements ICommand {
+export class MagicEightBallCommand implements IMessageCommand {
   private static readonly ANSWERS: string[] = [
     'It is certain',
     'Reply hazy, try again',
