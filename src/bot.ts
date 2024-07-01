@@ -1,4 +1,4 @@
-import { Client, Events, GuildBasedChannel, IntentsBitField, Partials } from 'discord.js';
+import { Client, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, User } from 'discord.js';
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { GameCommand } from './commands/funCommands/GameCommand.js';
@@ -54,6 +54,7 @@ import { EsdCommand } from './commands/funCommands/EsdCommand.js';
 import { ShockerCommand } from './commands/funCommands/ShockerCommand.js';
 import { RoshamboCommand } from './commands/funCommands/RoshamboCommand.js';
 import { PoopCommand } from './commands/funCommands/PoopCommand.js';
+import { IMessageCommand, IReactionCommand } from './commands/ICommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -69,7 +70,8 @@ myIntents.add(
   IntentsBitField.Flags.MessageContent, 
   IntentsBitField.Flags.Guilds, 
   IntentsBitField.Flags.GuildMessages,
-  IntentsBitField.Flags.DirectMessages
+  IntentsBitField.Flags.DirectMessages,
+  IntentsBitField.Flags.GuildMessageReactions
 );
 
 const bot = new Client({ 
@@ -91,7 +93,8 @@ const openDb = async (): Promise<Database<sqlite3.Database,sqlite3.Statement>> =
 };
 
 const database = await openDb();
-let commands = [];
+let newMessageCommands: IMessageCommand[] = [];
+let reactionCommands: IReactionCommand[] = [];
 
 // Connect
 bot.once(Events.ClientReady, readyClient => {
@@ -124,7 +127,7 @@ bot.once(Events.ClientReady, readyClient => {
     await firstPublicApiWebService.updateAllSeasons();
   });
 
-  commands = [
+  newMessageCommands = [
     new TsimfdCommand(),
     new AtMeCommand(readyClient.user.id),
     new BetCommand(),
@@ -147,7 +150,6 @@ bot.once(Events.ClientReady, readyClient => {
     new BrandCommand(brandColorDataService),
     new RandomCommand(new RandomNumberService()),
     new MagicEightBallCommand(new RandomNumberService()),
-    new GlitchCommand(),
     new StopCommand(),
     new WompCommand(),
     new ShockerCommand(),
@@ -166,21 +168,47 @@ bot.once(Events.ClientReady, readyClient => {
     new PoopCommand(),
     calendarReportCommand
   ];
+
+  reactionCommands = [
+    new GlitchCommand()
+  ];
 });
 
-
 // Handle message
-bot.addListener(Events.MessageCreate, async (message) => {
+bot.addListener(Events.MessageCreate, async (message: Message) => {
   // Ignore bot messages
-  if (message.author.bot) {
-    return;
-  }
+  if (message.author.bot) return;
 
   // Execute triggered commands.
-  for (const command of commands) {
+  for (const command of newMessageCommands) {
     if (command != null && command.trigger(message)) {
       try {
         await command.execute(message);
+      } catch (e) {
+        error(e.message);
+      }
+    }
+  }
+});
+
+bot.addListener(Events.MessageReactionAdd, async (reaction: MessageReaction, user: User) => {
+  // Ignore bot reactions
+  if (user.bot) return;
+  
+  // Handle fetching message in case of partial
+  if (reaction.partial) {
+    try {
+      await reaction.fetch();
+    } catch (e) {
+      error('Unable to fetch message:', e);
+      return;
+    }
+  }
+
+  for (const command of reactionCommands) {
+    if (command != null && command.trigger(reaction)) {
+      try {
+        await command.execute(reaction);
       } catch (e) {
         error(e.message);
       }

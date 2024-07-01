@@ -1,7 +1,7 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
-export class WompCommand implements ICommand {
+export class WompCommand implements IMessageCommand {
   public readonly name: string = 'womp';
   public readonly description: string = 'Womp womp';
 

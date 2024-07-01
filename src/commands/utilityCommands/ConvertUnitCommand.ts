@@ -1,12 +1,12 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import winston from 'winston';
 import { Unit, evaluate } from 'mathjs';
 
 const { debug } = winston;
 
-export class ConvertUnitCommand implements ICommand {
+export class ConvertUnitCommand implements IMessageCommand {
   private static readonly CONVERT_WORD = 'convert';
   private static readonly TO_WORD = ' to ';
   private static readonly CONVERT_REGEX = /^convert .* .* to .*$/;

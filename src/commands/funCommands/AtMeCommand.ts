@@ -1,7 +1,7 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
-export class AtMeCommand implements ICommand {
+export class AtMeCommand implements IMessageCommand {
   public readonly name: string = 'don\'t @ me';
   public readonly description: string = 'If tagged, tell the user not to tag the bot.';
   private readonly _userId: string;

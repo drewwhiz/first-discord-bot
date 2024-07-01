@@ -1,8 +1,8 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 
-export class ImagineCommand implements ICommand {
+export class ImagineCommand implements IMessageCommand {
   public readonly name: string = 'imagine';
   public readonly description: string = 'Couldn\'t be me';
 

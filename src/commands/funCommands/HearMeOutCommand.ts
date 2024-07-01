@@ -1,8 +1,8 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 
-export class HearMeOutCommand implements ICommand {
+export class HearMeOutCommand implements IMessageCommand {
   public readonly name: string = 'Hear Me Out';
   public readonly description: string = 'Chimes in with an appropriate response to \'Hear me out...\'.';
 

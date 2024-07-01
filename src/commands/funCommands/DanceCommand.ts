@@ -1,9 +1,9 @@
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 import { ISong } from '../../models/ISong.js';
 import { readFileSync } from 'fs';
 
-export class DanceCommand implements ICommand {
+export class DanceCommand implements IMessageCommand {
   public readonly name: string = 'dance';
   public readonly description: string = 'Randomly selects an FRC Dance.';
 

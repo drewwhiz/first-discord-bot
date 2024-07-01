@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { IReminderScheduleService } from '../../services/interfaces/IReminderScheduleService.js';
 
-export class ReminderCommand implements ICommand {
+export class ReminderCommand implements IMessageCommand {
   private static readonly REMIND_ME = '!remindme';
   private static readonly HELP = '!remindme help';
   private readonly _reminderSchedule: IReminderScheduleService;

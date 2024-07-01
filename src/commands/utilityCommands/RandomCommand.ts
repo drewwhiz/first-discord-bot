@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { RandomRollCase } from '../../enum/RandomRollCase.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
@@ -7,7 +7,7 @@ import winston from 'winston';
 
 const { debug } = winston;
 
-export class RandomCommand implements ICommand {
+export class RandomCommand implements IMessageCommand {
   private static readonly FLIP_COUNT_REGEX = /^flip [1-9][0-9]*$/;
   private static readonly ROLL_COUNT_REGEX = /^roll [1-9][0-9]*(\s[1-9][0-9]*)?$/;
   // TODO: dice private static readonly ROLL_DICE_REGEX = /^roll d(2|4|6|8|10|12|20|100)(\s[1-9][0-9]*)?$/;

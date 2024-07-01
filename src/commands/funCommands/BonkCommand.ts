@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 
-export class BonkCommand implements ICommand {
+export class BonkCommand implements IMessageCommand {
   public readonly name: string = 'bonk';
   public readonly description: string = 'Sends the bonk meme if the user mentions a forbidden phrase.';
   private _forbiddenPhrases: string[] = [];

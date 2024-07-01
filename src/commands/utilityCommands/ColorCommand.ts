@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
 
-export class ColorCommand implements ICommand {
+export class ColorCommand implements IMessageCommand {
   public readonly name: string = 'color';
   public readonly description: string = 'Generates a color from an RGB code';
 

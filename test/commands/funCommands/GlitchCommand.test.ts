@@ -1,49 +1,45 @@
-import { Message, MessageType } from 'discord.js';
+import { MessageReaction, ReactionEmoji } from 'discord.js';
 import { expect } from 'chai';
 import { GlitchCommand } from '../../../src/commands/funCommands/GlitchCommand.js';
+import * as TypeMoq from 'typemoq';
 
-describe('Glitch Command', function() {
-  it('should trigger on glitch', function() {
-    const content = 'glitch';
-    const message = Message.prototype;
-    message.type = MessageType.Reply;
-    message.content = content;
+describe('Glitch Command', function () {
+  it('should trigger on first 😈', function () {
+    const emoji = TypeMoq.Mock.ofType<ReactionEmoji>();
+    emoji.setup(m => m.name).returns(() => '😈');
+
+    const reaction = TypeMoq.Mock.ofType<MessageReaction>();
+    reaction.setup(m => m.count).returns(() => 1);
+    reaction.setup(m => m.emoji).returns(() => emoji.object);
+
     const command = new GlitchCommand();
-
-    const result = command.trigger(message);
+    const result = command.trigger(reaction.object);
     expect(result).to.be.true;
   });
 
-  it('should trigger on /glitch', function() {
-    const content = '/glitch';
-    const message = Message.prototype;
-    message.content = content;
-    message.type = MessageType.Reply;
+  it('should not trigger on subsequent 😈', function () {
+    const emoji = TypeMoq.Mock.ofType<ReactionEmoji>();
+    emoji.setup(m => m.name).returns(() => '😈');
+
+    const reaction = TypeMoq.Mock.ofType<MessageReaction>();
+    reaction.setup(m => m.count).returns(() => 2);
+    reaction.setup(m => m.emoji).returns(() => emoji.object);
+
     const command = new GlitchCommand();
-
-    const result = command.trigger(message);
-    expect(result).to.be.true;
-  });
-
-  it('should not trigger on nonreply', function() {
-    const content = '/glitch';
-    const message = Message.prototype;
-    message.content = content;
-    message.type = MessageType.Default;
-    const command = new GlitchCommand();
-
-    const result = command.trigger(message);
+    const result = command.trigger(reaction.object);
     expect(result).to.be.false;
   });
 
-  it('should not trigger on glitch in the middle', function() {
-    const content = 'this is a glitch';
-    const message = Message.prototype;
-    message.content = content;
-    message.type = MessageType.Reply;
-    const command = new GlitchCommand();
+  it('should not trigger on other emoji', function () {
+    const emoji = TypeMoq.Mock.ofType<ReactionEmoji>();
+    emoji.setup(m => m.name).returns(() => '✨');
 
-    const result = command.trigger(message);
+    const reaction = TypeMoq.Mock.ofType<MessageReaction>();
+    reaction.setup(m => m.count).returns(() => 1);
+    reaction.setup(m => m.emoji).returns(() => emoji.object);
+
+    const command = new GlitchCommand();
+    const result = command.trigger(reaction.object);
     expect(result).to.be.false;
   });
 });

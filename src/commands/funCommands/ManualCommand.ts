@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
-export class ManualCommand implements ICommand {
+export class ManualCommand implements IMessageCommand {
   private readonly frcManual: string = 'https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system';
   private readonly ftcManual: string = 'https://www.firstinspires.org/resource-library/ftc/game-and-season-info';
   private readonly fllChallengeManual: string = 'https://www.firstinspires.org/resource-library/fll/challenge/challenge-and-resources';

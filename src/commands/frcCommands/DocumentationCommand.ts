@@ -1,11 +1,11 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { ProgrammingLanguage } from '../../enum/ProgrammingLanguage.js';
 import { DocumentationSource } from '../../enum/DocumentationSource.js';
 import { Dictionary } from 'typescript-collections';
 import '../../extensions/StringExtension.js';
 
-export class DocumentationCommand implements ICommand {
+export class DocumentationCommand implements IMessageCommand {
   public readonly name: string = 'docs';
   public readonly description: string = 'Fetch documentation for FRC';
 

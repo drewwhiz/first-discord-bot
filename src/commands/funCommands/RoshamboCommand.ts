@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
 
-export class RoshamboCommand implements ICommand {
+export class RoshamboCommand implements IMessageCommand {
   public readonly name: string = 'roshambo';
   public readonly description: string = 'Plays rock-paper-scissors.';
 

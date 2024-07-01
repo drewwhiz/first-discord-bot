@@ -1,9 +1,9 @@
 import { Message, PermissionFlagsBits } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogleCalendarDataServce.js';
 import { readFileSync } from 'fs';
 
-export class AddCalendarCommand implements ICommand {
+export class AddCalendarCommand implements IMessageCommand {
   public readonly name: string = 'Add calendar';
   public readonly description: string = 'Adds a calendar to the collection';
 

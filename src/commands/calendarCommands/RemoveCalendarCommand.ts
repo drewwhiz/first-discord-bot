@@ -1,9 +1,9 @@
 import { Message, PermissionFlagsBits } from 'discord.js';
-import { ICommand } from '../ICommand.js';
+import { IMessageCommand } from '../ICommand.js';
 import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogleCalendarDataServce.js';
 import { readFileSync } from 'fs';
 
-export class RemoveCalendarCommand implements ICommand {
+export class RemoveCalendarCommand implements IMessageCommand {
   public readonly name: string = 'Remove calendar';
   public readonly description: string = 'Removes a calendar from the collection';
 
