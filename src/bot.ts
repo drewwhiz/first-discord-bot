@@ -55,6 +55,7 @@ import { ShockerCommand } from './commands/funCommands/ShockerCommand.js';
 import { RoshamboCommand } from './commands/funCommands/RoshamboCommand.js';
 import { PoopCommand } from './commands/funCommands/PoopCommand.js';
 import { IMessageCommand, IReactionCommand } from './commands/ICommand.js';
+import { JustAGirlCommand } from './commands/funCommands/JustAGirlCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -114,9 +115,16 @@ bot.once(Events.ClientReady, readyClient => {
 
   const generalChannels: GuildBasedChannel[] = [];
   readyClient.guilds.cache.forEach(g => {
-    const generalChannel = g.channels.cache.find(c => c.name == 'general');
-    if (generalChannel) generalChannels.push(generalChannel);
+    const announcementsChannel = g.channels.cache.find(c => c.name == 'announcements');
+    if (announcementsChannel) generalChannels.push(announcementsChannel);
   });
+
+  if (generalChannels.length === 0) {
+    readyClient.guilds.cache.forEach(g => {
+      const generalChannel = g.channels.cache.find(c => c.name == 'general');
+      if (generalChannel) generalChannels.push(generalChannel);
+    });
+  }
 
   const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService);
   nodeCron.schedule('0 14 * * Sun', () => {
@@ -170,7 +178,8 @@ bot.once(Events.ClientReady, readyClient => {
   ];
 
   reactionCommands = [
-    new GlitchCommand()
+    new GlitchCommand(),
+    new JustAGirlCommand(readyClient.user.id)
   ];
 });
 
