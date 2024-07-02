@@ -49,7 +49,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
   }
 
-  private async buildMessage(time: ITimeUnit): Promise<string[]> {
+  private async buildMessage(time: ITimeUnit, tagEveryone: boolean): Promise<string[]> {
     // Start midnight today
     const startDate = new Date();
     startDate.setHours(0, 0, 0);
@@ -57,11 +57,11 @@ export class CalendarReportCommand implements IMessageCommand {
     const results = await this._service.reportEvents(startDate, endDate);
     if (results.length == 0) {
       switch (time) {
-      case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
-      case ITimeUnit.WEEK: return ['There are no events upcoming in the next week.'];
-      case ITimeUnit.MONTH: return ['There are no events upcoming in the next month.'];
-      case ITimeUnit.YEAR: return ['There are no events upcoming in the next year.'];
-      default: return ['There are no events upcoming in the requested window.'];
+      case ITimeUnit.DAY: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next day.`];
+      case ITimeUnit.WEEK: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next week.`];
+      case ITimeUnit.MONTH: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next month.`];
+      case ITimeUnit.YEAR: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next year.`];
+      default: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the requested window.`];
       }
     }
 
@@ -74,19 +74,19 @@ export class CalendarReportCommand implements IMessageCommand {
     
     switch (time) {
     case ITimeUnit.DAY:
-      events.unshift(`Here are the upcoming events for the next day (${timezone}):`);
+      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next day (${timezone}):`);
       break;
     case ITimeUnit.WEEK:
-      events.unshift(`Here are the upcoming events for the next week (${timezone}):`);
+      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next week (${timezone}):`);
       break;
     case ITimeUnit.MONTH:
-      events.unshift(`Here are the upcoming events for the next month (${timezone}):`);
+      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next month (${timezone}):`);
       break;
     case ITimeUnit.YEAR:
-      events.unshift(`Here are the upcoming events for the next year (${timezone}):`);
+      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next year (${timezone}):`);
       break;
     default:
-      events.unshift(`Here are the upcoming events requested (Timezone: ${timezone}):`);
+      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events requested (Timezone: ${timezone}):`);
       break;
     }
 
@@ -143,7 +143,7 @@ export class CalendarReportCommand implements IMessageCommand {
     const timeString = args.length == 2 ? args[1] : 'week';
     const timeUnit = CalendarReportCommand.mapToTimeUnit(timeString);
 
-    const response = await this.buildMessage(timeUnit);
+    const response = await this.buildMessage(timeUnit, false);
     if (response.length == 1) {
       message.reply(response[0]);
       return;
@@ -156,7 +156,7 @@ export class CalendarReportCommand implements IMessageCommand {
     channels.forEach(async c => {
       const textChannel = c as TextChannel;
       if (textChannel == null) return;
-      const response: string[] = await this.buildMessage(ITimeUnit.WEEK);
+      const response: string[] = await this.buildMessage(ITimeUnit.WEEK, true);
       await CalendarReportCommand.sendMessages(null, response, textChannel);
     });
   }
