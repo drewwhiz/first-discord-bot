@@ -98,7 +98,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
 
     if (requestAttendance) {
-      header = `@everyone ${header}. For team activities (like meetings or outreach events), make sure to react to **each** event with ${CalendarReportCommand.STUDENT_EMOJI} if you are attending (mentors use ${CalendarReportCommand.MENTOR_EMOJI}) or ${CalendarReportCommand.UNAVAILABLE_EMOJI} if you are **not** attending.`;
+      header = `@everyone ${header}.\n\nFor team activities (like meetings or outreach events), make sure to react to **each** event with ${CalendarReportCommand.STUDENT_EMOJI} if you are attending (mentors use ${CalendarReportCommand.MENTOR_EMOJI}) or ${CalendarReportCommand.UNAVAILABLE_EMOJI} if you are **not** attending.`;
     } else {
       header = `${header}:`;
     }
