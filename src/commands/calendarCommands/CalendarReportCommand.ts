@@ -71,7 +71,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
 
     const timezone = new Date().toLocaleDateString(undefined, { day:'2-digit', timeZoneName: 'long' }).substring(4);
-    const events = results.map(r => {
+    let events = results.map(r => {
       const startString = r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : '';
       const locationString = r.location != null ? ` (at ${r.location})` : '';
       return `- ${r.eventName}: ${r.start.getFullDateLocal()}${startString}${locationString}`;
@@ -99,6 +99,7 @@ export class CalendarReportCommand implements IMessageCommand {
 
     if (requestAttendance) {
       header = `@everyone ${header}.\n\nFor team activities (like meetings or outreach events), make sure to react to **each** event with ${CalendarReportCommand.STUDENT_EMOJI} if you are attending (mentors use ${CalendarReportCommand.MENTOR_EMOJI}) or ${CalendarReportCommand.UNAVAILABLE_EMOJI} if you are **not** attending.`;
+      events = events.map(e => e.substring(2).trim());
     } else {
       header = `${header}:`;
     }
