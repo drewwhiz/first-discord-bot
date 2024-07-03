@@ -49,7 +49,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
   }
 
-  private async buildMessage(time: ITimeUnit, tagEveryone: boolean): Promise<string[]> {
+  private async buildMessage(time: ITimeUnit, requestAttendance: boolean): Promise<string[]> {
     // Start midnight today
     const startDate = new Date();
     startDate.setHours(0, 0, 0);
@@ -57,11 +57,11 @@ export class CalendarReportCommand implements IMessageCommand {
     const results = await this._service.reportEvents(startDate, endDate);
     if (results.length == 0) {
       switch (time) {
-      case ITimeUnit.DAY: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next day.`];
-      case ITimeUnit.WEEK: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next week.`];
-      case ITimeUnit.MONTH: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next month.`];
-      case ITimeUnit.YEAR: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the next year.`];
-      default: return [`${tagEveryone ? '@everyone ' : ''}There are no events upcoming in the requested window.`];
+      case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
+      case ITimeUnit.WEEK: return ['There are no events upcoming in the next week.'];
+      case ITimeUnit.MONTH: return ['There are no events upcoming in the next month.'];
+      case ITimeUnit.YEAR: return ['There are no events upcoming in the next year.'];
+      default: return ['There are no events upcoming in the requested window.'];
       }
     }
 
@@ -71,25 +71,34 @@ export class CalendarReportCommand implements IMessageCommand {
       const locationString = r.location != null ? ` (at ${r.location})` : '';
       return `- ${r.eventName}: ${r.start.getFullDateLocal()}${startString}${locationString}`;
     });
+
+    let header = '';
     
     switch (time) {
     case ITimeUnit.DAY:
-      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next day (${timezone}):`);
+      header = `Here are the upcoming events for the next day (${timezone})`;
       break;
     case ITimeUnit.WEEK:
-      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next week (${timezone}):`);
+      header = `Here are the upcoming events for the next week (${timezone})`;
       break;
     case ITimeUnit.MONTH:
-      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next month (${timezone}):`);
+      header = `Here are the upcoming events for the next month (${timezone})`;
       break;
     case ITimeUnit.YEAR:
-      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events for the next year (${timezone}):`);
+      header = `Here are the upcoming events for the next year (${timezone})`;
       break;
     default:
-      events.unshift(`${tagEveryone ? '@everyone' : ''}Here are the upcoming events requested (Timezone: ${timezone}):`);
+      header = `Here are the upcoming events requested (Timezone: ${timezone})`;
       break;
     }
 
+    if (requestAttendance) {
+      header = `@everyone ${header}. For team activities (like meetings or outreach events), make sure to react to **each** event with :robot: if you are attending (mentors use :hammer:) or :baby_chick: if you are **not** attending.`;
+    } else {
+      header = `${header}:`;
+    }
+
+    events.unshift(header);
     return events;
   }
 
@@ -157,7 +166,15 @@ export class CalendarReportCommand implements IMessageCommand {
       const textChannel = c as TextChannel;
       if (textChannel == null) return;
       const response: string[] = await this.buildMessage(ITimeUnit.WEEK, true);
-      await CalendarReportCommand.sendMessages(null, response, textChannel);
+
+      let message: Message = null;
+      for (let i = 0; i < response.length; i++) {
+        if (message == null) {
+          message = await textChannel.send(response[i]);
+        } else {
+          message = await message.reply(response[i]);
+        }
+      }
     });
   }
 }
