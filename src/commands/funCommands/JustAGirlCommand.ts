@@ -24,7 +24,10 @@ export class JustAGirlCommand implements IReactionCommand {
   }
 
   public async execute(reaction: MessageReaction): Promise<void> {
+    const user = (await reaction.users.fetch()).first();
+    const content = user == null ? '' : `<@!${user.id}>`;
     await reaction.message.reply({
+      content: content,
       files: ['./img/just-a-girl.jpeg']
     });
   }
