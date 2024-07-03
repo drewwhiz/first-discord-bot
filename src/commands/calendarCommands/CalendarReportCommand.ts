@@ -9,6 +9,11 @@ export class CalendarReportCommand implements IMessageCommand {
   public readonly name: string = 'List calendars';
   public readonly description: string = 'List all of the calendars being tracked';
 
+  private static readonly MENTOR_EMOJI = ':hammer:';
+  private static readonly UNAVAILABLE_EMOJI = ':baby_chick:';
+  private static readonly STUDENT_EMOJI = ':robot:';
+  private static readonly DOZER_EMOJI_NAME = 'dozer';
+
   private readonly _service: IGoogleCalendarWebService;
 
   public constructor(service: IGoogleCalendarWebService) {
@@ -66,7 +71,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
 
     const timezone = new Date().toLocaleDateString(undefined, { day:'2-digit', timeZoneName: 'long' }).substring(4);
-    const events = results.map(r => {
+    let events = results.map(r => {
       const startString = r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : '';
       const locationString = r.location != null ? ` (at ${r.location})` : '';
       return `- ${r.eventName}: ${r.start.getFullDateLocal()}${startString}${locationString}`;
@@ -93,7 +98,8 @@ export class CalendarReportCommand implements IMessageCommand {
     }
 
     if (requestAttendance) {
-      header = `@everyone ${header}. For team activities (like meetings or outreach events), make sure to react to **each** event with :robot: if you are attending (mentors use :hammer:) or :baby_chick: if you are **not** attending.`;
+      header = `@everyone ${header}.\n\nFor team activities (like meetings or outreach events), make sure to react to **each** event with ${CalendarReportCommand.STUDENT_EMOJI} if you are attending (mentors use ${CalendarReportCommand.MENTOR_EMOJI}) or ${CalendarReportCommand.UNAVAILABLE_EMOJI} if you are **not** attending.`;
+      events = events.map(e => e.substring(2).trim());
     } else {
       header = `${header}:`;
     }
@@ -162,18 +168,27 @@ export class CalendarReportCommand implements IMessageCommand {
   }
 
   public async sendReminder(channels: GuildBasedChannel[]): Promise<void> {
+    const response: string[] = await this.buildMessage(ITimeUnit.WEEK, true);
+
     channels.forEach(async c => {
       const textChannel = c as TextChannel;
       if (textChannel == null) return;
-      const response: string[] = await this.buildMessage(ITimeUnit.WEEK, true);
 
+      const customEmoji = c.guild.emojis.cache.find(emoji => emoji.name === CalendarReportCommand.DOZER_EMOJI_NAME);
       let message: Message = null;
       for (let i = 0; i < response.length; i++) {
-        if (message == null) {
-          message = await textChannel.send(response[i]);
-        } else {
+        if (message != null) {
           message = await message.reply(response[i]);
+          continue;
         }
+
+        const content = customEmoji == null 
+          ? response[i] 
+          : response[i].replace(
+            CalendarReportCommand.STUDENT_EMOJI, 
+            `<:${CalendarReportCommand.DOZER_EMOJI_NAME}:${customEmoji.id}>`
+          );
+        message = await textChannel.send(content);
       }
     });
   }
