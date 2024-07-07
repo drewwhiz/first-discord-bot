@@ -129,7 +129,7 @@ bot.once(Events.ClientReady, readyClient => {
   }
 
   const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService);
-  nodeCron.schedule('15 15 * * Sun', () => {
+  nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
   });
 
