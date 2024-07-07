@@ -57,6 +57,7 @@ import { PoopCommand } from './commands/funCommands/PoopCommand.js';
 import { IMessageCommand, IReactionCommand } from './commands/ICommand.js';
 import { JustAGirlCommand } from './commands/funCommands/JustAGirlCommand.js';
 import { StrutCommand } from './commands/funCommands/StrutCommand.js';
+import { AnalyzeCommand } from './commands/funCommands/AnalyzeCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -176,6 +177,7 @@ bot.once(Events.ClientReady, readyClient => {
     new EsdCommand(weatherService),
     new PoopCommand(),
     new StrutCommand(),
+    new AnalyzeCommand(),
     calendarReportCommand
   ];
 
