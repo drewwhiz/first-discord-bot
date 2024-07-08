@@ -8,7 +8,7 @@ const wordCloud = WordCloud();
 
 export class AnalyzeCommand implements IMessageCommand {
   private static readonly MAX_MESSAGES: number = 1000;
-  private static readonly MAX_WORDS: number = 1;
+  private static readonly MAX_WORDS: number = 10;
   public readonly name: string = 'analyze';
   public readonly description: string = 'generates a word cloud';
 
@@ -27,7 +27,7 @@ export class AnalyzeCommand implements IMessageCommand {
       if (user.bot) continue;
       const reply = await message.reply(`Please hold... Analyzing last ${AnalyzeCommand.MAX_MESSAGES} messages in this channel from <@!${user.id}> to determine their ${AnalyzeCommand.MAX_WORDS} most-used words.`);
       const wordFrequencies = await this.fetchUserMessages(message.channel, user.id);
-      const canvas = createCanvas(100, 100);
+      const canvas = createCanvas(25, 25);
 
       const wordcloud = wordCloud(canvas, { list: wordFrequencies });
       wordcloud.draw();
