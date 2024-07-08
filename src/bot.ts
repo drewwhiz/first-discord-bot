@@ -58,6 +58,7 @@ import { IMessageCommand, IReactionCommand } from './commands/ICommand.js';
 import { JustAGirlCommand } from './commands/funCommands/JustAGirlCommand.js';
 import { StrutCommand } from './commands/funCommands/StrutCommand.js';
 import { AnalyzeCommand } from './commands/funCommands/AnalyzeCommand.js';
+import { WordCloudWebService } from './webservices/WordCloudWebService.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -114,6 +115,7 @@ bot.once(Events.ClientReady, readyClient => {
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
   const weatherService = new WeatherApiWebService();
+  const wordCloudService = new WordCloudWebService();
 
   const generalChannels: GuildBasedChannel[] = [];
   readyClient.guilds.cache.forEach(g => {
@@ -177,7 +179,7 @@ bot.once(Events.ClientReady, readyClient => {
     new EsdCommand(weatherService),
     new PoopCommand(),
     new StrutCommand(),
-    new AnalyzeCommand(),
+    new AnalyzeCommand(wordCloudService),
     calendarReportCommand
   ];
 
