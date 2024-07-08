@@ -80,5 +80,5 @@ String.prototype.stripPunctuation = function (this: string): string {
   }
 
   // eslint-disable-next-line
-  return currentString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'‘’"“”\?]/g, '').replace(/\s{2,}/g, ' ');
+  return currentString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~@()'‘’"“”\?]/g, '').replace(/\s{2,}/g, ' ');
 };
