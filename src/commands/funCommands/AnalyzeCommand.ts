@@ -1,20 +1,23 @@
 import { ChannelType, Message, TextChannel } from 'discord.js';
 import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
-import { createCanvas } from 'canvas';
-
-import WordCloud from 'node-wordcloud';
-const wordCloud = WordCloud();
+import { IWordCloudWebService } from '../../webservices/interfaces/IWordCloudWebService.js';
 
 export class AnalyzeCommand implements IMessageCommand {
   private static readonly MAX_MESSAGES: number = 1000;
-  private static readonly MAX_WORDS: number = 10;
+  private static readonly MAX_WORDS: number = 100;
   public readonly name: string = 'analyze';
   public readonly description: string = 'generates a word cloud';
 
+  private readonly _wordCloud: IWordCloudWebService;
+
+  public constructor(wordCloud: IWordCloudWebService) {
+    this._wordCloud = wordCloud;
+  }
+
   public trigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
-    return invariant.startsWith('analyze');
+    return invariant.startsWith('analyze') || invariant.startsWith('read');
   }
 
   public async execute(message: Message): Promise<void> {
@@ -26,23 +29,26 @@ export class AnalyzeCommand implements IMessageCommand {
       const user = users[i];
       if (user.bot) continue;
       const reply = await message.reply(`Please hold... Analyzing last ${AnalyzeCommand.MAX_MESSAGES} messages in this channel from <@!${user.id}> to determine their ${AnalyzeCommand.MAX_WORDS} most-used words.`);
-      const wordFrequencies = await this.fetchUserMessages(message.channel, user.id);
-      const canvas = createCanvas(25, 25);
+      const messageText = await this.fetchUserMessages(message.channel, user.id);
+      const result = await this._wordCloud.getWordCloud(messageText);
+      if (result == null) {
+        await reply.reply('Sorry, I was unable to generate the word cloud.');
+        continue;
+      }
 
-      const wordcloud = wordCloud(canvas, { list: wordFrequencies });
-      wordcloud.draw();
-      const buffer = canvas.toBuffer();
       await reply.reply({
         files: [
           {
-            attachment: buffer
+            attachment: result
           }
         ]
       });
+
+      
     }
   }
 
-  private async fetchUserMessages(channel: TextChannel, userId: string): Promise<(string | number)[][]> {
+  private async fetchUserMessages(channel: TextChannel, userId: string): Promise<string> {
     let words: string[] = [];
     let messageCount = 0;
     const messagesToFetch = AnalyzeCommand.MAX_MESSAGES;
@@ -68,6 +74,7 @@ export class AnalyzeCommand implements IMessageCommand {
     words = words.filter(w => w.length > 0);
     words = words.filter(w => !(/^\d+$/.test(w)));
     words = words.filter(w => !(/^<\d+>$/.test(w)));
+
     const counts: object = {};
 
     for (const word of words) {
@@ -79,7 +86,13 @@ export class AnalyzeCommand implements IMessageCommand {
       frequencies.push([key, value]);
     }
 
-    const sorted = frequencies.sort((a, b) => (b[1] as number) - (a[1] as number));
-    return sorted.slice(0, AnalyzeCommand.MAX_WORDS);
+    const sorted = frequencies.sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, AnalyzeCommand.MAX_WORDS);
+    const wordsToAdd = [];
+    for (let i = 0; i < sorted.length; i++) {
+      for (let j = 0; j < (sorted[i][1] as unknown as number); j++) {
+        wordsToAdd.push(sorted[i][0]);
+      }
+    }
+    return wordsToAdd.join(' ');
   }
 }
