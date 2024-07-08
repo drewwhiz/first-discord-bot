@@ -8,7 +8,7 @@ const wordCloud = WordCloud();
 
 export class AnalyzeCommand implements IMessageCommand {
   private static readonly MAX_MESSAGES: number = 1000;
-  private static readonly MAX_WORDS: number = 100;
+  private static readonly MAX_WORDS: number = 10;
   public readonly name: string = 'analyze';
   public readonly description: string = 'generates a word cloud';
 
