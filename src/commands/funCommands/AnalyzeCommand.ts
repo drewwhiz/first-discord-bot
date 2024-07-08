@@ -87,12 +87,15 @@ export class AnalyzeCommand implements IMessageCommand {
     }
 
     const sorted = frequencies.sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, AnalyzeCommand.MAX_WORDS);
+    const minCount = sorted[sorted.length - 1][1] as number;
     const wordsToAdd = [];
     for (let i = 0; i < sorted.length; i++) {
-      for (let j = 0; j < (sorted[i][1] as unknown as number); j++) {
+      const count = Math.round((sorted[i][1] as unknown as number) / minCount);
+      for (let j = 0; j < count; j++) {
         wordsToAdd.push(sorted[i][0]);
       }
     }
+
     return wordsToAdd.join(' ');
   }
 }
