@@ -66,8 +66,11 @@ export class AnalyzeCommand implements IMessageCommand {
       const byAuthor = thisFetch.filter(m => m.author.id === userId).map(m => m.content.toLowerCase().stripPunctuation().replace(/[\s]/g, ' ').split(' ').map(w => w.trim()));
       messageCount += byAuthor.length;
 
-      const wordsToAdd = byAuthor.reduce((e1, e2) => e1.concat(e2));
-      words = words.concat(wordsToAdd);
+      if (byAuthor.length !== 0) {
+        const wordsToAdd = byAuthor.reduce((e1, e2) => e1.concat(e2));
+        words = words.concat(wordsToAdd);  
+      }
+
       lastMessageId = thisFetch[thisFetch.length - 1].id;
     }
 
