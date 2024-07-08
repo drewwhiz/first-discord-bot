@@ -27,15 +27,11 @@ export class AnalyzeCommand implements IMessageCommand {
       if (user.bot) continue;
       const reply = await message.reply(`Please hold... Analyzing last ${AnalyzeCommand.MAX_MESSAGES} messages in this channel from <@!${user.id}> to determine their ${AnalyzeCommand.MAX_WORDS} most-used words.`);
       const wordFrequencies = await this.fetchUserMessages(message.channel, user.id);
-      const canvas = createCanvas(500, 500);
-      console.log('made canvas');
+      const canvas = createCanvas(100, 100);
 
       const wordcloud = wordCloud(canvas, { list: wordFrequencies });
-      console.log('made word cloud');
       wordcloud.draw();
-      console.log('drew it');
       const buffer = canvas.toBuffer();
-      console.log('buffered')
       await reply.reply({
         files: [
           {
