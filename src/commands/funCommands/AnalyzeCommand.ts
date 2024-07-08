@@ -66,20 +66,28 @@ export class AnalyzeCommand implements IMessageCommand {
     }
 
     words = words.filter(w => w.length > 0);
+    console.log('got zero length');
     words = words.filter(w => !(/^\d+$/.test(w)));
+    console.log('got digits');
     words = words.filter(w => !(/^<\d+>$/.test(w)));
+    console.log('got tags')
     const counts: object = {};
 
     for (const word of words) {
       counts[word] = counts[word] ? counts[word] + 1 : 1;
     }
 
+    console.log('got counts');
+
     const frequencies: (string | number)[][] = [];
     for (const [key, value] of Object.entries(counts)) {
       frequencies.push([key, value]);
     }
 
+    console.log('got array');
+
     const sorted = frequencies.sort((a, b) => (b[1] as number) - (a[1] as number));
+    console.log('sorted');
     return sorted.slice(0, AnalyzeCommand.MAX_WORDS);
   }
 }
