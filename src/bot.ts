@@ -59,6 +59,7 @@ import { JustAGirlCommand } from './commands/funCommands/JustAGirlCommand.js';
 import { StrutCommand } from './commands/funCommands/StrutCommand.js';
 import { AnalyzeCommand } from './commands/funCommands/AnalyzeCommand.js';
 import { WordCloudWebService } from './webservices/WordCloudWebService.js';
+import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -180,6 +181,7 @@ bot.once(Events.ClientReady, readyClient => {
     new PoopCommand(),
     new StrutCommand(),
     new AnalyzeCommand(wordCloudService),
+    new EveryoneCommand(),
     calendarReportCommand
   ];
 
