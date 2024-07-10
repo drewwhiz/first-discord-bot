@@ -44,10 +44,7 @@ export class AcronymHelperCommand implements IMessageCommand {
       return;
     }
 
-    const isAllowed = process.env.RESTRICTED_CHANNEL == null
-                      || process.env.RESTRICTED_CHANNEL.length === 0
-                      || message.channel?.name === process.env.RESTRICTED_CHANNEL;
-
+    const isAllowed = message.channel?.name === process.env.RESTRICTED_CHANNEL;
     if (!isAllowed) return;
     await message.reply(acronym.explanation);
   }

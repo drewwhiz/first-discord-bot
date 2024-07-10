@@ -14,15 +14,8 @@ export class TsimfdCommand implements IMessageCommand {
 
   public async execute(message: Message): Promise<void> {
     const isInServerTextChannel = message.channel.type === ChannelType.GuildText;
-    if (!isInServerTextChannel) {
-      await message.reply(TsimfdCommand.TSIMFD);
-      return;
-    }
-
-    const isAllowed = process.env.RESTRICTED_CHANNEL == null
-      || process.env.RESTRICTED_CHANNEL.length === 0
-      || message.channel?.name === process.env.RESTRICTED_CHANNEL;
-
+    if (!isInServerTextChannel) return;
+    const isAllowed = message.channel?.name === process.env.RESTRICTED_CHANNEL;
     if (!isAllowed) return;
     await message.reply(TsimfdCommand.TSIMFD);
   }

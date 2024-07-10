@@ -15,11 +15,7 @@ export class StrutCommand implements IMessageCommand {
 
   public async execute(message: Message): Promise<void> {
     if (message.channel.type !== ChannelType.GuildText) return;
-    
-    const isAllowed = process.env.RESTRICTED_CHANNEL == null
-    || process.env.RESTRICTED_CHANNEL.length === 0
-    || message.channel?.name === process.env.RESTRICTED_CHANNEL;
-
+    const isAllowed = message.channel?.name === process.env.RESTRICTED_CHANNEL;
     if (!isAllowed) return;
 
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
