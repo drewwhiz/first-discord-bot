@@ -7,8 +7,16 @@ declare global {
     getFirstMatchingPhrase: (this: string, args: string[]) => string;
     isFirstWord: (this: string, startText: string) => boolean;
     stripPunctuation: (this: string) => string;
+    capitalize: (this: string) => string;
   }
 }
+
+String.prototype.capitalize = function (this: string): string {
+  if (this.length === 0) return this;
+  if (this.length === 1) return this.toUpperCase();
+  const starter = this.toLowerCase();
+  return starter[0].toUpperCase() + starter.substring(1);
+};
 
 String.prototype.containsAnyWords = function (this: string, ...args: string[]): boolean {
   if (args == null || args.length == 0) return false;

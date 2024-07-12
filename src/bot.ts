@@ -60,6 +60,7 @@ import { StrutCommand } from './commands/funCommands/StrutCommand.js';
 import { AnalyzeCommand } from './commands/funCommands/AnalyzeCommand.js';
 import { WordCloudWebService } from './webservices/WordCloudWebService.js';
 import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
+import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -182,6 +183,7 @@ bot.once(Events.ClientReady, readyClient => {
     new StrutCommand(),
     new AnalyzeCommand(wordCloudService),
     new EveryoneCommand(),
+    new CoreValuesCommand(),
     calendarReportCommand
   ];
 
