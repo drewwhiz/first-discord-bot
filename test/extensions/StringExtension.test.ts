@@ -73,4 +73,19 @@ describe('String Extensions', function() {
     const text = 'this text contains no phrase';
     expect(text.containsAnyWords('banana', 'apple')).to.be.false;
   });
+
+  it('should capitalize nothing', function() {
+    const text = '';
+    expect(text.capitalize()).to.equal('');
+  });
+
+  it('should capitalize one letter', function() {
+    const text = 'a';
+    expect(text.capitalize()).to.equal('A');
+  });
+
+  it('should capitalize multiple letters', function() {
+    const text = 'abc';
+    expect(text.capitalize()).to.equal('Abc');
+  });
 });
