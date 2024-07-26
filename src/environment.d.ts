@@ -6,6 +6,7 @@ declare global {
       WEATHER_API_KEY: string;
       DEFAULT_ZIP: string;
       RESTRICTED_CHANNEL: string;
+      MOD_REPORT_CHANNEL: string;
     }
   }
 }

@@ -61,6 +61,7 @@ import { AnalyzeCommand } from './commands/funCommands/AnalyzeCommand.js';
 import { WordCloudWebService } from './webservices/WordCloudWebService.js';
 import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
 import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
+import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -189,6 +190,7 @@ bot.once(Events.ClientReady, readyClient => {
 
   reactionCommands = [
     new GlitchCommand(),
+    new RedCardAlertCommand(),
     new JustAGirlCommand(readyClient.user.id)
   ];
 });
@@ -227,7 +229,7 @@ bot.addListener(Events.MessageReactionAdd, async (reaction: MessageReaction, use
   for (const command of reactionCommands) {
     if (command != null && command.trigger(reaction)) {
       try {
-        await command.execute(reaction);
+        await command.execute(reaction, user);
       } catch (e) {
         error(e.message);
       }

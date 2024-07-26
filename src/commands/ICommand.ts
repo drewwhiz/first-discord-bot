@@ -1,4 +1,4 @@
-import { Message, MessageReaction } from 'discord.js';
+import { Message, MessageReaction, User } from 'discord.js';
 
 export interface IMessageCommand {
   readonly name: string;
@@ -13,5 +13,5 @@ export interface IReactionCommand {
   readonly description: string;
 
   trigger(reaction: MessageReaction): boolean;
-  execute(reaction: MessageReaction): Promise<void>;
+  execute(reaction: MessageReaction, user: User): Promise<void>;
 }
