@@ -1,4 +1,4 @@
-import { ChannelType, GuildTextBasedChannel, Message } from 'discord.js';
+import { ChannelType, GuildTextBasedChannel, Message, PermissionFlagsBits } from 'discord.js';
 import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IWordCloudWebService } from '../../webservices/interfaces/IWordCloudWebService.js';
@@ -24,7 +24,16 @@ export class AnalyzeCommand implements IMessageCommand {
     const users = message.mentions.users.map(u => u);
     if (users.length === 0) return;
 
-    const channels = message.mentions.channels.map(c => c).filter(c => c.type == ChannelType.GuildText).map(c => c as GuildTextBasedChannel);
+    let channels = message.mentions.channels
+      .map(c => c)
+      .filter(c => c.type == ChannelType.GuildText)
+      .map(c => c as GuildTextBasedChannel);
+
+    if (channels.length > 0) {
+      channels = channels.filter(c => c.permissionsFor(c.guild.roles.everyone).has(PermissionFlagsBits.ViewChannel));
+      if (channels.length === 0) return;
+    }
+    
     if (channels.length === 0 && message.channel.type === ChannelType.GuildText) {
       channels.push(message.channel);
     }
