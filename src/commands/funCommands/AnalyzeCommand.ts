@@ -1,4 +1,4 @@
-import { ChannelType, GuildTextBasedChannel, Message } from 'discord.js';
+import { ChannelType, Message, TextChannel } from 'discord.js';
 import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { IWordCloudWebService } from '../../webservices/interfaces/IWordCloudWebService.js';
@@ -23,40 +23,32 @@ export class AnalyzeCommand implements IMessageCommand {
   public async execute(message: Message): Promise<void> {
     const users = message.mentions.users.map(u => u);
     if (users.length === 0) return;
-
-    const channels = message.mentions.channels.map(c => c).filter(c => c.type == ChannelType.GuildText).map(c => c as GuildTextBasedChannel);
-    if (channels.length === 0 && message.channel.type === ChannelType.GuildText) {
-      channels.push(message.channel);
-    }
-
-    if (channels.length === 0) return;
+    if (message.channel.type != ChannelType.GuildText) return;
 
     for (let i = 0; i < users.length; i++) {
-      for (let j = 0; j < channels.length; j++) {
-        const user = users[i];
-        const channel = channels[j];
-        if (user.bot) continue;
-        const reply = await message.reply(`Please hold... Analyzing last ${AnalyzeCommand.MAX_MESSAGES} messages in <#${channel.id}> from <@!${user.id}> to determine their ${AnalyzeCommand.MAX_WORDS} most-used words.`);
-        const messageText = await this.fetchUserMessages(channel, user.id);
-        const result = await this._wordCloud.getWordCloud(messageText);
-        if (result == null) {
-          await reply.reply('Sorry, I was unable to generate the word cloud.');
-          continue;
-        }
-
-        await reply.reply({
-          files: [
-            {
-              attachment: result
-            }
-          ]
-        });
+      const user = users[i];
+      if (user.bot) continue;
+      const reply = await message.reply(`Please hold... Analyzing last ${AnalyzeCommand.MAX_MESSAGES} messages in this channel from <@!${user.id}> to determine their ${AnalyzeCommand.MAX_WORDS} most-used words.`);
+      const messageText = await this.fetchUserMessages(message.channel, user.id);
+      const result = await this._wordCloud.getWordCloud(messageText);
+      if (result == null) {
+        await reply.reply('Sorry, I was unable to generate the word cloud.');
+        continue;
       }
+
+      await reply.reply({
+        files: [
+          {
+            attachment: result
+          }
+        ]
+      });
+
+      
     }
   }
 
-  private async fetchUserMessages(channel: GuildTextBasedChannel, userId: string): Promise<string> {
-    if (channel.type !== ChannelType.GuildText) return null;
+  private async fetchUserMessages(channel: TextChannel, userId: string): Promise<string> {
     let words: string[] = [];
     let messageCount = 0;
     const messagesToFetch = AnalyzeCommand.MAX_MESSAGES;
