@@ -47,7 +47,13 @@ Date.prototype.getTwelveHourTimeUtc = function (this: Date): string {
 };
 
 Date.prototype.getFullDateLocal = function (this: Date): string {
-  return `${this.getDate()} ${this.getMonthNameLocal()} ${this.getFullYear()}`;
+  const offsetMinutes = this.getTimezoneOffset();
+  const startTimeMinutes = this.getHours() * 60 + this.getMinutes();
+  const offsetChangesDay = offsetMinutes !== 0 && (startTimeMinutes + offsetMinutes) % 1440 === 0;
+
+  let day = this.getDate();
+  if (offsetChangesDay) day += (offsetMinutes > 0 ? 1 : -1);
+  return `${day} ${this.getMonthNameLocal()} ${this.getFullYear()}`;
 };
 
 Date.prototype.getFullDateUtc = function (this: Date): string {
