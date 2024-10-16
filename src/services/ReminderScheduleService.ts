@@ -78,6 +78,8 @@ export class ReminderScheduleService implements IReminderScheduleService {
       await ReminderScheduleService.sendReminder(message.client, reminderMessage, createdReminder.userId, createdReminder.channelId);
       await this._reminders.delete(createdReminder.id);
     });
+
+    if (message != null) await message.reply('Got it, boss!');
   }
 
   private static async sendReminder(client: Client<true>, reminder: string, userId: string, channelId: string, isLate: boolean = false): Promise<void> {
