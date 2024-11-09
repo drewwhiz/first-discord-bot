@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
 import { CooldownCommandBase } from '../CooldownCommandBase.js';
 
@@ -16,7 +16,10 @@ export class RespectsCommand extends CooldownCommandBase {
   }
 
   public override async action(message: Message): Promise<void> {
-    await message.channel.send({
+    const channel = message.channel as TextChannel;
+    if (channel == null) return;
+
+    await channel.send({
       files: ['./img/respects.jpeg']
     });
   }
