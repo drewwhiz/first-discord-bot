@@ -1,17 +1,18 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class LolCommand implements IMessageCommand {
+export class LolCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
   public readonly name: string = 'lol';
   public readonly description: string = 'replies to lol';
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.containsAnyWords('lol', 'lolol');
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     if (invariant.containsAnyWords('lolol')) {
       await message.reply('lolol? more like 10101 - amirite!?');

@@ -1,20 +1,22 @@
-import { ChannelType, Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { ChannelType, GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IAcronymDataService } from '../../dataservices/interfaces/IAcronymDataService.js';
 import { IAcronym } from '../../models/IAcronym.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class AcronymHelperCommand implements IMessageCommand {
+export class AcronymHelperCommand extends MessageCommand {
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'acronym helper';
   public readonly description: string = 'answers known acronyms';
 
   private readonly _acronyms: IAcronymDataService;
 
-  public constructor(acronymDataService: IAcronymDataService) {
+  public constructor(acronymDataService: IAcronymDataService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._acronyms = acronymDataService;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     if (!message.content.trim().endsWith('?')) return false;
     const content = message.content.stripPunctuation().trim();
     if (this._acronyms.get(content) != null) return true;
@@ -22,7 +24,7 @@ export class AcronymHelperCommand implements IMessageCommand {
     return this._acronyms.get(content.substring(0, content.length - 1)) != null;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const content = message.content.stripPunctuation().trim();
     let acronym = await this._acronyms.get(content);
     if (acronym != null) {

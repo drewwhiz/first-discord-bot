@@ -1,11 +1,12 @@
-import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class WompCommand implements IMessageCommand {
+export class WompCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
   public readonly name: string = 'womp';
   public readonly description: string = 'Womp womp';
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const content = message.content.toLowerCase().stripPunctuation().trim();
     const hasWomp = content.includes('womp');
     if (!hasWomp) return false;
@@ -14,7 +15,7 @@ export class WompCommand implements IMessageCommand {
     return hasNothingElse;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     await message.reply({
       files: ['./img/womp-womp.gif']
     });

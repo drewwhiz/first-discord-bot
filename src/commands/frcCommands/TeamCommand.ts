@@ -1,26 +1,28 @@
 import { IFirstProgram } from '../../models/IFirstProgram.js';
 import { IFirstPublicApiWebService } from '../../webservices/interfaces/IFirstPublicApiWebService.js';
-import { IMessageCommand } from '../ICommand.js';
-import { Message } from 'discord.js';
+import { GuildBasedChannel, Message } from 'discord.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class TeamCommand implements IMessageCommand {
+export class TeamCommand extends MessageCommand {
   public readonly name: string = 'team';
   public readonly description: string = 'Gets the URL of a team\'s Blue Alliance page for the current year.';
+  public readonly isSilly: boolean = false;
 
   private readonly _firstPublicApi: IFirstPublicApiWebService;
 
-  public constructor(firstPublicApi: IFirstPublicApiWebService) {
+  public constructor(firstPublicApi: IFirstPublicApiWebService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._firstPublicApi = firstPublicApi;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     if (message.content.includes('.')) return false;
     if (message.content.includes(',')) return false;
     const team = Number(message.content.trim());
     return Number.isInteger(team) && team > 0;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const year = await this._firstPublicApi.getCurrentSeason(IFirstProgram.FRC, false);
     const team = Number(message.content.trim());
 

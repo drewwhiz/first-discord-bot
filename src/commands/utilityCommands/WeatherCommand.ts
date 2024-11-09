@@ -1,20 +1,22 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class WeatherCommand implements IMessageCommand {
+export class WeatherCommand extends MessageCommand {
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'weather';
   public readonly description: string = 'Responds to weather requests.';
   private static readonly ZIP_REGEX = /^[0-9]{5}(-[0-9]{4})?$/;
 
   private readonly _weather: IWeatherApiWebService;
 
-  public constructor(weather: IWeatherApiWebService) {
+  public constructor(weather: IWeatherApiWebService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._weather = weather;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().trim();
     if (!invariant.startsWith('weather')) return false;
 
@@ -23,7 +25,7 @@ export class WeatherCommand implements IMessageCommand {
     return WeatherCommand.ZIP_REGEX.test(remainder);
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const invariant = message.content.toLowerCase().trim();
 
     let zipCode: string = null;

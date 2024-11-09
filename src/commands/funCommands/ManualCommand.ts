@@ -1,8 +1,9 @@
 import { Message, TextChannel } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class ManualCommand implements IMessageCommand {
+export class ManualCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   private readonly frcManual: string = 'https://www.firstinspires.org/resource-library/frc/competition-manual-qa-system';
   private readonly ftcManual: string = 'https://www.firstinspires.org/resource-library/ftc/game-and-season-info';
   private readonly fllChallengeManual: string = 'https://www.firstinspires.org/resource-library/fll/challenge/challenge-and-resources';
@@ -19,11 +20,11 @@ export class ManualCommand implements IMessageCommand {
     return null;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     return this.getText(message?.content) != null;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const channel = message.channel as TextChannel;
     if (channel == null) return;
 

@@ -1,9 +1,10 @@
-import { IMessageCommand } from '../ICommand.js';
 import { Message } from 'discord.js';
 import { ISong } from '../../models/ISong.js';
 import { readFileSync } from 'fs';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class DanceCommand implements IMessageCommand {
+export class DanceCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
   public readonly name: string = 'dance';
   public readonly description: string = 'Randomly selects an FRC Dance.';
 
@@ -11,11 +12,11 @@ export class DanceCommand implements IMessageCommand {
     return JSON.parse(readFileSync('data/songs.json').toString());
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     return message.content.toLowerCase().trim() == 'frc dance';
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const songs = this.getSongs();
     const index = Math.floor(Math.random() * songs.length);
     const song = songs[index];

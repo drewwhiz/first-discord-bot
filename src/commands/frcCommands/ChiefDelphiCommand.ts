@@ -1,14 +1,15 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class ChiefDelphiCommand implements IMessageCommand {
+export class ChiefDelphiCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   public readonly name: string = 'Chief Delphi';
   public readonly description: string = 'Look up something on Chief Delphi';
 
   private readonly CD_URL: string = 'https://www.chiefdelphi.com/search?q=';
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const text = message?.content;
     if (text == null) return false;
 
@@ -17,7 +18,7 @@ export class ChiefDelphiCommand implements IMessageCommand {
     return regex.test(strippedText);
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     const content = message.content.trim();
     const whiteSpaceContent = content.replace(/[\s]/g, ' ');
     const firstSpace = whiteSpaceContent.indexOf(' ');

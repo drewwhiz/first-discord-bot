@@ -1,11 +1,12 @@
 import { GuildBasedChannel, Message, TextChannel } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import { IGoogleCalendarWebService } from '../../webservices/interfaces/IGoogleCalendarWebService.js';
 import '../../extensions/DateExtension.js';
 import '../../extensions/StringExtension.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class CalendarReportCommand implements IMessageCommand {
+export class CalendarReportCommand extends MessageCommand {
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'List calendars';
   public readonly description: string = 'List all of the calendars being tracked';
 
@@ -16,11 +17,12 @@ export class CalendarReportCommand implements IMessageCommand {
 
   private readonly _service: IGoogleCalendarWebService;
 
-  public constructor(service: IGoogleCalendarWebService) {
+  public constructor(service: IGoogleCalendarWebService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._service = service;
   }
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const content: string = message.content.toLowerCase().stripPunctuation().trim();
     const args = content.split(' ');
     if (args.length > 2) return false;
@@ -31,10 +33,10 @@ export class CalendarReportCommand implements IMessageCommand {
     if (data == null || data.length == 0) return ITimeUnit.WEEK;
     data = data.stripPunctuation().toLowerCase().trim();
     switch (data) {
-    case 'day': return ITimeUnit.DAY;
-    case 'month': return ITimeUnit.MONTH;
-    case 'year': return ITimeUnit.YEAR;
-    case 'week': return ITimeUnit.WEEK;
+      case 'day': return ITimeUnit.DAY;
+      case 'month': return ITimeUnit.MONTH;
+      case 'year': return ITimeUnit.YEAR;
+      case 'week': return ITimeUnit.WEEK;
     }
 
     return ITimeUnit.WEEK;
@@ -42,15 +44,15 @@ export class CalendarReportCommand implements IMessageCommand {
 
   private static getEndDate(startDate: Date, time: ITimeUnit): Date {
     switch (time) {
-    case ITimeUnit.DAY:
-      return new Date(startDate.setDate(startDate.getDate() + 1));
-    case ITimeUnit.WEEK:
-      return new Date(startDate.setDate(startDate.getDate() + 7));
-    case ITimeUnit.MONTH:
-      return new Date(startDate.setMonth(startDate.getMonth() + 1));
-    case ITimeUnit.YEAR:
-      return new Date(startDate.setFullYear(startDate.getFullYear() + 1));
-    default: return startDate;
+      case ITimeUnit.DAY:
+        return new Date(startDate.setDate(startDate.getDate() + 1));
+      case ITimeUnit.WEEK:
+        return new Date(startDate.setDate(startDate.getDate() + 7));
+      case ITimeUnit.MONTH:
+        return new Date(startDate.setMonth(startDate.getMonth() + 1));
+      case ITimeUnit.YEAR:
+        return new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+      default: return startDate;
     }
   }
 
@@ -62,15 +64,15 @@ export class CalendarReportCommand implements IMessageCommand {
     const results = await this._service.reportEvents(startDate, endDate);
     if (results.length == 0) {
       switch (time) {
-      case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
-      case ITimeUnit.WEEK: return ['There are no events upcoming in the next week.'];
-      case ITimeUnit.MONTH: return ['There are no events upcoming in the next month.'];
-      case ITimeUnit.YEAR: return ['There are no events upcoming in the next year.'];
-      default: return ['There are no events upcoming in the requested window.'];
+        case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
+        case ITimeUnit.WEEK: return ['There are no events upcoming in the next week.'];
+        case ITimeUnit.MONTH: return ['There are no events upcoming in the next month.'];
+        case ITimeUnit.YEAR: return ['There are no events upcoming in the next year.'];
+        default: return ['There are no events upcoming in the requested window.'];
       }
     }
 
-    const timezone = new Date().toLocaleDateString(undefined, { day:'2-digit', timeZoneName: 'long' }).substring(4);
+    const timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
     let events = results.map(r => {
       const startString = r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : '';
       const locationString = r.location != null ? ` (at ${r.location})` : '';
@@ -78,23 +80,23 @@ export class CalendarReportCommand implements IMessageCommand {
     });
 
     let header = '';
-    
+
     switch (time) {
-    case ITimeUnit.DAY:
-      header = `Here are the upcoming events for the next day (${timezone})`;
-      break;
-    case ITimeUnit.WEEK:
-      header = `Here are the upcoming events for the next week (${timezone})`;
-      break;
-    case ITimeUnit.MONTH:
-      header = `Here are the upcoming events for the next month (${timezone})`;
-      break;
-    case ITimeUnit.YEAR:
-      header = `Here are the upcoming events for the next year (${timezone})`;
-      break;
-    default:
-      header = `Here are the upcoming events requested (Timezone: ${timezone})`;
-      break;
+      case ITimeUnit.DAY:
+        header = `Here are the upcoming events for the next day (${timezone})`;
+        break;
+      case ITimeUnit.WEEK:
+        header = `Here are the upcoming events for the next week (${timezone})`;
+        break;
+      case ITimeUnit.MONTH:
+        header = `Here are the upcoming events for the next month (${timezone})`;
+        break;
+      case ITimeUnit.YEAR:
+        header = `Here are the upcoming events for the next year (${timezone})`;
+        break;
+      default:
+        header = `Here are the upcoming events requested (Timezone: ${timezone})`;
+        break;
     }
 
     if (requestAttendance) {
@@ -152,7 +154,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     const content: string = message.content.toLowerCase().stripPunctuation().trim();
     const args = content.split(' ');
     const timeString = args.length == 2 ? args[1] : 'week';
@@ -182,10 +184,10 @@ export class CalendarReportCommand implements IMessageCommand {
           continue;
         }
 
-        const content = customEmoji == null 
-          ? response[i] 
+        const content = customEmoji == null
+          ? response[i]
           : response[i].replace(
-            CalendarReportCommand.STUDENT_EMOJI, 
+            CalendarReportCommand.STUDENT_EMOJI,
             `<:${CalendarReportCommand.DOZER_EMOJI_NAME}:${customEmoji.id}>`
           );
         message = await textChannel.send(content);

@@ -1,9 +1,10 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class MagicEightBallCommand implements IMessageCommand {
+export class MagicEightBallCommand extends MessageCommand {
+  public override isSilly: boolean = true;
   private static readonly ANSWERS: string[] = [
     'It is certain',
     'Reply hazy, try again',
@@ -32,11 +33,12 @@ export class MagicEightBallCommand implements IMessageCommand {
 
   private readonly _random: IRandomNumberService;
 
-  public constructor(random: IRandomNumberService) {
+  public constructor(random: IRandomNumberService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._random = random;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const content = message.content.stripPunctuation().toLowerCase().replace(/\s/g, '').trim();
     const hasStart = content.startsWith('magic8ball') || content.startsWith('magiceightball');
     if (!hasStart) return false;
@@ -44,7 +46,7 @@ export class MagicEightBallCommand implements IMessageCommand {
     return otherContent.length > 0;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     await message.reply(this.getAnswer());
   }
 

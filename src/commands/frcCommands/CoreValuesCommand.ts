@@ -1,8 +1,9 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class CoreValuesCommand implements IMessageCommand {
+export class CoreValuesCommand extends MessageCommand {
+  public override isSilly: boolean = true;
   public readonly name: string = 'core values';
   public readonly description: string = 'Responds with Core Values.';
 
@@ -21,23 +22,23 @@ export class CoreValuesCommand implements IMessageCommand {
 
   private static isGraciousProfessionalism(invariant: string): boolean {
     return invariant === 'GP'
-            || invariant === 'GRACIOUS PROFESSIONALISM'
-            || invariant === 'GRACIOUSPROFESSIONALISM'
-            || invariant === 'CV'
-            || invariant === 'CORE VALUES'
-            || invariant === 'COREVALUES'
-            || invariant === 'FIRST CORE VALUES'
-            || invariant === 'FIRST COREVALUES'
-            || invariant === 'FIRSTCOREVALUES';
+      || invariant === 'GRACIOUS PROFESSIONALISM'
+      || invariant === 'GRACIOUSPROFESSIONALISM'
+      || invariant === 'CV'
+      || invariant === 'CORE VALUES'
+      || invariant === 'COREVALUES'
+      || invariant === 'FIRST CORE VALUES'
+      || invariant === 'FIRST COREVALUES'
+      || invariant === 'FIRSTCOREVALUES';
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toUpperCase().stripPunctuation().trim();
     if (CoreValuesCommand.isSingleValue(invariant)) return true;
     return CoreValuesCommand.isGraciousProfessionalism(invariant);
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const invariant = message.content.toUpperCase().stripPunctuation().trim();
     if (CoreValuesCommand.isSingleValue(invariant)) {
       const coreValue = CoreValuesCommand.CORE_VALUES[invariant];

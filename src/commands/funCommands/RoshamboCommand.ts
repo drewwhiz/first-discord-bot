@@ -1,9 +1,10 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class RoshamboCommand implements IMessageCommand {
+export class RoshamboCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
   public readonly name: string = 'roshambo';
   public readonly description: string = 'Plays rock-paper-scissors.';
 
@@ -13,18 +14,19 @@ export class RoshamboCommand implements IMessageCommand {
   private static readonly ROCK_EMOJI: string[] = ['🪨', '🗿'];
   private static readonly SCISSORS_EMOJI: string[] = ['✂️', '✁', '✃', '✄', '✂'];
 
-  public constructor(random: IRandomNumberService) {
+  public constructor(random: IRandomNumberService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._random = random;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     if (RoshamboCommand.PAPER_EMOJI.some(e => message.content.includes(e))) return true;
     if (RoshamboCommand.ROCK_EMOJI.some(e => message.content.includes(e))) return true;
     if (RoshamboCommand.SCISSORS_EMOJI.some(e => message.content.includes(e))) return true;
     return false;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const content = message.content;
 
     let rockContent = content;
@@ -51,10 +53,10 @@ export class RoshamboCommand implements IMessageCommand {
 
     const myRolls = this._random.getMultipleRolls(3, playCount).map(r => {
       switch (r) {
-      case 1: return '📄';
-      case 2: return '🪨';
-      case 3: return '✂️';
-      default: return ''; // should never happen
+        case 1: return '📄';
+        case 2: return '🪨';
+        case 3: return '✂️';
+        default: return ''; // should never happen
       }
     });
 
