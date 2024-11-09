@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 
@@ -24,6 +24,9 @@ export class ManualCommand implements IMessageCommand {
   }
 
   public async execute(message: Message): Promise<void> {
+    const channel = message.channel as TextChannel;
+    if (channel == null) return;
+
     const acronym = this.getText(message?.content);
     const text = acronym === 'rtm' ? '(R)EAD (T)HE (M)ANUAL' : '(R)EAD (T)HE (F)IRST (M)ANUAL';
     const messageContent = `In case that wasn't clear, you should probably ${text}!`
@@ -36,6 +39,6 @@ export class ManualCommand implements IMessageCommand {
       + '\n'
       + `FLL Explore: <${this.fllExploreManual}>`;
 
-    message.channel.send(messageContent);
+    channel.send(messageContent);
   }
 }

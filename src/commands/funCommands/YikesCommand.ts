@@ -1,5 +1,5 @@
 import { IMessageCommand } from '../ICommand.js';
-import { Message, MessageType } from 'discord.js';
+import { Message, MessageType, TextChannel } from 'discord.js';
 
 export class YikesCommand implements IMessageCommand {
   public readonly name: string = 'yikes';
@@ -21,7 +21,9 @@ export class YikesCommand implements IMessageCommand {
       messageToReact.react(reactionEmoji);
       return;
     } else {
-      message.channel.send(`<:${this._emojiName}:${reactionEmoji.id}>`);
+      const channel = message.channel as TextChannel;
+      if (channel == null) return;
+      channel.send(`<:${this._emojiName}:${reactionEmoji.id}>`);
     }
   }
 }
