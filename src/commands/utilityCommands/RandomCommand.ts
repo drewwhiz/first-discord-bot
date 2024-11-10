@@ -44,21 +44,21 @@ export class RandomCommand extends MessageCommand {
     if (rollType == null) return;
 
     switch (rollType) {
-      case RandomRollCase.SIMPLE_FLIP:
-        await this.simpleFlipReply(message);
-        break;
-      case RandomRollCase.SIMPLE_ROLL:
-        await this.simpleRollReply(message);
-        break;
-      case RandomRollCase.COUNT_FLIP:
-        await this.countFlipReply(message);
-        break;
-      case RandomRollCase.COUNT_ROLL:
-        await this.countRollReply(message);
-        break;
-      case RandomRollCase.DICE_ROLL:
-        // TODO: dice roll.
-        break;
+    case RandomRollCase.SIMPLE_FLIP:
+      await this.simpleFlipReply(message);
+      break;
+    case RandomRollCase.SIMPLE_ROLL:
+      await this.simpleRollReply(message);
+      break;
+    case RandomRollCase.COUNT_FLIP:
+      await this.countFlipReply(message);
+      break;
+    case RandomRollCase.COUNT_ROLL:
+      await this.countRollReply(message);
+      break;
+    case RandomRollCase.DICE_ROLL:
+      // TODO: dice roll.
+      break;
     }
   }
 

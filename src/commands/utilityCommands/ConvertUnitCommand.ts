@@ -91,66 +91,66 @@ export class ConvertUnitCommand extends MessageCommand {
 
   private static getUnitList(measurement: string): string[] {
     switch (measurement) {
-      case 'length':
-      case 'width':
-      case 'height':
-      case 'depth':
-        return ['meter (m)', 'inch (in)', 'foot (ft)', 'yard (yd)', 'mile (mi)', 'link (li)', 'rod (rd)', 'chain (ch)', 'angstrom', 'mil'];
-      case 'surface area':
-      case 'surfacearea':
-      case 'area':
-        return ['m2', 'sqin', 'sqft', 'sqyd', 'sqmi', 'sqrd', 'sqch', 'sqmil', 'acre', 'hectare'];
-      case 'volume':
-        return ['m3', 'litre (l, L, lt, liter)', 'cc', 'cuin', 'cuft', 'cuyd', 'teaspoon', 'tablespoon'];
-      case 'liquid volume':
-      case 'liquidvolume':
-      case 'liqvolume':
-        return ['minim', 'fluiddram (fldr)', 'fluidounce (floz)', 'gill (gi)', 'cup (cp)', 'pint (pt)', 'quart (qt)', 'gallon (gal)', 'beerbarrel (bbl)', 'oilbarrel (obl)', 'hogshead', 'drop (gtt)'];
-      case 'angle':
-      case 'angles':
-        return ['rad (radian)', 'deg (degree)', 'grad (gradian)', 'cycle', 'arcsec (arcsecond)', 'arcmin (arcminute)'];
-      case 'time':
-        return ['second (s, secs, seconds)', 'minute (min, mins, minutes)', 'hour (h, hr, hrs, hours)', 'day (days)', 'week (weeks)', 'month (months)', 'year (years)', 'decade (decades)', 'century (centuries)', 'millennium (millennia)'];
-      case 'frequency':
-        return ['hertz (Hz)'];
-      case 'mass':
-        return ['gram(g)', 'tonne', 'ton', 'grain (gr)', 'dram (dr)', 'ounce (oz)', 'poundmass (lbm, lb, lbs)', 'hundredweight (cwt)', 'stick', 'stone'];
-      case 'electric current':
-      case 'electriccurrent':
-      case 'current':
-        return ['ampere (A)'];
-      case 'temperature':
-      case 'temp':
-        return ['kelvin (K)', 'celsius (degC)', 'fahrenheit (degF)', 'rankine (degR)'];
-      case 'amount':
-      case 'amountofsubstance':
-      case 'substance':
-      case 'amt':
-        return ['mole (mol)'];
-      case 'luminousintensity':
-      case 'luminous':
-      case 'li':
-        return ['candela (cd)'];
-      case 'force':
-      case 'weight':
-        return ['newton (N)', 'dyne (dyn)', 'poundforce (lbf)', 'kip'];
-      case 'energy':
-        return ['joule (J)', 'erg', 'Wh', 'BTU', 'electronvolt (eV)'];
-      case 'power':
-        return ['watt (W)', 'hp'];
-      case 'pressure':
-        return ['Pa', 'psi', 'atm', 'torr', 'bar', 'mmHg', 'mmH2O', 'cmH2O'];
-      case 'electricityandmagnetism':
-      case 'electricitymagnetism':
-      case 'electricity':
-      case 'magnetism':
-      case 'electromagnetism':
-      case 'electromagnetic':
-        return ['ampere (A)', 'coulomb (C)', 'watt (W)', 'volt (V)', 'ohm', 'farad (F)', 'weber (Wb)', 'tesla (T)', 'henry (H)', 'siemens (S)', 'electronvolt (eV)'];
-      case 'binary':
-        return ['bits (b)', 'bytes (B)'];
-      default:
-        return null;
+    case 'length':
+    case 'width':
+    case 'height':
+    case 'depth':
+      return ['meter (m)', 'inch (in)', 'foot (ft)', 'yard (yd)', 'mile (mi)', 'link (li)', 'rod (rd)', 'chain (ch)', 'angstrom', 'mil'];
+    case 'surface area':
+    case 'surfacearea':
+    case 'area':
+      return ['m2', 'sqin', 'sqft', 'sqyd', 'sqmi', 'sqrd', 'sqch', 'sqmil', 'acre', 'hectare'];
+    case 'volume':
+      return ['m3', 'litre (l, L, lt, liter)', 'cc', 'cuin', 'cuft', 'cuyd', 'teaspoon', 'tablespoon'];
+    case 'liquid volume':
+    case 'liquidvolume':
+    case 'liqvolume':
+      return ['minim', 'fluiddram (fldr)', 'fluidounce (floz)', 'gill (gi)', 'cup (cp)', 'pint (pt)', 'quart (qt)', 'gallon (gal)', 'beerbarrel (bbl)', 'oilbarrel (obl)', 'hogshead', 'drop (gtt)'];
+    case 'angle':
+    case 'angles':
+      return ['rad (radian)', 'deg (degree)', 'grad (gradian)', 'cycle', 'arcsec (arcsecond)', 'arcmin (arcminute)'];
+    case 'time':
+      return ['second (s, secs, seconds)', 'minute (min, mins, minutes)', 'hour (h, hr, hrs, hours)', 'day (days)', 'week (weeks)', 'month (months)', 'year (years)', 'decade (decades)', 'century (centuries)', 'millennium (millennia)'];
+    case 'frequency':
+      return ['hertz (Hz)'];
+    case 'mass':
+      return ['gram(g)', 'tonne', 'ton', 'grain (gr)', 'dram (dr)', 'ounce (oz)', 'poundmass (lbm, lb, lbs)', 'hundredweight (cwt)', 'stick', 'stone'];
+    case 'electric current':
+    case 'electriccurrent':
+    case 'current':
+      return ['ampere (A)'];
+    case 'temperature':
+    case 'temp':
+      return ['kelvin (K)', 'celsius (degC)', 'fahrenheit (degF)', 'rankine (degR)'];
+    case 'amount':
+    case 'amountofsubstance':
+    case 'substance':
+    case 'amt':
+      return ['mole (mol)'];
+    case 'luminousintensity':
+    case 'luminous':
+    case 'li':
+      return ['candela (cd)'];
+    case 'force':
+    case 'weight':
+      return ['newton (N)', 'dyne (dyn)', 'poundforce (lbf)', 'kip'];
+    case 'energy':
+      return ['joule (J)', 'erg', 'Wh', 'BTU', 'electronvolt (eV)'];
+    case 'power':
+      return ['watt (W)', 'hp'];
+    case 'pressure':
+      return ['Pa', 'psi', 'atm', 'torr', 'bar', 'mmHg', 'mmH2O', 'cmH2O'];
+    case 'electricityandmagnetism':
+    case 'electricitymagnetism':
+    case 'electricity':
+    case 'magnetism':
+    case 'electromagnetism':
+    case 'electromagnetic':
+      return ['ampere (A)', 'coulomb (C)', 'watt (W)', 'volt (V)', 'ohm', 'farad (F)', 'weber (Wb)', 'tesla (T)', 'henry (H)', 'siemens (S)', 'electronvolt (eV)'];
+    case 'binary':
+      return ['bits (b)', 'bytes (B)'];
+    default:
+      return null;
     }
   }
 

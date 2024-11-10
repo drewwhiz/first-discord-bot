@@ -53,10 +53,10 @@ export class RoshamboCommand extends MessageCommand {
 
     const myRolls = this._random.getMultipleRolls(3, playCount).map(r => {
       switch (r) {
-        case 1: return '📄';
-        case 2: return '🪨';
-        case 3: return '✂️';
-        default: return ''; // should never happen
+      case 1: return '📄';
+      case 2: return '🪨';
+      case 3: return '✂️';
+      default: return ''; // should never happen
       }
     });
 

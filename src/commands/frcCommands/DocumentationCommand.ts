@@ -59,10 +59,10 @@ export class DocumentationCommand extends MessageCommand {
 
   private getLanguageText(language: ProgrammingLanguage): string {
     switch (language) {
-      case ProgrammingLanguage.LABVIEW: return 'Labview';
-      case ProgrammingLanguage.CPP: return 'C++';
-      case ProgrammingLanguage.PYTHON: return 'Python';
-      default: return 'Java';
+    case ProgrammingLanguage.LABVIEW: return 'Labview';
+    case ProgrammingLanguage.CPP: return 'C++';
+    case ProgrammingLanguage.PYTHON: return 'Python';
+    default: return 'Java';
     }
   }
 

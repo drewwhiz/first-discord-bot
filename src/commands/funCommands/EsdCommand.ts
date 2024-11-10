@@ -1,5 +1,4 @@
 import { GuildBasedChannel, Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';

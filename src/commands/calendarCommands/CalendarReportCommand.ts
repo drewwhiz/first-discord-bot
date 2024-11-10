@@ -33,10 +33,10 @@ export class CalendarReportCommand extends MessageCommand {
     if (data == null || data.length == 0) return ITimeUnit.WEEK;
     data = data.stripPunctuation().toLowerCase().trim();
     switch (data) {
-      case 'day': return ITimeUnit.DAY;
-      case 'month': return ITimeUnit.MONTH;
-      case 'year': return ITimeUnit.YEAR;
-      case 'week': return ITimeUnit.WEEK;
+    case 'day': return ITimeUnit.DAY;
+    case 'month': return ITimeUnit.MONTH;
+    case 'year': return ITimeUnit.YEAR;
+    case 'week': return ITimeUnit.WEEK;
     }
 
     return ITimeUnit.WEEK;
@@ -44,15 +44,15 @@ export class CalendarReportCommand extends MessageCommand {
 
   private static getEndDate(startDate: Date, time: ITimeUnit): Date {
     switch (time) {
-      case ITimeUnit.DAY:
-        return new Date(startDate.setDate(startDate.getDate() + 1));
-      case ITimeUnit.WEEK:
-        return new Date(startDate.setDate(startDate.getDate() + 7));
-      case ITimeUnit.MONTH:
-        return new Date(startDate.setMonth(startDate.getMonth() + 1));
-      case ITimeUnit.YEAR:
-        return new Date(startDate.setFullYear(startDate.getFullYear() + 1));
-      default: return startDate;
+    case ITimeUnit.DAY:
+      return new Date(startDate.setDate(startDate.getDate() + 1));
+    case ITimeUnit.WEEK:
+      return new Date(startDate.setDate(startDate.getDate() + 7));
+    case ITimeUnit.MONTH:
+      return new Date(startDate.setMonth(startDate.getMonth() + 1));
+    case ITimeUnit.YEAR:
+      return new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+    default: return startDate;
     }
   }
 
@@ -64,11 +64,11 @@ export class CalendarReportCommand extends MessageCommand {
     const results = await this._service.reportEvents(startDate, endDate);
     if (results.length == 0) {
       switch (time) {
-        case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
-        case ITimeUnit.WEEK: return ['There are no events upcoming in the next week.'];
-        case ITimeUnit.MONTH: return ['There are no events upcoming in the next month.'];
-        case ITimeUnit.YEAR: return ['There are no events upcoming in the next year.'];
-        default: return ['There are no events upcoming in the requested window.'];
+      case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
+      case ITimeUnit.WEEK: return ['There are no events upcoming in the next week.'];
+      case ITimeUnit.MONTH: return ['There are no events upcoming in the next month.'];
+      case ITimeUnit.YEAR: return ['There are no events upcoming in the next year.'];
+      default: return ['There are no events upcoming in the requested window.'];
       }
     }
 
@@ -82,21 +82,21 @@ export class CalendarReportCommand extends MessageCommand {
     let header = '';
 
     switch (time) {
-      case ITimeUnit.DAY:
-        header = `Here are the upcoming events for the next day (${timezone})`;
-        break;
-      case ITimeUnit.WEEK:
-        header = `Here are the upcoming events for the next week (${timezone})`;
-        break;
-      case ITimeUnit.MONTH:
-        header = `Here are the upcoming events for the next month (${timezone})`;
-        break;
-      case ITimeUnit.YEAR:
-        header = `Here are the upcoming events for the next year (${timezone})`;
-        break;
-      default:
-        header = `Here are the upcoming events requested (Timezone: ${timezone})`;
-        break;
+    case ITimeUnit.DAY:
+      header = `Here are the upcoming events for the next day (${timezone})`;
+      break;
+    case ITimeUnit.WEEK:
+      header = `Here are the upcoming events for the next week (${timezone})`;
+      break;
+    case ITimeUnit.MONTH:
+      header = `Here are the upcoming events for the next month (${timezone})`;
+      break;
+    case ITimeUnit.YEAR:
+      header = `Here are the upcoming events for the next year (${timezone})`;
+      break;
+    default:
+      header = `Here are the upcoming events requested (Timezone: ${timezone})`;
+      break;
     }
 
     if (requestAttendance) {
