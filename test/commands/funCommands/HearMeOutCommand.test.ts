@@ -7,9 +7,9 @@ describe('Bonk Command', function() {
     const content = 'HeAr Me OuT';
     const message = Message.prototype;
     message.content = content;
-    const command = new HearMeOutCommand();
+    const command = new HearMeOutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Bonk Command', function() {
     const content = '1111111111111111111HeAr Me OuT';
     const message = Message.prototype;
     message.content = content;
-    const command = new HearMeOutCommand();
+    const command = new HearMeOutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Bonk Command', function() {
     const content = '11111111111111111111HeAr Me OuT';
     const message = Message.prototype;
     message.content = content;
-    const command = new HearMeOutCommand();
+    const command = new HearMeOutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -37,9 +37,9 @@ describe('Bonk Command', function() {
     const content = 'hear does not me have out it';
     const message = Message.prototype;
     message.content = content;
-    const command = new HearMeOutCommand();
+    const command = new HearMeOutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

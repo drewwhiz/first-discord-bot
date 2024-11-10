@@ -12,8 +12,8 @@ describe('Glitch Command', function () {
     reaction.setup(m => m.count).returns(() => 1);
     reaction.setup(m => m.emoji).returns(() => emoji.object);
 
-    const command = new GlitchCommand();
-    const result = command.trigger(reaction.object);
+    const command = new GlitchCommand(null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.true;
   });
 
@@ -25,8 +25,8 @@ describe('Glitch Command', function () {
     reaction.setup(m => m.count).returns(() => 2);
     reaction.setup(m => m.emoji).returns(() => emoji.object);
 
-    const command = new GlitchCommand();
-    const result = command.trigger(reaction.object);
+    const command = new GlitchCommand(null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.false;
   });
 
@@ -38,8 +38,8 @@ describe('Glitch Command', function () {
     reaction.setup(m => m.count).returns(() => 1);
     reaction.setup(m => m.emoji).returns(() => emoji.object);
 
-    const command = new GlitchCommand();
-    const result = command.trigger(reaction.object);
+    const command = new GlitchCommand(null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.false;
   });
 });

@@ -13,8 +13,8 @@ describe('Game Command', function() {
       return channel;
     });
 
-    const command = new GameCommand(null);
-    const result = command.trigger(mock.object);
+    const command = new GameCommand(null, null);
+    const result = command.messageTrigger(mock.object);
     expect(result).to.be.true;
   });
 
@@ -27,8 +27,8 @@ describe('Game Command', function() {
       return channel;
     });
 
-    const command = new GameCommand(null);
-    const result = command.trigger(mock.object);
+    const command = new GameCommand(null, null);
+    const result = command.messageTrigger(mock.object);
     expect(result).to.be.true;
   });
 
@@ -41,8 +41,8 @@ describe('Game Command', function() {
       return channel;
     });
 
-    const command = new GameCommand(null);
-    const result = command.trigger(mock.object);
+    const command = new GameCommand(null, null);
+    const result = command.messageTrigger(mock.object);
     expect(result).to.be.false;
   });
 });

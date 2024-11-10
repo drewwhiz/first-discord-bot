@@ -7,9 +7,9 @@ describe('Shocker Command', function () {
     const content = 'SHOCKER';
     const message = Message.prototype;
     message.content = content;
-    const command = new ShockerCommand();
+    const command = new ShockerCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Shocker Command', function () {
     const content = 'Shocker😑';
     const message = Message.prototype;
     message.content = content;
-    const command = new ShockerCommand();
+    const command = new ShockerCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Shocker Command', function () {
     const content = 'shocks';
     const message = Message.prototype;
     message.content = content;
-    const command = new ShockerCommand();
+    const command = new ShockerCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

@@ -7,9 +7,9 @@ describe('Convert Unit Command', function() {
     const content = 'convert RANDOM RANDOM to RANDOM';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Convert Unit Command', function() {
     const content = 'convert RANDOM to RANDOM';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Convert Unit Command', function() {
     const content = 'convert help';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Convert Unit Command', function() {
     const content = 'convert help something';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -47,9 +47,9 @@ describe('Convert Unit Command', function() {
     const content = 'I want to convert';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -57,9 +57,9 @@ describe('Convert Unit Command', function() {
     const content = 'convert pls';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -67,9 +67,9 @@ describe('Convert Unit Command', function() {
     const content = 'I want to do something';
     const message = Message.prototype;
     message.content = content;
-    const command = new ConvertUnitCommand();
+    const command = new ConvertUnitCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

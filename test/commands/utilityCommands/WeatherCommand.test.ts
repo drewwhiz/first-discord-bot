@@ -7,9 +7,9 @@ describe('Weather Command', function () {
     const content = 'weather';
     const message = Message.prototype;
     message.content = content;
-    const command = new WeatherCommand(null);
+    const command = new WeatherCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Weather Command', function () {
     const content = 'weather 00000';
     const message = Message.prototype;
     message.content = content;
-    const command = new WeatherCommand(null);
+    const command = new WeatherCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Weather Command', function () {
     const content = 'weather 00000-0000';
     const message = Message.prototype;
     message.content = content;
-    const command = new WeatherCommand(null);
+    const command = new WeatherCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Weather Command', function () {
     const content = 'weather 123';
     const message = Message.prototype;
     message.content = content;
-    const command = new WeatherCommand(null);
+    const command = new WeatherCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -47,9 +47,9 @@ describe('Weather Command', function () {
     const content = 'and more weather 00000-0000';
     const message = Message.prototype;
     message.content = content;
-    const command = new WeatherCommand(null);
+    const command = new WeatherCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

@@ -7,9 +7,9 @@ describe('Imagine Command', function() {
     const content = 'IMAGINE my surprise';
     const message = Message.prototype;
     message.content = content;
-    const command = new ImagineCommand();
+    const command = new ImagineCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Imagine Command', function() {
     const content = 'this phrase doesn\'t have it';
     const message = Message.prototype;
     message.content = content;
-    const command = new ImagineCommand();
+    const command = new ImagineCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Imagine Command', function() {
     const content = 'this phrase has imagine in the wrong place';
     const message = Message.prototype;
     message.content = content;
-    const command = new ImagineCommand();
+    const command = new ImagineCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

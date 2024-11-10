@@ -11,8 +11,8 @@ describe('Red Card Alert Command', function () {
     const reaction = TypeMoq.Mock.ofType<MessageReaction>();
     reaction.setup(m => m.emoji).returns(() => emoji.object);
 
-    const command = new RedCardAlertCommand();
-    const result = command.trigger(reaction.object);
+    const command = new RedCardAlertCommand(null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.true;
   });
 });

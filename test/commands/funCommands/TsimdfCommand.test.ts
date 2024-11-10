@@ -7,9 +7,9 @@ describe('TSIMFD Command', function() {
     const content = 'this message includes CoOl and other words';
     const message = Message.prototype;
     message.content = content;
-    const command = new TsimfdCommand();
+    const command = new TsimfdCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('TSIMFD Command', function() {
     const content = 'this message includes AwEsOmE and other words';
     const message = Message.prototype;
     message.content = content;
-    const command = new TsimfdCommand();
+    const command = new TsimfdCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('TSIMFD Command', function() {
     const content = 'this message includes nEaT and other words';
     const message = Message.prototype;
     message.content = content;
-    const command = new TsimfdCommand();
+    const command = new TsimfdCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('TSIMFD Command', function() {
     const content = 'this message includes dOpE and other words';
     const message = Message.prototype;
     message.content = content;
-    const command = new TsimfdCommand();
+    const command = new TsimfdCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -47,9 +47,9 @@ describe('TSIMFD Command', function() {
     const content = 'this message includes coolest and other words';
     const message = Message.prototype;
     message.content = content;
-    const command = new TsimfdCommand();
+    const command = new TsimfdCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

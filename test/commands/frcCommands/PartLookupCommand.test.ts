@@ -8,8 +8,8 @@ describe('Part Lookup Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new PartLookupCommand();
-    const result = command.trigger(message);
+    const command = new PartLookupCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -18,8 +18,8 @@ describe('Part Lookup Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new PartLookupCommand();
-    const result = command.trigger(message);
+    const command = new PartLookupCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -28,8 +28,8 @@ describe('Part Lookup Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new PartLookupCommand();
-    const result = command.trigger(message);
+    const command = new PartLookupCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -38,8 +38,8 @@ describe('Part Lookup Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new PartLookupCommand();
-    const result = command.trigger(message);
+    const command = new PartLookupCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -48,8 +48,8 @@ describe('Part Lookup Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new PartLookupCommand();
-    const result = command.trigger(message);
+    const command = new PartLookupCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

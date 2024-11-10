@@ -7,9 +7,9 @@ describe('Analyze Command', function () {
     const content = '/analyze';
     const message = Message.prototype;
     message.content = content;
-    const command = new AnalyzeCommand(null);
+    const command = new AnalyzeCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Analyze Command', function () {
     const content = 'I want to analyze';
     const message = Message.prototype;
     message.content = content;
-    const command = new AnalyzeCommand(null);
+    const command = new AnalyzeCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Analyze Command', function () {
     const content = '/read';
     const message = Message.prototype;
     message.content = content;
-    const command = new AnalyzeCommand(null);
+    const command = new AnalyzeCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Analyze Command', function () {
     const content = 'I want to read';
     const message = Message.prototype;
     message.content = content;
-    const command = new AnalyzeCommand(null);
+    const command = new AnalyzeCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 

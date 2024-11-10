@@ -12,8 +12,8 @@ describe('Everyone Command', function() {
     const message = TypeMoq.Mock.ofType<Message>();
     message.setup(m => m.mentions).returns(() => mentions.object);
 
-    const command = new EveryoneCommand();
-    const result = command.trigger(message.object);
+    const command = new EveryoneCommand(null);
+    const result = command.messageTrigger(message.object);
     expect(result).to.be.true;
   });
 
@@ -24,8 +24,8 @@ describe('Everyone Command', function() {
     const message = TypeMoq.Mock.ofType<Message>();
     message.setup(m => m.mentions).returns(() => mentions.object);
 
-    const command = new EveryoneCommand();
-    const result = command.trigger(message.object);
+    const command = new EveryoneCommand(null);
+    const result = command.messageTrigger(message.object);
     expect(result).to.be.false;
   });
 });

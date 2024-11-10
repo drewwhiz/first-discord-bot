@@ -13,8 +13,8 @@ describe('Respect Command', function () {
       return channel;
     });
 
-    const command = new RespectsCommand(null);
-    const result = command.trigger(mock.object);
+    const command = new RespectsCommand(null, null);
+    const result = command.messageTrigger(mock.object);
     expect(result).to.be.true;
   });
 
@@ -27,8 +27,8 @@ describe('Respect Command', function () {
       return channel;
     });
 
-    const command = new RespectsCommand(null);
-    const result = command.trigger(mock.object);
+    const command = new RespectsCommand(null, null);
+    const result = command.messageTrigger(mock.object);
     expect(result).to.be.false;
   });
 });

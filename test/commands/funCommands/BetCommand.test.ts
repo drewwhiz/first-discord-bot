@@ -7,9 +7,9 @@ describe('Bet Command', function() {
     const content = 'bet';
     const message = Message.prototype;
     message.content = content;
-    const command = new BetCommand();
+    const command = new BetCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Bet Command', function() {
     const content = 'i bet';
     const message = Message.prototype;
     message.content = content;
-    const command = new BetCommand();
+    const command = new BetCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Bet Command', function() {
     const content = 'bet? sure';
     const message = Message.prototype;
     message.content = content;
-    const command = new BetCommand();
+    const command = new BetCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Bet Command', function() {
     const content = 'better';
     const message = Message.prototype;
     message.content = content;
-    const command = new BetCommand();
+    const command = new BetCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

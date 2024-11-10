@@ -8,8 +8,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -18,8 +18,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -28,8 +28,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -38,8 +38,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -48,8 +48,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -58,8 +58,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -68,8 +68,8 @@ describe('Chief Delphi Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ChiefDelphiCommand();
-    const result = command.trigger(message);
+    const command = new ChiefDelphiCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });
