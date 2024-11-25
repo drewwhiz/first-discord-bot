@@ -7,9 +7,9 @@ describe('Yikes Command', function() {
     const content = 'yIkEs';
     const message = Message.prototype;
     message.content = content;
-    const command = new YikesCommand();
+    const command = new YikesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Yikes Command', function() {
     const content = 'yIkEs is the key word for this command';
     const message = Message.prototype;
     message.content = content;
-    const command = new YikesCommand();
+    const command = new YikesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 

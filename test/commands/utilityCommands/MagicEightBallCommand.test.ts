@@ -7,9 +7,9 @@ describe('Magic 8 Ball Command', function() {
     const content = 'magic 8 ball, what should I do';
     const message = Message.prototype;
     message.content = content;
-    const command = new MagicEightBallCommand(null);
+    const command = new MagicEightBallCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Magic 8 Ball Command', function() {
     const content = 'magic 8 ball';
     const message = Message.prototype;
     message.content = content;
-    const command = new MagicEightBallCommand(null);
+    const command = new MagicEightBallCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Magic 8 Ball Command', function() {
     const content = 'magic eight ball, what should I do';
     const message = Message.prototype;
     message.content = content;
-    const command = new MagicEightBallCommand(null);
+    const command = new MagicEightBallCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Magic 8 Ball Command', function() {
     const content = 'magic eight ball';
     const message = Message.prototype;
     message.content = content;
-    const command = new MagicEightBallCommand(null);
+    const command = new MagicEightBallCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -47,9 +47,9 @@ describe('Magic 8 Ball Command', function() {
     const content = 'what should I do';
     const message = Message.prototype;
     message.content = content;
-    const command = new MagicEightBallCommand(null);
+    const command = new MagicEightBallCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

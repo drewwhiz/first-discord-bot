@@ -1,9 +1,10 @@
-import { ChannelType, GuildTextBasedChannel, Message, PermissionFlagsBits } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { ChannelType, GuildBasedChannel, GuildTextBasedChannel, Message, PermissionFlagsBits } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IWordCloudWebService } from '../../webservices/interfaces/IWordCloudWebService.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class AnalyzeCommand implements IMessageCommand {
+export class AnalyzeCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
   private static readonly MAX_MESSAGES: number = 1000;
   private static readonly MAX_WORDS: number = 100;
   public readonly name: string = 'analyze';
@@ -11,16 +12,17 @@ export class AnalyzeCommand implements IMessageCommand {
 
   private readonly _wordCloud: IWordCloudWebService;
 
-  public constructor(wordCloud: IWordCloudWebService) {
+  public constructor(wordCloud: IWordCloudWebService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._wordCloud = wordCloud;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.startsWith('analyze') || invariant.startsWith('read');
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const users = message.mentions.users.map(u => u);
     if (users.length === 0) return;
 
@@ -33,7 +35,7 @@ export class AnalyzeCommand implements IMessageCommand {
       channels = channels.filter(c => c.permissionsFor(c.guild.roles.everyone).has(PermissionFlagsBits.ViewChannel));
       if (channels.length === 0) return;
     }
-    
+
     if (channels.length === 0 && message.channel.type === ChannelType.GuildText) {
       channels.push(message.channel);
     }
@@ -85,7 +87,7 @@ export class AnalyzeCommand implements IMessageCommand {
 
       if (byAuthor.length !== 0) {
         const wordsToAdd = byAuthor.reduce((e1, e2) => e1.concat(e2));
-        words = words.concat(wordsToAdd);  
+        words = words.concat(wordsToAdd);
       }
 
       lastMessageId = thisFetch[thisFetch.length - 1].id;

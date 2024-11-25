@@ -7,9 +7,9 @@ describe('Manual Command', function() {
     const content = 'this contains RTM and others';
     const message = Message.prototype;
     message.content = content;
-    const command = new ManualCommand();
+    const command = new ManualCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Manual Command', function() {
     const content = 'this contains RTFM and others';
     const message = Message.prototype;
     message.content = content;
-    const command = new ManualCommand();
+    const command = new ManualCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Manual Command', function() {
     const content = 'this contains no key phrase';
     const message = Message.prototype;
     message.content = content;
-    const command = new ManualCommand();
+    const command = new ManualCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -37,9 +37,9 @@ describe('Manual Command', function() {
     const content = 'this contains no department key phrase';
     const message = Message.prototype;
     message.content = content;
-    const command = new ManualCommand();
+    const command = new ManualCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

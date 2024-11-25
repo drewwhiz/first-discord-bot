@@ -7,9 +7,9 @@ describe('Poop Command', function () {
     const content = '💩';
     const message = Message.prototype;
     message.content = content;
-    const command = new PoopCommand();
+    const command = new PoopCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Poop Command', function () {
     const content = 'no poop here';
     const message = Message.prototype;
     message.content = content;
-    const command = new PoopCommand();
+    const command = new PoopCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

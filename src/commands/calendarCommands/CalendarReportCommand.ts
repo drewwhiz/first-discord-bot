@@ -1,11 +1,12 @@
 import { GuildBasedChannel, Message, TextChannel } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import { IGoogleCalendarWebService } from '../../webservices/interfaces/IGoogleCalendarWebService.js';
 import '../../extensions/DateExtension.js';
 import '../../extensions/StringExtension.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class CalendarReportCommand implements IMessageCommand {
+export class CalendarReportCommand extends MessageCommand {
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'List calendars';
   public readonly description: string = 'List all of the calendars being tracked';
 
@@ -16,11 +17,12 @@ export class CalendarReportCommand implements IMessageCommand {
 
   private readonly _service: IGoogleCalendarWebService;
 
-  public constructor(service: IGoogleCalendarWebService) {
+  public constructor(service: IGoogleCalendarWebService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._service = service;
   }
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const content: string = message.content.toLowerCase().stripPunctuation().trim();
     const args = content.split(' ');
     if (args.length > 2) return false;
@@ -70,7 +72,7 @@ export class CalendarReportCommand implements IMessageCommand {
       }
     }
 
-    const timezone = new Date().toLocaleDateString(undefined, { day:'2-digit', timeZoneName: 'long' }).substring(4);
+    const timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
     let events = results.map(r => {
       const startString = r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : '';
       const locationString = r.location != null ? ` (at ${r.location})` : '';
@@ -78,7 +80,7 @@ export class CalendarReportCommand implements IMessageCommand {
     });
 
     let header = '';
-    
+
     switch (time) {
     case ITimeUnit.DAY:
       header = `Here are the upcoming events for the next day (${timezone})`;
@@ -152,7 +154,7 @@ export class CalendarReportCommand implements IMessageCommand {
     }
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     const content: string = message.content.toLowerCase().stripPunctuation().trim();
     const args = content.split(' ');
     const timeString = args.length == 2 ? args[1] : 'week';
@@ -182,10 +184,10 @@ export class CalendarReportCommand implements IMessageCommand {
           continue;
         }
 
-        const content = customEmoji == null 
-          ? response[i] 
+        const content = customEmoji == null
+          ? response[i]
           : response[i].replace(
-            CalendarReportCommand.STUDENT_EMOJI, 
+            CalendarReportCommand.STUDENT_EMOJI,
             `<:${CalendarReportCommand.DOZER_EMOJI_NAME}:${customEmoji.id}>`
           );
         message = await textChannel.send(content);

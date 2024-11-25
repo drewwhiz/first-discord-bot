@@ -74,19 +74,19 @@ configure({
 // Initialize Discord Bot commands
 const myIntents = new IntentsBitField();
 myIntents.add(
-  IntentsBitField.Flags.MessageContent, 
-  IntentsBitField.Flags.Guilds, 
+  IntentsBitField.Flags.MessageContent,
+  IntentsBitField.Flags.Guilds,
   IntentsBitField.Flags.GuildMessages,
   IntentsBitField.Flags.DirectMessages,
   IntentsBitField.Flags.GuildMessageReactions
 );
 
-const bot = new Client({ 
+const bot = new Client({
   intents: myIntents,
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
-const openDb = async (): Promise<Database<sqlite3.Database,sqlite3.Statement>> => {
+const openDb = async (): Promise<Database<sqlite3.Database, sqlite3.Statement>> => {
   const db = await open({
     filename: './database.db',
     driver: sqlite3.Database
@@ -133,7 +133,16 @@ bot.once(Events.ClientReady, readyClient => {
     });
   }
 
-  const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService);
+  const seriousChannelNames: string[] = process.env.SERIOUS_CHANNELS?.split(',') ?? [];
+  const seriousChannels: GuildBasedChannel[] = [];
+  readyClient.guilds.cache.forEach(g => {
+    const channels = g.channels.cache.filter(c => seriousChannelNames.includes(c.name)).map(c => c);
+    if (channels == null) return;
+    if (channels.length == 0) return;
+    seriousChannels.push(...channels);
+  });
+
+  const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService, seriousChannels);
   nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
   });
@@ -143,55 +152,57 @@ bot.once(Events.ClientReady, readyClient => {
   });
 
   newMessageCommands = [
-    new TsimfdCommand(),
-    new AtMeCommand(readyClient.user.id),
-    new BetCommand(),
-    new RespectsCommand(cooldownDataService),
-    new DoubtCommand(cooldownDataService),
-    new MainGoalCommand(cooldownDataService),
-    new GameCommand(cooldownDataService),
-    new ManualCommand(),
-    new DanceCommand(),
-    new TeamCommand(firstPublicApiWebService),
-    new ImagineCommand(),
-    new BonkCommand(),
-    new YikesCommand(),
-    new HearMeOutCommand(),
-    new DocumentationCommand(),
-    new ChiefDelphiCommand(),
-    new PartLookupCommand(),
-    new LolCommand(),
-    new ColorCommand(),
-    new BrandCommand(brandColorDataService),
-    new RandomCommand(new RandomNumberService()),
-    new MagicEightBallCommand(new RandomNumberService()),
-    new StopCommand(),
-    new WompCommand(),
-    new ShockerCommand(),
-    new ConvertUnitCommand(),
-    new AcronymHelperCommand(acronymDataService),
-    new GoodBotBadBotCommand(readyClient),
-    new AddCalendarCommand(googleCalendarDataService),
-    new ListCalendarCommand(googleCalendarDataService),
-    new RemoveCalendarCommand(googleCalendarDataService),
-    new ReminderCommand(reminderScheduleService),
-    new VexCommand(cooldownDataService),
-    new YouProblemCommand(),
-    new RoshamboCommand(new RandomNumberService()),
-    new WeatherCommand(weatherService),
-    new EsdCommand(weatherService),
-    new PoopCommand(),
-    new StrutCommand(),
-    new AnalyzeCommand(wordCloudService),
-    new EveryoneCommand(),
-    new CoreValuesCommand(),
+    new TsimfdCommand(seriousChannels),
+    new AtMeCommand(readyClient.user.id, seriousChannels),
+    new BetCommand(seriousChannels),
+    new DanceCommand(seriousChannels),
+    new ImagineCommand(seriousChannels),
+    new BonkCommand(seriousChannels),
+    new YikesCommand(seriousChannels),
+    new HearMeOutCommand(seriousChannels),
+    new LolCommand(seriousChannels),
+    new StopCommand(seriousChannels),
+    new WompCommand(seriousChannels),
+    new ShockerCommand(seriousChannels),
+    new YouProblemCommand(seriousChannels),
+    new PoopCommand(seriousChannels),
+    new StrutCommand(seriousChannels),
+    new EveryoneCommand(seriousChannels),
+    new VexCommand(cooldownDataService, seriousChannels),
+    new RespectsCommand(cooldownDataService, seriousChannels),
+    new DoubtCommand(cooldownDataService, seriousChannels),
+    new MainGoalCommand(cooldownDataService, seriousChannels),
+    new GameCommand(cooldownDataService, seriousChannels),
+    new GoodBotBadBotCommand(readyClient, seriousChannels),
+    new AnalyzeCommand(wordCloudService, seriousChannels),
+    new EsdCommand(weatherService, seriousChannels),
+    new ManualCommand(seriousChannels),
+    new DocumentationCommand(seriousChannels),
+    new ChiefDelphiCommand(seriousChannels),
+    new PartLookupCommand(seriousChannels),
+    new ColorCommand(seriousChannels),
+    new ConvertUnitCommand(seriousChannels),
+    new CoreValuesCommand(seriousChannels),
+
+    new BrandCommand(brandColorDataService, seriousChannels),
+    new RandomCommand(new RandomNumberService(), seriousChannels),
+    new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
+    new TeamCommand(firstPublicApiWebService, seriousChannels),
+    new AcronymHelperCommand(acronymDataService, seriousChannels),
+    new AddCalendarCommand(googleCalendarDataService, seriousChannels),
+    new ListCalendarCommand(googleCalendarDataService, seriousChannels),
+    new RemoveCalendarCommand(googleCalendarDataService, seriousChannels),
+    new ReminderCommand(reminderScheduleService, seriousChannels),
+    new RoshamboCommand(new RandomNumberService(), seriousChannels),
+    new WeatherCommand(weatherService, seriousChannels),
+
     calendarReportCommand
   ];
 
   reactionCommands = [
-    new GlitchCommand(),
-    new RedCardAlertCommand(),
-    new JustAGirlCommand(readyClient.user.id)
+    new GlitchCommand(seriousChannels),
+    new RedCardAlertCommand(seriousChannels),
+    new JustAGirlCommand(readyClient.user.id, seriousChannels)
   ];
 });
 
@@ -215,7 +226,7 @@ bot.addListener(Events.MessageCreate, async (message: Message) => {
 bot.addListener(Events.MessageReactionAdd, async (reaction: MessageReaction, user: User) => {
   // Ignore bot reactions
   if (user.bot) return;
-  
+
   // Handle fetching message in case of partial
   if (reaction.partial) {
     try {

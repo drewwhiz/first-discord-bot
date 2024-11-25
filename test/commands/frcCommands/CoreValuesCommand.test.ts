@@ -7,9 +7,9 @@ describe('Core Values Command', function() {
     const content = 'discovery';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Core Values Command', function() {
     const content = 'innovation';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Core Values Command', function() {
     const content = 'inclusion';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Core Values Command', function() {
     const content = 'teamwork';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -47,9 +47,9 @@ describe('Core Values Command', function() {
     const content = 'fun';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -57,9 +57,9 @@ describe('Core Values Command', function() {
     const content = 'gp';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -67,9 +67,9 @@ describe('Core Values Command', function() {
     const content = 'innovation';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -77,9 +77,9 @@ describe('Core Values Command', function() {
     const content = 'discover';
     const message = Message.prototype;
     message.content = content;
-    const command = new CoreValuesCommand();
+    const command = new CoreValuesCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

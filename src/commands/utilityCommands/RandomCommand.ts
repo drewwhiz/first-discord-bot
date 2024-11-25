@@ -1,13 +1,14 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { RandomRollCase } from '../../enum/RandomRollCase.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
 import winston from 'winston';
+import { MessageCommand } from '../MessageCommand.js';
 
 const { debug } = winston;
 
-export class RandomCommand implements IMessageCommand {
+export class RandomCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   private static readonly FLIP_COUNT_REGEX = /^flip [1-9][0-9]*$/;
   private static readonly ROLL_COUNT_REGEX = /^roll [1-9][0-9]*(\s[1-9][0-9]*)?$/;
   // TODO: dice private static readonly ROLL_DICE_REGEX = /^roll d(2|4|6|8|10|12|20|100)(\s[1-9][0-9]*)?$/;
@@ -16,7 +17,8 @@ export class RandomCommand implements IMessageCommand {
   public readonly description: string = 'Sends some generated random number data.';
   private readonly _random: IRandomNumberService;
 
-  public constructor(random: IRandomNumberService) {
+  public constructor(random: IRandomNumberService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._random = random;
   }
 
@@ -31,13 +33,13 @@ export class RandomCommand implements IMessageCommand {
     return null;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     if (message == null) return false;
     if (message.content == null) return false;
     return this.getRollType(message.content) != null;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const rollType = this.getRollType(message.content);
     if (rollType == null) return;
 
@@ -134,11 +136,11 @@ export class RandomCommand implements IMessageCommand {
     const standardDeviation = Math.sqrt(rolls.reduce((partialSum, a) => partialSum + Math.pow(a - average, 2), 0) / (count - 1));
 
     const reply = `I rolled from 1 to ${max} a total of ${count} times - here's what I got!`
-            + `\n- Maximum: ${maxValue}`
-            + `\n- Minimum: ${minValue}`
-            + `\n- Sum: ${total}`
-            + `\n- Average: ${average}`
-            + `\n- Standard Deviation: ${standardDeviation}`;
+      + `\n- Maximum: ${maxValue}`
+      + `\n- Minimum: ${minValue}`
+      + `\n- Sum: ${total}`
+      + `\n- Average: ${average}`
+      + `\n- Standard Deviation: ${standardDeviation}`;
 
     await message.reply(reply);
   }

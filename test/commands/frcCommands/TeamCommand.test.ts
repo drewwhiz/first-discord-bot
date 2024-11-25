@@ -7,9 +7,9 @@ describe('Team Command', function() {
     const content = '1';
     const message = Message.prototype;
     message.content = content;
-    const command = new TeamCommand(null);
+    const command = new TeamCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Team Command', function() {
     const content = '0';
     const message = Message.prototype;
     message.content = content;
-    const command = new TeamCommand(null);
+    const command = new TeamCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Team Command', function() {
     const content = '-1';
     const message = Message.prototype;
     message.content = content;
-    const command = new TeamCommand(null);
+    const command = new TeamCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -37,9 +37,9 @@ describe('Team Command', function() {
     const content = '1.0';
     const message = Message.prototype;
     message.content = content;
-    const command = new TeamCommand(null);
+    const command = new TeamCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -47,9 +47,9 @@ describe('Team Command', function() {
     const content = '1,0';
     const message = Message.prototype;
     message.content = content;
-    const command = new TeamCommand(null);
+    const command = new TeamCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

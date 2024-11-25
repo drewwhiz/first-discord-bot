@@ -1,11 +1,12 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import { ProgrammingLanguage } from '../../enum/ProgrammingLanguage.js';
 import { DocumentationSource } from '../../enum/DocumentationSource.js';
 import { Dictionary } from 'typescript-collections';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class DocumentationCommand implements IMessageCommand {
+export class DocumentationCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   public readonly name: string = 'docs';
   public readonly description: string = 'Fetch documentation for FRC';
 
@@ -16,7 +17,8 @@ export class DocumentationCommand implements IMessageCommand {
   private readonly WPILIB: string = '<https://docs.wpilib.org/en/stable/>';
   private readonly VIVID: string = '<https://frc-radio.vivid-hosting.net>';
 
-  public constructor() {
+  public constructor(seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this.WPILIB_API.setValue(ProgrammingLanguage.CPP, '<https://github.wpilib.org/allwpilib/docs/release/cpp/index.html>');
     this.WPILIB_API.setValue(ProgrammingLanguage.JAVA, '<https://github.wpilib.org/allwpilib/docs/release/java/index.html>');
     this.WPILIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/robotpy/en/stable/>');
@@ -31,12 +33,12 @@ export class DocumentationCommand implements IMessageCommand {
   }
 
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const content = message?.content?.toLowerCase()?.stripPunctuation() ?? '';
     return content.isFirstWord('doc') || content.isFirstWord('docs');
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     if (message?.content == null) return;
 
     const request = message.content.toLowerCase().stripPunctuation().trim();
@@ -56,7 +58,7 @@ export class DocumentationCommand implements IMessageCommand {
   }
 
   private getLanguageText(language: ProgrammingLanguage): string {
-    switch(language) {
+    switch (language) {
     case ProgrammingLanguage.LABVIEW: return 'Labview';
     case ProgrammingLanguage.CPP: return 'C++';
     case ProgrammingLanguage.PYTHON: return 'Python';
@@ -68,7 +70,7 @@ export class DocumentationCommand implements IMessageCommand {
     if (language === ProgrammingLanguage.LABVIEW) return this.buildLabviewMessage();
 
     if (docs == null || docs.length == 0) {
-      docs = [ DocumentationSource.WPILIB, DocumentationSource.CTRE, DocumentationSource.REV, DocumentationSource.VIVID ];
+      docs = [DocumentationSource.WPILIB, DocumentationSource.CTRE, DocumentationSource.REV, DocumentationSource.VIVID];
     }
 
     const languageText = this.getLanguageText(language);
@@ -103,33 +105,33 @@ export class DocumentationCommand implements IMessageCommand {
   }
 
   private getDocRequests(request: string): DocumentationSource[] {
-    const sources : DocumentationSource[] = [];
+    const sources: DocumentationSource[] = [];
 
     if (
-      request.includes('wpi') 
-            || request.includes('wpilib')
+      request.includes('wpi')
+      || request.includes('wpilib')
     ) sources.push(DocumentationSource.WPILIB);
-        
+
     if (
-      request.includes('rev') 
-            || request.includes('revlib') 
-            || request.includes('revrobotics')
-            || request.includes('rev robotics')
+      request.includes('rev')
+      || request.includes('revlib')
+      || request.includes('revrobotics')
+      || request.includes('rev robotics')
     ) sources.push(DocumentationSource.REV);
-        
+
     if (
-      request.includes('ctr') 
-            || request.includes('ctre') 
-            || request.includes('ctrelectronics') 
-            || request.includes('cross the road')
-            || request.includes('cross the road electronics')
+      request.includes('ctr')
+      || request.includes('ctre')
+      || request.includes('ctrelectronics')
+      || request.includes('cross the road')
+      || request.includes('cross the road electronics')
     ) sources.push(DocumentationSource.CTRE);
 
     if (
       request.includes('radio')
-            || request.includes('vivid')
-            || request.includes('network')
-            || request.includes('networking')
+      || request.includes('vivid')
+      || request.includes('network')
+      || request.includes('networking')
     ) sources.push(DocumentationSource.VIVID);
 
     return sources;

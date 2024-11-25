@@ -7,9 +7,9 @@ describe('Vex Command', function () {
     const content = 'vex';
     const message = Message.prototype;
     message.content = content;
-    const command = new VexCommand(null);
+    const command = new VexCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Vex Command', function () {
     const content = 'I feel strongly about vex and other things';
     const message = Message.prototype;
     message.content = content;
-    const command = new VexCommand(null);
+    const command = new VexCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Vex Command', function () {
     const content = 'vexing';
     const message = Message.prototype;
     message.content = content;
-    const command = new VexCommand(null);
+    const command = new VexCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

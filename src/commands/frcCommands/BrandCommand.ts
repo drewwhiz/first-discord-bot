@@ -1,24 +1,26 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IBrandColorDataService } from '../../dataservices/interfaces/IBrandColorDataService.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class BrandCommand implements IMessageCommand {
-  public name: string = 'brand';
-  public description: string = 'Reports branding colors';
+export class BrandCommand extends MessageCommand {
+  public readonly isSilly: boolean = false;
+  public readonly name: string = 'brand';
+  public readonly description: string = 'Reports branding colors';
 
   private readonly _brandColors: IBrandColorDataService;
 
-  public constructor(brandColors: IBrandColorDataService) {
+  public constructor(brandColors: IBrandColorDataService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._brandColors = brandColors;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     return message.content.toLowerCase().stripPunctuation().trim().startsWith('brand ');
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const invariant = message.content.toLowerCase().stripPunctuation().trim().substring(5).trim();
     if (invariant.length === 0) return;
     const brand = invariant.toUpperCase();

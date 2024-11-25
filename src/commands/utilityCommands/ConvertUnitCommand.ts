@@ -1,12 +1,13 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import winston from 'winston';
 import { Unit, evaluate } from 'mathjs';
+import { MessageCommand } from '../MessageCommand.js';
 
 const { debug } = winston;
 
-export class ConvertUnitCommand implements IMessageCommand {
+export class ConvertUnitCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   private static readonly CONVERT_WORD = 'convert';
   private static readonly TO_WORD = ' to ';
   private static readonly CONVERT_REGEX = /^convert .* .* to .*$/;
@@ -15,7 +16,7 @@ export class ConvertUnitCommand implements IMessageCommand {
   public readonly name: string = 'convert';
   public readonly description: string = 'converts units';
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const content = message.content.toLowerCase().trim();
     if (content.stripPunctuation().trim().startsWith(ConvertUnitCommand.HELP)) return true;
     return ConvertUnitCommand.CONVERT_REGEX.test(content);
@@ -153,7 +154,7 @@ export class ConvertUnitCommand implements IMessageCommand {
     }
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     const trimmedContent = message.content.trim();
     if (trimmedContent.stripPunctuation().toLowerCase().trim().startsWith(ConvertUnitCommand.HELP)) {
       await ConvertUnitCommand.convertHelp(message);

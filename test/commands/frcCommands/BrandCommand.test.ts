@@ -7,9 +7,9 @@ describe('Brand Command', function () {
     const content = 'brand something';
     const message = Message.prototype;
     message.content = content;
-    const command = new BrandCommand(null);
+    const command = new BrandCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Brand Command', function () {
     const content = 'brand';
     const message = Message.prototype;
     message.content = content;
-    const command = new BrandCommand(null);
+    const command = new BrandCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Brand Command', function () {
     const content = 'brands';
     const message = Message.prototype;
     message.content = content;
-    const command = new BrandCommand(null);
+    const command = new BrandCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

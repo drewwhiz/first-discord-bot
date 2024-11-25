@@ -7,9 +7,9 @@ describe('ESD Command', function() {
     const content = 'I think ESD could occur';
     const message = Message.prototype;
     message.content = content;
-    const command = new EsdCommand(null);
+    const command = new EsdCommand(null, null);
   
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('ESD Command', function() {
     const content = 'I think electrostatic discharge could occur';
     const message = Message.prototype;
     message.content = content;
-    const command = new EsdCommand(null);
+    const command = new EsdCommand(null, null);
     
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('ESD Command', function() {
     const content = 'I think electro static discharge could occur';
     const message = Message.prototype;
     message.content = content;
-    const command = new EsdCommand(null);
+    const command = new EsdCommand(null, null);
     
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('ESD Command', function() {
     const content = 'I think electro-static discharge could occur';
     const message = Message.prototype;
     message.content = content;
-    const command = new EsdCommand(null);
+    const command = new EsdCommand(null, null);
     
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -47,9 +47,9 @@ describe('ESD Command', function() {
     const content = 'I think electrostaticdischarge could occur';
     const message = Message.prototype;
     message.content = content;
-    const command = new EsdCommand(null);
+    const command = new EsdCommand(null, null);
     
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -57,9 +57,9 @@ describe('ESD Command', function() {
     const content = 'I think desde is a spanish word';
     const message = Message.prototype;
     message.content = content;
-    const command = new EsdCommand(null);
+    const command = new EsdCommand(null, null);
     
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

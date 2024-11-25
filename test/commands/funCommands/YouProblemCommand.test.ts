@@ -7,8 +7,8 @@ describe('You Problem Command', function () {
     const content = 'i hate vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -16,8 +16,8 @@ describe('You Problem Command', function () {
     const content = 'i dislike vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -25,8 +25,8 @@ describe('You Problem Command', function () {
     const content = 'i don\'t like vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -34,8 +34,8 @@ describe('You Problem Command', function () {
     const content = 'i detest vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -43,8 +43,8 @@ describe('You Problem Command', function () {
     const content = 'i abhor vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -52,8 +52,8 @@ describe('You Problem Command', function () {
     const content = 'i despise vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -61,8 +61,8 @@ describe('You Problem Command', function () {
     const content = 'i disapprove of vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -70,8 +70,8 @@ describe('You Problem Command', function () {
     const content = 'i loathe vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -79,8 +79,8 @@ describe('You Problem Command', function () {
     const content = 'i resent vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -88,8 +88,8 @@ describe('You Problem Command', function () {
     const content = 'do you hate vegetables';
     const message = Message.prototype;
     message.content = content;
-    const command = new YouProblemCommand();
-    const result = command.trigger(message);
+    const command = new YouProblemCommand(null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 

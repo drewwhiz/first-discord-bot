@@ -18,8 +18,8 @@ describe('Acronym Helper Command', function() {
     const mock = stubObject<IAcronymDataService>(service);
     mock.get.returns(new Promise<IAcronym>((r) => r));
         
-    const command = new AcronymHelperCommand(mock);
-    const result = command.trigger(message);
+    const command = new AcronymHelperCommand(mock, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -32,8 +32,8 @@ describe('Acronym Helper Command', function() {
     const mock = stubObject<IAcronymDataService>(service);
     mock.get.returns(null);
         
-    const command = new AcronymHelperCommand(mock);
-    const result = command.trigger(message);
+    const command = new AcronymHelperCommand(mock, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -42,8 +42,8 @@ describe('Acronym Helper Command', function() {
     const message = Message.prototype;
     message.content = content;
         
-    const command = new AcronymHelperCommand(null);
-    const result = command.trigger(message);
+    const command = new AcronymHelperCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

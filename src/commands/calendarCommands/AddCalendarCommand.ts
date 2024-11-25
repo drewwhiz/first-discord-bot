@@ -1,27 +1,29 @@
-import { Message, PermissionFlagsBits } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message, PermissionFlagsBits } from 'discord.js';
 import { IGoogleCalendarDataService } from '../../dataservices/interfaces/IGoogleCalendarDataServce.js';
 import { readFileSync } from 'fs';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class AddCalendarCommand implements IMessageCommand {
+export class AddCalendarCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   public readonly name: string = 'Add calendar';
   public readonly description: string = 'Adds a calendar to the collection';
 
   private readonly _service: IGoogleCalendarDataService;
   private readonly _roles: string[];
 
-  public constructor(service: IGoogleCalendarDataService) {
+  public constructor(service: IGoogleCalendarDataService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._service = service;
     this._roles = JSON.parse(readFileSync('data/calendarRoles.json').toString());;
   }
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const content = message.content.trim().toLowerCase();
     if (content.split(' ').length !== 2) return false;
     return content.startsWith('add-calendar ') || content.startsWith('/add-calendar ');
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     const member = message.member;
     if (member == null) {
       message.reply('Sorry, this action is not supported in this context.');

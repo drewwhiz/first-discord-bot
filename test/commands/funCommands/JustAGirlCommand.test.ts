@@ -31,8 +31,8 @@ describe('Just A Girl Command', function () {
 
     message.setup(m => m.reactions).returns(() => reactions.object);
 
-    const command = new JustAGirlCommand('bot id');
-    const result = command.trigger(reaction.object);
+    const command = new JustAGirlCommand('bot id', null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.true;
   });
 
@@ -51,7 +51,7 @@ describe('Just A Girl Command', function () {
     reaction.setup(m => m.emoji).returns(() => emoji.object);
     reaction.setup(m => m.message).returns(() => message.object);
 
-    const command = new JustAGirlCommand('bot id');
+    const command = new JustAGirlCommand('bot id', null);
     const result = command.trigger(reaction.object);
     expect(result).to.be.false;
   });
@@ -90,8 +90,8 @@ describe('Just A Girl Command', function () {
 
     message.setup(m => m.reactions).returns(() => reactions.object);
 
-    const command = new JustAGirlCommand('bot id');
-    const result = command.trigger(reaction.object);
+    const command = new JustAGirlCommand('bot id', null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.true;
   });
 
@@ -129,8 +129,8 @@ describe('Just A Girl Command', function () {
 
     message.setup(m => m.reactions).returns(() => reactions.object);
 
-    const command = new JustAGirlCommand('bot id');
-    const result = command.trigger(reaction.object);
+    const command = new JustAGirlCommand('bot id', null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.false;
   });
 
@@ -159,8 +159,8 @@ describe('Just A Girl Command', function () {
 
     message.setup(m => m.reactions).returns(() => reactions.object);
 
-    const command = new JustAGirlCommand('bot id');
-    const result = command.trigger(reaction.object);
+    const command = new JustAGirlCommand('bot id', null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.false;
   });
 
@@ -179,8 +179,8 @@ describe('Just A Girl Command', function () {
     reaction.setup(m => m.emoji).returns(() => emoji.object);
     reaction.setup(m => m.message).returns(() => message.object);
 
-    const command = new JustAGirlCommand('bot id');
-    const result = command.trigger(reaction.object);
+    const command = new JustAGirlCommand('bot id', null);
+    const result = command.reactionTrigger(reaction.object);
     expect(result).to.be.false;
   });
 });

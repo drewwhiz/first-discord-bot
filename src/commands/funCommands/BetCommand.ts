@@ -1,17 +1,18 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class BetCommand implements IMessageCommand {
+export class BetCommand extends MessageCommand {
   public readonly name: string = 'bet';
   public readonly description: string = 'Responds to \'bet\' in the Discord.';
+  public override readonly isSilly: boolean = true;
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.containsAnyWords('bet');
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     message.reply('Do it. You won\'t.');
   }
 }

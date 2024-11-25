@@ -1,28 +1,30 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class EsdCommand implements IMessageCommand {
+export class EsdCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
   public readonly name: string = 'esd';
   public readonly description: string = 'check ESD conditions';
 
   private readonly _weather: IWeatherApiWebService;
 
-  public constructor(weather: IWeatherApiWebService) {
+  public constructor(weather: IWeatherApiWebService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._weather = weather;
   }
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.containsAnyWords('esd') || invariant.containsAnyPhrases([
-      'electrostatic discharge', 
+      'electrostatic discharge',
       'electro static discharge',
       'electrostaticdischarge'
     ]);
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     const weather = await this._weather.getCurrentWeather(process.env.DEFAULT_ZIP);
     if (weather == null) return;
     if (weather.current.humidity < 45) return;

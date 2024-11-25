@@ -1,16 +1,17 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class YouProblemCommand implements IMessageCommand {
-  public name: string = 'you program';
-  public description: string = 'Responds with something being a "you problem."';
+export class YouProblemCommand extends MessageCommand {
+  public readonly isSilly: boolean = true;
+  public readonly name: string = 'you program';
+  public readonly description: string = 'Responds with something being a "you problem."';
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.containsAnyPhrases([
-      'i hate', 
-      'i dislike', 
+      'i hate',
+      'i dislike',
       'i dont like',
       'i detest',
       'i abhor',
@@ -21,7 +22,7 @@ export class YouProblemCommand implements IMessageCommand {
     ]);
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     await message.reply('Hmm... That sounds like a "you problem."');
   }
 }

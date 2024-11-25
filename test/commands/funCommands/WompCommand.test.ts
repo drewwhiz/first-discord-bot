@@ -7,9 +7,9 @@ describe('Womp Command', function() {
     const content = 'woMP';
     const message = Message.prototype;
     message.content = content;
-    const command = new WompCommand();
+    const command = new WompCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Womp Command', function() {
     const content = 'womp!';
     const message = Message.prototype;
     message.content = content;
-    const command = new WompCommand();
+    const command = new WompCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Womp Command', function() {
     const content = 'womp WOMP';
     const message = Message.prototype;
     message.content = content;
-    const command = new WompCommand();
+    const command = new WompCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Womp Command', function() {
     const content = 'womp and more';
     const message = Message.prototype;
     message.content = content;
-    const command = new WompCommand();
+    const command = new WompCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

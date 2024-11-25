@@ -7,9 +7,9 @@ describe('Dance Command', function() {
     const content = 'frc dance';
     const message = Message.prototype;
     message.content = content;
-    const command = new DanceCommand();
+    const command = new DanceCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Dance Command', function() {
     const content = 'this message includes frc dance and other words';
     const message = Message.prototype;
     message.content = content;
-    const command = new DanceCommand();
+    const command = new DanceCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

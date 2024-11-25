@@ -7,9 +7,9 @@ describe('Color Command', function () {
     const content = '#ffffff';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Color Command', function () {
     const content = '#gggggg';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 255, 255)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Color Command', function () {
     const content = 'rgb(255 255 255)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -47,9 +47,9 @@ describe('Color Command', function () {
     const content = 'rgb(255,255,255)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -57,9 +57,9 @@ describe('Color Command', function () {
     const content = 'rgb 255,255,255 ';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -67,9 +67,9 @@ describe('Color Command', function () {
     const content = 'rgb 255 255 255 ';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -77,9 +77,9 @@ describe('Color Command', function () {
     const content = 'rgb(256, 255, 255)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -87,9 +87,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 256, 255)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -97,9 +97,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 255, 256)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -107,9 +107,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 255, 255, 1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -117,9 +117,9 @@ describe('Color Command', function () {
     const content = 'rgba(255, 255, 255, 1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -127,9 +127,9 @@ describe('Color Command', function () {
     const content = 'rgba(255 255 255 1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -137,9 +137,9 @@ describe('Color Command', function () {
     const content = 'rgba(255,255,255,1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -147,9 +147,9 @@ describe('Color Command', function () {
     const content = 'rgba 255,255,255,1.0 ';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -157,9 +157,9 @@ describe('Color Command', function () {
     const content = 'rgba 255 255 255 1.0';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -167,9 +167,9 @@ describe('Color Command', function () {
     const content = 'rgb(256, 255, 255, 1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -177,9 +177,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 256, 255, 1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -187,9 +187,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 255, 256, 1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -197,9 +197,9 @@ describe('Color Command', function () {
     const content = 'rgb(255, 255, 255, -1.0)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -207,9 +207,9 @@ describe('Color Command', function () {
     const content = 'rgba(255, 255, 255)';
     const message = Message.prototype;
     message.content = content;
-    const command = new ColorCommand();
+    const command = new ColorCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 

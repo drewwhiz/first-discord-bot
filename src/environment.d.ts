@@ -7,6 +7,7 @@ declare global {
       DEFAULT_ZIP: string;
       RESTRICTED_CHANNEL: string;
       MOD_REPORT_CHANNEL: string;
+      SERIOUS_CHANNELS: string;
     }
   }
 }

@@ -7,8 +7,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'gooD Bot';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -16,8 +16,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'gooDBot';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -25,8 +25,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'bad BOT';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -34,8 +34,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'baD-Bot';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -43,8 +43,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'gooD-Bot';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -52,8 +52,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'baD-Bot and some';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -61,8 +61,8 @@ describe('Good Bot Bad Bot Command', function() {
     const content = 'gooD bot and some';
     const message = Message.prototype;
     message.content = content;
-    const command = new GoodBotBadBotCommand(null);
-    const result = command.trigger(message);
+    const command = new GoodBotBadBotCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

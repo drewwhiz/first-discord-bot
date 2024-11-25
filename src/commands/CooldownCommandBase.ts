@@ -1,20 +1,21 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from './ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import { ICooldownDataService } from '../dataservices/interfaces/ICooldownDataService.js';
 import { DateTimeUtilities } from '../utility/DateTimeUtilities.js';
+import { MessageCommand } from './MessageCommand.js';
 
-export abstract class CooldownCommandBase implements IMessageCommand {
+export abstract class CooldownCommandBase extends MessageCommand {
   public readonly name: string;
   public readonly description: string;
   protected readonly cooldownHours: number;
   private readonly _cooldowns: ICooldownDataService;
 
-  public constructor(cooldowns: ICooldownDataService) {
+  public constructor(cooldowns: ICooldownDataService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._cooldowns = cooldowns;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     throw new Error('Method not implemented.');
   }
 
@@ -23,7 +24,7 @@ export abstract class CooldownCommandBase implements IMessageCommand {
     throw new Error('Method not implemented.');
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     let activeCooldown = await this._cooldowns.getByKeys(this.name, message.channelId);
     if (activeCooldown == null) {
       activeCooldown = {

@@ -1,19 +1,20 @@
-import { Message } from 'discord.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
 import { CooldownCommandBase } from '../CooldownCommandBase.js';
 
 export class MainGoalCommand extends CooldownCommandBase {
+  public override readonly isSilly: boolean = true;
   public override readonly name: string = 'mainGoal';
   public override readonly description: string =
     'Responds to messages containing \'goal\' in the Discord.';
   public override readonly cooldownHours: number = 24;
 
-  public constructor(cooldowns: ICooldownDataService) {
-    super(cooldowns);
+  public constructor(cooldowns: ICooldownDataService, seriousChannels: GuildBasedChannel[]) {
+    super(cooldowns, seriousChannels);
   }
 
-  public override trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
     return invariant.containsAnyWords('goal', 'goals');
   }

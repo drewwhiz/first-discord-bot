@@ -1,9 +1,10 @@
 import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
 import '../../extensions/StringExtension.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class ColorCommand implements IMessageCommand {
+export class ColorCommand extends MessageCommand {
+  public override isSilly: boolean = false;
   public readonly name: string = 'color';
   public readonly description: string = 'Generates a color from an RGB code';
 
@@ -83,13 +84,13 @@ export class ColorCommand implements IMessageCommand {
     return null;
   }
 
-  public trigger(message: Message): boolean {
+  public override messageTrigger(message: Message): boolean {
     if (ColorCommand.convertPotentialHexCode(message.content) != null) return true;
     if (ColorCommand.convertPotentialRGB(message.content) != null) return true;
     return false;
   }
 
-  public async execute(message: Message): Promise<void> {
+  public override async execute(message: Message): Promise<void> {
     let colors = ColorCommand.convertPotentialHexCode(message.content);
     if (colors != null) {
       await message.reply({

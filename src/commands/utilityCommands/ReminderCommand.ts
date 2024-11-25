@@ -1,26 +1,28 @@
-import { Message } from 'discord.js';
-import { IMessageCommand } from '../ICommand.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import { IReminderScheduleService } from '../../services/interfaces/IReminderScheduleService.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class ReminderCommand implements IMessageCommand {
+export class ReminderCommand extends MessageCommand {
   private static readonly REMIND_ME = '!remindme';
   private static readonly HELP = '!remindme help';
   private readonly _reminderSchedule: IReminderScheduleService;
 
   public readonly name: string = 'remind me';
   public readonly description: string = 'schedules reminders';
+  public readonly isSilly: boolean = false;
 
-  public constructor(reminderCrons: IReminderScheduleService) {
+  public constructor(reminderCrons: IReminderScheduleService, seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
     this._reminderSchedule = reminderCrons;
   }
 
-  public trigger(message: Message<boolean>): boolean {
+  public override messageTrigger(message: Message<boolean>): boolean {
     const invariant = message.content.trim();
     const hasStart = invariant.startsWith(ReminderCommand.REMIND_ME);
     return hasStart;
   }
 
-  public async execute(message: Message<boolean>): Promise<void> {
+  public override async execute(message: Message<boolean>): Promise<void> {
     const invariant = message.content.trim();
     if (invariant === ReminderCommand.HELP) {
       await ReminderCommand.handleHelp(message);

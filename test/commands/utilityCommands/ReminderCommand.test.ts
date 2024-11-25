@@ -7,9 +7,9 @@ describe('Remidner Command', function () {
     const content = '!remindme';
     const message = Message.prototype;
     message.content = content;
-    const command = new ReminderCommand(null);
+    const command = new ReminderCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Remidner Command', function () {
     const content = '!remindme help';
     const message = Message.prototype;
     message.content = content;
-    const command = new ReminderCommand(null);
+    const command = new ReminderCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Remidner Command', function () {
     const content = 'remindme';
     const message = Message.prototype;
     message.content = content;
-    const command = new ReminderCommand(null);
+    const command = new ReminderCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -37,9 +37,9 @@ describe('Remidner Command', function () {
     const content = 'something !remindme';
     const message = Message.prototype;
     message.content = content;
-    const command = new ReminderCommand(null);
+    const command = new ReminderCommand(null, null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

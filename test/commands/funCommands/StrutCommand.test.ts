@@ -7,9 +7,9 @@ describe('Strut Command', function () {
     const content = 'guntersville';
     const message = Message.prototype;
     message.content = content;
-    const command = new StrutCommand();
+    const command = new StrutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Strut Command', function () {
     const content = 'New Hope';
     const message = Message.prototype;
     message.content = content;
-    const command = new StrutCommand();
+    const command = new StrutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -27,9 +27,9 @@ describe('Strut Command', function () {
     const content = 'newhope';
     const message = Message.prototype;
     message.content = content;
-    const command = new StrutCommand();
+    const command = new StrutCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

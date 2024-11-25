@@ -8,8 +8,8 @@ describe('List Calendar Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ListCalendarCommand(null);
-    const result = command.trigger(message);
+    const command = new ListCalendarCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -18,8 +18,8 @@ describe('List Calendar Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ListCalendarCommand(null);
-    const result = command.trigger(message);
+    const command = new ListCalendarCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -28,8 +28,8 @@ describe('List Calendar Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ListCalendarCommand(null);
-    const result = command.trigger(message);
+    const command = new ListCalendarCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -38,8 +38,8 @@ describe('List Calendar Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new ListCalendarCommand(null);
-    const result = command.trigger(message);
+    const command = new ListCalendarCommand(null, null);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });

@@ -7,9 +7,9 @@ describe('Stop Command', function() {
     const content = 'Stop';
     const message = Message.prototype;
     message.content = content;
-    const command = new StopCommand();
+    const command = new StopCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -17,9 +17,9 @@ describe('Stop Command', function() {
     const content = 'i Stop';
     const message = Message.prototype;
     message.content = content;
-    const command = new StopCommand();
+    const command = new StopCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 
@@ -27,9 +27,9 @@ describe('Stop Command', function() {
     const content = 'Stop?';
     const message = Message.prototype;
     message.content = content;
-    const command = new StopCommand();
+    const command = new StopCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
 
@@ -37,9 +37,9 @@ describe('Stop Command', function() {
     const content = 'Stopter';
     const message = Message.prototype;
     message.content = content;
-    const command = new StopCommand();
+    const command = new StopCommand(null);
 
-    const result = command.trigger(message);
+    const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
 });
