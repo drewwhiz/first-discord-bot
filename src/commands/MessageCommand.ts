@@ -17,7 +17,7 @@ export abstract class MessageCommand implements IMessageCommand {
   public trigger(message: Message): boolean {
     const channel = message.channel as GuildBasedChannel;
     const canBeSilly = channel == null || !this._seriousChannels.includes(channel);
-    if (this.isSilly != canBeSilly) return false;
+    if (this.isSilly && !canBeSilly) return false;
     return this.messageTrigger(message);
   }
 
