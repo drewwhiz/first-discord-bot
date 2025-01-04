@@ -17,7 +17,7 @@ export abstract class ReactionCommand implements IReactionCommand {
   public trigger(reaction: MessageReaction): boolean {
     const channel = reaction.message.channel as GuildBasedChannel;
     const canBeSilly = channel == null || !this._seriousChannels.includes(channel);
-    if (this.isSilly != canBeSilly) return false;
+    if (this.isSilly && !canBeSilly) return false;
     return this.reactionTrigger(reaction);
   }
 
