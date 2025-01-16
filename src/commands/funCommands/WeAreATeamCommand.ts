@@ -6,27 +6,28 @@ export class WeAreATeamCommand extends MessageCommand {
   public override description: string = 'fist bump or respond';
   public override isSilly: boolean = true;
 
-  private static isEmoji(message: string): boolean {
-    const invariant = message.toLowerCase().stripPunctuation().trim();
+  private static isEmoji(invariant: string): boolean {
     return '👊🤜🤛'.includes(invariant);
   }
 
-  private static isMessage(message: string): boolean {
-    const invariant = message.toLowerCase().stripPunctuation().trim();
+  private static isMessage(invariant: string): boolean {
     return invariant === 'were a team' || invariant === 'we are a team';
   }
 
   public override messageTrigger(message: Message): boolean {
-    return WeAreATeamCommand.isEmoji(message.content) || WeAreATeamCommand.isMessage(message.content);
+    const invariant = message.content.toLowerCase().stripPunctuation().trim();
+    if (invariant == null || invariant == '') return false;
+    return WeAreATeamCommand.isEmoji(invariant) || WeAreATeamCommand.isMessage(invariant);
   }
 
   public override async execute(message: Message): Promise<void> {
-    if (WeAreATeamCommand.isEmoji(message.content)) {
+    const invariant = message.content.toLowerCase().stripPunctuation().trim();
+    if (WeAreATeamCommand.isEmoji(invariant)) {
       await message.reply('WE\'RE A TEAM');
       return;
     }
 
-    if (WeAreATeamCommand.isMessage(message.content)) {
+    if (WeAreATeamCommand.isMessage(invariant)) {
       await message.react('🤜');
       await message.react('🤛');
       await message.react('👊');
