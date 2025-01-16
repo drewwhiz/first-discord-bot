@@ -62,6 +62,7 @@ import { WordCloudWebService } from './webservices/WordCloudWebService.js';
 import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
 import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
+import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -183,6 +184,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ColorCommand(seriousChannels),
     new ConvertUnitCommand(seriousChannels),
     new CoreValuesCommand(seriousChannels),
+    new WeAreATeamCommand(seriousChannels),
 
     new BrandCommand(brandColorDataService, seriousChannels),
     new RandomCommand(new RandomNumberService(), seriousChannels),
