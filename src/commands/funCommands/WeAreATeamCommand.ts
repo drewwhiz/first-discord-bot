@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { GuildBasedChannel, Message } from 'discord.js';
 import { MessageCommand } from '../MessageCommand.js';
 
 export class WeAreATeamCommand extends MessageCommand {
@@ -6,8 +6,12 @@ export class WeAreATeamCommand extends MessageCommand {
   public override description: string = 'fist bump or respond';
   public override isSilly: boolean = true;
 
-  private static isEmoji(cleanContent: string): boolean {
-    return cleanContent === ':punch:' || cleanContent === ':right_facing_fist:' || cleanContent === ':left_facing_fist:';
+  public constructor(seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
+  }
+
+  private static isEmoji(content: string): boolean {
+    return content.includes('🤜') || content.includes('🤛') || content.includes('👊');
   }
 
   private static isMessage(invariant: string): boolean {
@@ -15,18 +19,18 @@ export class WeAreATeamCommand extends MessageCommand {
   }
 
   public override messageTrigger(message: Message): boolean {
+    if (WeAreATeamCommand.isEmoji(message.content)) return true;
     const invariant = message.content.toLowerCase().stripPunctuation().trim();
-    if (invariant == null || invariant == '') return false;
-    return WeAreATeamCommand.isEmoji(message.cleanContent) || WeAreATeamCommand.isMessage(invariant);
+    return WeAreATeamCommand.isMessage(invariant);
   }
 
   public override async execute(message: Message): Promise<void> {
-    const invariant = message.content.toLowerCase().stripPunctuation().trim();
-    if (WeAreATeamCommand.isEmoji(invariant)) {
+    if (WeAreATeamCommand.isEmoji(message.content)) {
       await message.reply('WE\'RE A TEAM');
       return;
     }
 
+    const invariant = message.content.toLowerCase().stripPunctuation().trim();
     if (WeAreATeamCommand.isMessage(invariant)) {
       await message.react('🤜');
       await message.react('🤛');
