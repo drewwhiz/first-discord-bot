@@ -184,7 +184,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ColorCommand(seriousChannels),
     new ConvertUnitCommand(seriousChannels),
     new CoreValuesCommand(seriousChannels),
-    // new WeAreATeamCommand(seriousChannels),
+    new WeAreATeamCommand(seriousChannels),
 
     new BrandCommand(brandColorDataService, seriousChannels),
     new RandomCommand(new RandomNumberService(), seriousChannels),
