@@ -9,7 +9,7 @@ export class MichaelSaidCommand extends MessageCommand {
 
   public override messageTrigger(message: Message): boolean {
     const invariant = message.content.toLowerCase().trim();
-    return invariant.containsAnyPhrases(['michael said']);
+    return invariant.containsAnyPhrases(['michael said', 'benben said', '@ttgwinds2 said']);
   }
 
   public override async execute(message: Message): Promise<void> {
