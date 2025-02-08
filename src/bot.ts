@@ -63,6 +63,7 @@ import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
 import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
 import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
+import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -185,6 +186,7 @@ bot.once(Events.ClientReady, readyClient => {
     new ConvertUnitCommand(seriousChannels),
     new CoreValuesCommand(seriousChannels),
     new WeAreATeamCommand(seriousChannels),
+    new MichaelSaidCommand(seriousChannels),
 
     new BrandCommand(brandColorDataService, seriousChannels),
     new RandomCommand(new RandomNumberService(), seriousChannels),
