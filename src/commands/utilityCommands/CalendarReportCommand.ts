@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { GuildBasedChannel, Message, TextChannel } from 'discord.js';
-import { IGoogleCalendarWebService } from '../../webservices/interfaces/IGoogleCalendarWebService.js';
 import '../../extensions/DateExtension.js';
 import '../../extensions/StringExtension.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
@@ -8,19 +7,17 @@ import { MessageCommand } from '../MessageCommand.js';
 
 export class CalendarReportCommand extends MessageCommand {
   public readonly isSilly: boolean = false;
-  public readonly name: string = 'List calendars';
-  public readonly description: string = 'List all of the calendars being tracked';
+  public readonly name: string = 'Calendar report';
+  public readonly description: string = 'Read the Discord Calendar';
 
   private static readonly MENTOR_EMOJI = ':hammer:';
   private static readonly UNAVAILABLE_EMOJI = ':baby_chick:';
   private static readonly STUDENT_EMOJI = ':robot:';
   private static readonly DOZER_EMOJI_NAME = 'dozer';
 
-  private readonly _service: IGoogleCalendarWebService;
 
-  public constructor(service: IGoogleCalendarWebService, seriousChannels: GuildBasedChannel[]) {
+  public constructor(seriousChannels: GuildBasedChannel[]) {
     super(seriousChannels);
-    this._service = service;
   }
 
   public override messageTrigger(message: Message<boolean>): boolean {
@@ -61,8 +58,7 @@ export class CalendarReportCommand extends MessageCommand {
     // Start midnight today
     const startDate = new Date();
     startDate.setHours(0, 0, 0);
-    const endDate = CalendarReportCommand.getEndDate(new Date(), time);
-    const results = await this._service.reportEvents(startDate, endDate);
+    const results = [];
     if (results.length == 0) {
       switch (time) {
       case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];

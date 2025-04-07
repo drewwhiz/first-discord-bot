@@ -19,13 +19,8 @@ import { ChiefDelphiCommand } from './commands/frcCommands/ChiefDelphiCommand.js
 import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
 import sqlite3 from 'sqlite3';
 import { Database, open } from 'sqlite';
-import { GoogleCalendarDataService } from './dataservices/GoogleCalendarDataService.js';
-import { AddCalendarCommand } from './commands/calendarCommands/AddCalendarCommand.js';
-import { ListCalendarCommand } from './commands/calendarCommands/ListCalendarCommand.js';
-import { RemoveCalendarCommand } from './commands/calendarCommands/RemoveCalendarCommand.js';
-import { GoogleCalendarWebService } from './webservices/GoogleCalendarWebService.js';
 import * as nodeCron from 'node-cron';
-import { CalendarReportCommand } from './commands/calendarCommands/CalendarReportCommand.js';
+import { CalendarReportCommand } from './commands/utilityCommands/CalendarReportCommand.js';
 import { RandomCommand } from './commands/utilityCommands/RandomCommand.js';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
@@ -109,14 +104,12 @@ let reactionCommands: IReactionCommand[] = [];
 bot.once(Events.ClientReady, readyClient => {
   info(`Ready! Logged in as ${readyClient.user.tag}`);
 
-  const googleCalendarDataService = new GoogleCalendarDataService(database);
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
   const programDataService = new ProgramDataService(database);
   const brandColorDataService = new BrandColorDataService(database);
   const cooldownDataService = new CooldownDataService(database);
 
-  const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
   const weatherService = new WeatherApiWebService();
@@ -144,7 +137,7 @@ bot.once(Events.ClientReady, readyClient => {
     seriousChannels.push(...channels);
   });
 
-  const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService, seriousChannels);
+  const calendarReportCommand = new CalendarReportCommand(seriousChannels);
   nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
   });
@@ -193,9 +186,6 @@ bot.once(Events.ClientReady, readyClient => {
     new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
     new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
-    new AddCalendarCommand(googleCalendarDataService, seriousChannels),
-    new ListCalendarCommand(googleCalendarDataService, seriousChannels),
-    new RemoveCalendarCommand(googleCalendarDataService, seriousChannels),
     new ReminderCommand(reminderScheduleService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
     new WeatherCommand(weatherService, seriousChannels),
