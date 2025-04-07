@@ -9,7 +9,7 @@ describe('Calendar Report Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new CalendarReportCommand(null);
+    const command = new CalendarReportCommand(null, null);
     const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
@@ -19,7 +19,7 @@ describe('Calendar Report Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new CalendarReportCommand(null);
+    const command = new CalendarReportCommand(null, null);
     const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
@@ -29,7 +29,7 @@ describe('Calendar Report Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new CalendarReportCommand(null);
+    const command = new CalendarReportCommand(null, null);
     const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
@@ -39,7 +39,7 @@ describe('Calendar Report Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new CalendarReportCommand(null);
+    const command = new CalendarReportCommand(null, null);
     const result = command.messageTrigger(message);
     expect(result).to.be.true;
   });
@@ -49,7 +49,7 @@ describe('Calendar Report Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new CalendarReportCommand(null);
+    const command = new CalendarReportCommand(null, null);
     const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });
@@ -59,7 +59,7 @@ describe('Calendar Report Command', function() {
     const message = Message.prototype;
     message.content = content;
 
-    const command = new CalendarReportCommand(null);
+    const command = new CalendarReportCommand(null, null);
     const result = command.messageTrigger(message);
     expect(result).to.be.false;
   });

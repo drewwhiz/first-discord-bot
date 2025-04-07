@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { GuildBasedChannel, Message, TextChannel } from 'discord.js';
-import '../../extensions/DateExtension.js';
+import { Client, GuildBasedChannel, GuildScheduledEventManager, Message, TextChannel } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
 import { MessageCommand } from '../MessageCommand.js';
@@ -15,9 +14,15 @@ export class CalendarReportCommand extends MessageCommand {
   private static readonly STUDENT_EMOJI = ':robot:';
   private static readonly DOZER_EMOJI_NAME = 'dozer';
 
+  private readonly _eventManager: GuildScheduledEventManager;
 
-  public constructor(seriousChannels: GuildBasedChannel[]) {
+
+  public constructor(client: Client, seriousChannels: GuildBasedChannel[]) {
     super(seriousChannels);
+    if (client?.guilds == null) return;
+    const guilds = client.guilds.cache.map(g => g);
+    if (guilds == null || guilds.length != 1) return;
+    this._eventManager = guilds[0].scheduledEvents;
   }
 
   public override messageTrigger(message: Message<boolean>): boolean {
@@ -40,25 +45,20 @@ export class CalendarReportCommand extends MessageCommand {
     return ITimeUnit.WEEK;
   }
 
-  private static getEndDate(startDate: Date, time: ITimeUnit): Date {
-    switch (time) {
-    case ITimeUnit.DAY:
-      return new Date(startDate.setDate(startDate.getDate() + 1));
-    case ITimeUnit.WEEK:
-      return new Date(startDate.setDate(startDate.getDate() + 7));
-    case ITimeUnit.MONTH:
-      return new Date(startDate.setMonth(startDate.getMonth() + 1));
-    case ITimeUnit.YEAR:
-      return new Date(startDate.setFullYear(startDate.getFullYear() + 1));
-    default: return startDate;
-    }
-  }
-
   private async buildMessage(time: ITimeUnit, requestAttendance: boolean): Promise<string[]> {
     // Start midnight today
     const startDate = new Date();
     startDate.setHours(0, 0, 0);
-    const results = [];
+
+    let endDate = startDate;
+    switch (time) {
+    case ITimeUnit.DAY: endDate = new Date(new Date(startDate).setDate(startDate.getDate() + 1)); break;
+    case ITimeUnit.WEEK: endDate = new Date(new Date(startDate).setDate(startDate.getDate() + 7)); break;
+    case ITimeUnit.MONTH: endDate = new Date(new Date(startDate).setMonth(startDate.getMonth() + 1)); break;
+    case ITimeUnit.YEAR: endDate = new Date(new Date(startDate).setFullYear(startDate.getFullYear() + 1)); break;
+    }
+
+    const results = this._eventManager == null ? [] : (await this._eventManager.fetch()).map(e => e).filter(e => e.scheduledStartAt >= startDate && e.scheduledStartAt < endDate);
     if (results.length == 0) {
       switch (time) {
       case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
@@ -69,11 +69,15 @@ export class CalendarReportCommand extends MessageCommand {
       }
     }
 
+    const dateOption: Intl.DateTimeFormatOptions = { dateStyle: 'full' };
+    const timeOption: Intl.DateTimeFormatOptions = { timeStyle: 'short' };
+
     const timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
     let events = results.map(r => {
-      const startString = r.isStartDateTime ? ' at ' + r.start.getTwelveHourTimeLocal() : '';
-      const locationString = r.location != null ? ` (at ${r.location})` : '';
-      return `- ${r.eventName}: ${r.start.getFullDateLocal()}${startString}${locationString}`;
+      const date = r.scheduledStartAt;
+      const startString = `${date.toLocaleDateString('en-GB', dateOption)} at ${date.toLocaleTimeString('en-US', timeOption)}`;
+      const locationString = r.entityMetadata?.location != null ? ` (${r.entityMetadata.location})` : '';
+      return `- ${r.name}: ${startString}${locationString}`;
     });
 
     let header = '';

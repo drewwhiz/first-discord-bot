@@ -137,7 +137,7 @@ bot.once(Events.ClientReady, readyClient => {
     seriousChannels.push(...channels);
   });
 
-  const calendarReportCommand = new CalendarReportCommand(seriousChannels);
+  const calendarReportCommand = new CalendarReportCommand(readyClient, seriousChannels);
   nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
   });
