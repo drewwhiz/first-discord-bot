@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { GuildBasedChannel, Message, TextChannel } from 'discord.js';
 import { IGoogleCalendarWebService } from '../../webservices/interfaces/IGoogleCalendarWebService.js';
 import '../../extensions/DateExtension.js';

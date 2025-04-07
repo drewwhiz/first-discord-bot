@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { StopCommand } from '../../../src/commands/funCommands/StopCommand.js';
 import { expect } from 'chai';

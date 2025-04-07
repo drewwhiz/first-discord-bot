@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { ReminderCommand } from '../../../src/commands/utilityCommands/ReminderCommand.js';
 import { expect } from 'chai';

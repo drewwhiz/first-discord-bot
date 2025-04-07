@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { BetCommand } from '../../../src/commands/funCommands/BetCommand.js';
 import { expect } from 'chai';

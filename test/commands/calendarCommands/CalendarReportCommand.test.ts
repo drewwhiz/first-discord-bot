@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
 import { CalendarReportCommand } from '../../../src/commands/calendarCommands/CalendarReportCommand.js';
