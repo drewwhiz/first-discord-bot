@@ -9,4 +9,10 @@
 
 This project requires a `.env` file in the root directory. The expected variables include:
 - `TOKEN`: Your [Discord](https://discord.com/developers/docs/reference) API token.
-- `GOOGLE_API_KEY`: An API key for accessing [Google](https://developers.google.com/maps/documentation/javascript/get-api-key) Calendar.
+- `CLIENT_ID`: Your [Discord](https://support-dev.discord.com/hc/en-us/articles/360028717192-Where-can-I-find-my-Application-Team-Server-ID) application ID.
+- `GUILD_ID`: Your [Discord](https://support-dev.discord.com/hc/en-us/articles/360028717192-Where-can-I-find-my-Application-Team-Server-ID) server ID.
+- `WEATHER_API_KEY`: TBD
+- `DEFAULT_ZIP`: TBD
+- `RESTRICTED_CHANNEL`: TBD
+- `MOD_REPORT_CHANNEL`: TBD
+- `SERIOUS_CHANNELS`: TBD

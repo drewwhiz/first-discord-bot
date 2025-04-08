@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { MessageReaction, ReactionEmoji } from 'discord.js';
 import { expect } from 'chai';
 import * as TypeMoq from 'typemoq';

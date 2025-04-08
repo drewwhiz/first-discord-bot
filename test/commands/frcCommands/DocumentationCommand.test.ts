@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
 import { DocumentationCommand } from '../../../src/commands/frcCommands/DocumentationCommand.js';

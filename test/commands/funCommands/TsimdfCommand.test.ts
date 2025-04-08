@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
 import { TsimfdCommand } from '../../../src/commands/funCommands/TsimfdCommand.js';

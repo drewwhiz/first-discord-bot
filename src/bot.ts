@@ -1,4 +1,4 @@
-import { Client, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, User } from 'discord.js';
+import { Client, Collection, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, REST, Routes, User } from 'discord.js';
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { GameCommand } from './commands/funCommands/GameCommand.js';
@@ -19,14 +19,7 @@ import { ChiefDelphiCommand } from './commands/frcCommands/ChiefDelphiCommand.js
 import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
 import sqlite3 from 'sqlite3';
 import { Database, open } from 'sqlite';
-import { GoogleCalendarDataService } from './dataservices/GoogleCalendarDataService.js';
-import { AddCalendarCommand } from './commands/calendarCommands/AddCalendarCommand.js';
-import { ListCalendarCommand } from './commands/calendarCommands/ListCalendarCommand.js';
-import { RemoveCalendarCommand } from './commands/calendarCommands/RemoveCalendarCommand.js';
-import { GoogleCalendarWebService } from './webservices/GoogleCalendarWebService.js';
 import * as nodeCron from 'node-cron';
-import { CalendarReportCommand } from './commands/calendarCommands/CalendarReportCommand.js';
-import { RandomCommand } from './commands/utilityCommands/RandomCommand.js';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
 import { StopCommand } from './commands/funCommands/StopCommand.js';
@@ -34,16 +27,13 @@ import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCo
 import { AcronymDataService } from './dataservices/AcronymDataService.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
-import { MagicEightBallCommand } from './commands/utilityCommands/MagicEightBallCommand.js';
 import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitCommand.js';
 import { ReminderDataService } from './dataservices/ReminderDataService.js';
 import { ReminderScheduleService } from './services/ReminderScheduleService.js';
-import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 import { ProgramDataService } from './dataservices/ProgramDataService.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
-import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import { VexCommand } from './commands/funCommands/VexCommand.js';
 import { CooldownDataService } from './dataservices/CooldownDataService.js';
@@ -64,6 +54,13 @@ import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
 import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
 import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
+import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
+import SlashCommand from './commands/slashCommands/SlashCommand.js';
+import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
+import BrandCommand from './commands/slashCommands/BrandCommand.js';
+import RollCommand from './commands/slashCommands/RollCommand.js';
+import FlipCommand from './commands/slashCommands/FlipCommand.js';
+import MagicEightBallCommand from './commands/slashCommands/MagicEightBallCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -104,19 +101,18 @@ const openDb = async (): Promise<Database<sqlite3.Database, sqlite3.Statement>> 
 const database = await openDb();
 let newMessageCommands: IMessageCommand[] = [];
 let reactionCommands: IReactionCommand[] = [];
+const slashCommands = new Collection<string, SlashCommand>();
 
 // Connect
 bot.once(Events.ClientReady, readyClient => {
   info(`Ready! Logged in as ${readyClient.user.tag}`);
 
-  const googleCalendarDataService = new GoogleCalendarDataService(database);
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
   const programDataService = new ProgramDataService(database);
   const brandColorDataService = new BrandColorDataService(database);
   const cooldownDataService = new CooldownDataService(database);
 
-  const googleCalendarWebService = new GoogleCalendarWebService(googleCalendarDataService);
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
   const weatherService = new WeatherApiWebService();
@@ -142,11 +138,6 @@ bot.once(Events.ClientReady, readyClient => {
     if (channels == null) return;
     if (channels.length == 0) return;
     seriousChannels.push(...channels);
-  });
-
-  const calendarReportCommand = new CalendarReportCommand(googleCalendarWebService, seriousChannels);
-  nodeCron.schedule('0 14 * * Sun', () => {
-    calendarReportCommand.sendReminder(generalChannels);
   });
 
   nodeCron.schedule('0 0 3 * * *', async () => {
@@ -188,19 +179,10 @@ bot.once(Events.ClientReady, readyClient => {
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
 
-    new BrandCommand(brandColorDataService, seriousChannels),
-    new RandomCommand(new RandomNumberService(), seriousChannels),
-    new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
     new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
-    new AddCalendarCommand(googleCalendarDataService, seriousChannels),
-    new ListCalendarCommand(googleCalendarDataService, seriousChannels),
-    new RemoveCalendarCommand(googleCalendarDataService, seriousChannels),
-    new ReminderCommand(reminderScheduleService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
-    new WeatherCommand(weatherService, seriousChannels),
-
-    calendarReportCommand
+    new WeatherCommand(weatherService, seriousChannels)
   ];
 
   reactionCommands = [
@@ -208,6 +190,53 @@ bot.once(Events.ClientReady, readyClient => {
     new RedCardAlertCommand(seriousChannels),
     new JustAGirlCommand(readyClient.user.id, seriousChannels)
   ];
+
+  const calendarReportCommand = new CalendarReportCommand(readyClient);
+  nodeCron.schedule('0 14 * * Sun', () => {
+    calendarReportCommand.sendReminder(generalChannels);
+  });
+
+
+  const reminderCommand = new ReminderCommand(reminderScheduleService);
+  const brandCommand = new BrandCommand(brandColorDataService);
+  const rollCommand = new RollCommand(new RandomNumberService());
+  const flipCommand = new FlipCommand(new RandomNumberService());
+  const magicEightBallCommand = new MagicEightBallCommand(new RandomNumberService());
+
+  slashCommands.set(reminderCommand.name, reminderCommand);
+  slashCommands.set(calendarReportCommand.name, calendarReportCommand);
+  slashCommands.set(brandCommand.name, brandCommand);
+  slashCommands.set(rollCommand.name, rollCommand);
+  slashCommands.set(flipCommand.name, flipCommand);
+  slashCommands.set(magicEightBallCommand.name, magicEightBallCommand);
+
+  const rest = new REST().setToken(process.env.TOKEN);
+  (async () => {
+    const commands = slashCommands.map(async c => (await c.build()).toJSON());
+    Promise.all(commands).then(async r => {
+      try {
+        await rest.put(
+          Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+          { body: r }
+        );
+      } catch {
+        error('Unable to register slash commands');
+      }
+    });
+  })();
+  
+  readyClient.on(Events.InteractionCreate, async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+  
+    const command = slashCommands.get(interaction.commandName) as SlashCommand;
+    if (!command) return;
+    
+    try {
+      await command.execute(interaction);
+    } catch (e) {
+      error(e);
+    }
+  });
 });
 
 // Handle message
