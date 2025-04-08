@@ -27,7 +27,6 @@ import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCo
 import { AcronymDataService } from './dataservices/AcronymDataService.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
-import { MagicEightBallCommand } from './commands/utilityCommands/MagicEightBallCommand.js';
 import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitCommand.js';
 import { ReminderDataService } from './dataservices/ReminderDataService.js';
 import { ReminderScheduleService } from './services/ReminderScheduleService.js';
@@ -61,6 +60,7 @@ import CalendarReportCommand from './commands/slashCommands/CalendarReportComman
 import BrandCommand from './commands/slashCommands/BrandCommand.js';
 import RollCommand from './commands/slashCommands/RollCommand.js';
 import FlipCommand from './commands/slashCommands/FlipCommand.js';
+import MagicEightBallCommand from './commands/slashCommands/MagicEightBallCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -179,7 +179,6 @@ bot.once(Events.ClientReady, readyClient => {
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
 
-    new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
     new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
@@ -202,12 +201,14 @@ bot.once(Events.ClientReady, readyClient => {
   const brandCommand = new BrandCommand(brandColorDataService);
   const rollCommand = new RollCommand(new RandomNumberService());
   const flipCommand = new FlipCommand(new RandomNumberService());
+  const magicEightBallCommand = new MagicEightBallCommand(new RandomNumberService());
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
   slashCommands.set(brandCommand.name, brandCommand);
   slashCommands.set(rollCommand.name, rollCommand);
   slashCommands.set(flipCommand.name, flipCommand);
+  slashCommands.set(magicEightBallCommand.name, magicEightBallCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {
