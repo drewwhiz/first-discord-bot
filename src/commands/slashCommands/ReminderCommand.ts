@@ -14,8 +14,8 @@ export default class ReminderCommand extends SlashCommand {
     this._reminderSchedule = reminderCrons;
   }
 
-  public override build(): SlashCommandOptionsOnlyBuilder {
-    return super.build()
+  public override async build(): Promise<SlashCommandOptionsOnlyBuilder> {
+    return (await super.build())
       .addIntegerOption(option => 
         option
           .setName(ReminderCommand._UNITS)

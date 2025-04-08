@@ -15,7 +15,7 @@ export default abstract class SlashCommand {
 
   public abstract execute(interaction: ChatInputCommandInteraction): Promise<void>;
 
-  public build(): SlashCommandOptionsOnlyBuilder {
+  public async build(): Promise<SlashCommandOptionsOnlyBuilder> {
     return new SlashCommandBuilder()
       .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages)
       .setName(this.name)

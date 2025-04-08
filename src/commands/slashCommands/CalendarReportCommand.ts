@@ -19,8 +19,8 @@ export default class CalendarReportCommand extends SlashCommand {
     this._eventManager = guilds[0].scheduledEvents;
   }
 
-  public override build(): SlashCommandOptionsOnlyBuilder {
-    return super.build()
+  public override async build(): Promise<SlashCommandOptionsOnlyBuilder> {
+    return (await super.build())
       .addNumberOption(option => 
         option
           .setName(CalendarReportCommand._DURATION)

@@ -36,7 +36,6 @@ import { LolCommand } from './commands/funCommands/LolCommand.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 import { ProgramDataService } from './dataservices/ProgramDataService.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
-import { BrandCommand } from './commands/frcCommands/BrandCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import { VexCommand } from './commands/funCommands/VexCommand.js';
 import { CooldownDataService } from './dataservices/CooldownDataService.js';
@@ -60,6 +59,7 @@ import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js
 import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
 import SlashCommand from './commands/slashCommands/SlashCommand.js';
 import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
+import BrandCommand from './commands/slashCommands/BrandCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -178,7 +178,6 @@ bot.once(Events.ClientReady, readyClient => {
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
 
-    new BrandCommand(brandColorDataService, seriousChannels),
     new RandomCommand(new RandomNumberService(), seriousChannels),
     new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
     new TeamCommand(firstPublicApiWebService, seriousChannels),
@@ -200,20 +199,25 @@ bot.once(Events.ClientReady, readyClient => {
 
 
   const reminderCommand = new ReminderCommand(reminderScheduleService);
+  const brandCommand = new BrandCommand(brandColorDataService);
+
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
+  slashCommands.set(brandCommand.name, brandCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {
-    try {
-      const commands = slashCommands.map(c => c.build().toJSON());
-      await rest.put(
-        Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
-        { body: commands },
-      );
-    } catch {
-      error('Unable to register slash commands');
-    }
+    const commands = slashCommands.map(async c => (await c.build()).toJSON());
+    Promise.all(commands).then(async r => {
+      try {
+        await rest.put(
+          Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+          { body: r }
+        );
+      } catch {
+        error('Unable to register slash commands');
+      }
+    });
   })();
   
   readyClient.on(Events.InteractionCreate, async interaction => {

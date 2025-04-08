@@ -10,6 +10,13 @@ export class BrandColorDataService implements IBrandColorDataService {
     this._database = database;
   }
 
+  public async getBrands(): Promise<string[]> {
+    const sql = 'SELECT DISTINCT brand FROM BrandColors';
+    const results = await this._database.all(sql);
+    if (results == null) return [] as string[];
+    return (results as IBrandColor[]).map(b => b.brand) as string[];
+  }
+
   public async getByBrand(brand: string): Promise<IBrandColor[]> {
     const sql = 'SELECT * FROM BrandColors WHERE (brand = ?)';
     const results = await this._database.all(sql, [ brand ]);
