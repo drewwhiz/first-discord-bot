@@ -9,6 +9,8 @@
 
 This project requires a `.env` file in the root directory. The expected variables include:
 - `TOKEN`: Your [Discord](https://discord.com/developers/docs/reference) API token.
+- `CLIENT_ID`: TBD
+- `GUILD_ID`: TBD
 - `WEATHER_API_KEY`: TBD
 - `DEFAULT_ZIP`: TBD
 - `RESTRICTED_CHANNEL`: TBD

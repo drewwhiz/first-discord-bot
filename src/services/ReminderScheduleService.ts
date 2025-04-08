@@ -1,4 +1,4 @@
-import { Client, Message, TextChannel } from 'discord.js';
+import { ChatInputCommandInteraction, Client, TextChannel } from 'discord.js';
 import { IReminderDataService } from '../dataservices/interfaces/IReminderDataService.js';
 import { IReminderScheduleService } from './interfaces/IReminderScheduleService.js';
 import { scheduleJob } from 'node-schedule';
@@ -47,39 +47,39 @@ export class ReminderScheduleService implements IReminderScheduleService {
     });
   }
 
-  public async handleReminder(message: Message<boolean>, reminder: string, deadline: Date): Promise<void> {
-    const client = message.client;
+  public async handleReminder(interaction: ChatInputCommandInteraction, reminder: string, deadline: Date): Promise<void> {
+    const client = interaction.client;
     if (client == null) {
-      await message.reply('Unable to schedule reminder.');
+      await interaction.reply('Unable to schedule reminder.');
       return;
     };
 
-    if (message.channelId == null || message.channelId.length == 0) {
-      await message.reply('Unable to schedule reminder.');
+    if (interaction.channelId == null || interaction.channelId.length == 0) {
+      await interaction.reply('Unable to schedule reminder.');
       return;
     }
 
-    const reminderMessage = `<@!${message.author.id}> REMINDER: ${reminder}`;
+    const reminderMessage = `<@!${interaction.user.id}> REMINDER: ${reminder}`;
     if (reminderMessage.length > 1990) {
-      await message.reply('Reminder is too long. Please edit and try again.');
+      await interaction.reply('Reminder is too long. Please edit and try again.');
       return;
     }
 
     const createdReminder = await this._reminders.add({
       id: 0,
-      userId: message.author.id,
-      channelId: message.channelId,
+      userId: interaction.user.id,
+      channelId: interaction.channelId,
       deadline: deadline.toUTCString(),
       reminder: reminderMessage
     });
 
     const time = new Date(createdReminder.deadline);
     scheduleJob(time, async () => {
-      await ReminderScheduleService.sendReminder(message.client, reminderMessage, createdReminder.userId, createdReminder.channelId);
+      await ReminderScheduleService.sendReminder(interaction.client, reminderMessage, createdReminder.userId, createdReminder.channelId);
       await this._reminders.delete(createdReminder.id);
     });
 
-    if (message != null) await message.reply('Got it, boss!');
+    if (interaction != null) await interaction.reply('Got it, boss!');
   }
 
   private static async sendReminder(client: Client<true>, reminder: string, userId: string, channelId: string, isLate: boolean = false): Promise<void> {

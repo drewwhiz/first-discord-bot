@@ -1,4 +1,4 @@
-import { Client, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, User } from 'discord.js';
+import { Client, Collection, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, REST, Routes, User } from 'discord.js';
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { GameCommand } from './commands/funCommands/GameCommand.js';
@@ -33,7 +33,6 @@ import { MagicEightBallCommand } from './commands/utilityCommands/MagicEightBall
 import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitCommand.js';
 import { ReminderDataService } from './dataservices/ReminderDataService.js';
 import { ReminderScheduleService } from './services/ReminderScheduleService.js';
-import { ReminderCommand } from './commands/utilityCommands/ReminderCommand.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 import { ProgramDataService } from './dataservices/ProgramDataService.js';
@@ -59,6 +58,8 @@ import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
 import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
 import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
+import ReminderCommand from './commands/utility/ReminderCommand.js';
+import SlashCommand from './commands/utility/SlashCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -99,6 +100,7 @@ const openDb = async (): Promise<Database<sqlite3.Database, sqlite3.Statement>> 
 const database = await openDb();
 let newMessageCommands: IMessageCommand[] = [];
 let reactionCommands: IReactionCommand[] = [];
+const slashCommands = new Collection<string, SlashCommand>();
 
 // Connect
 bot.once(Events.ClientReady, readyClient => {
@@ -186,7 +188,6 @@ bot.once(Events.ClientReady, readyClient => {
     new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
     new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
-    new ReminderCommand(reminderScheduleService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
     new WeatherCommand(weatherService, seriousChannels),
 
@@ -198,6 +199,35 @@ bot.once(Events.ClientReady, readyClient => {
     new RedCardAlertCommand(seriousChannels),
     new JustAGirlCommand(readyClient.user.id, seriousChannels)
   ];
+
+  const reminderCommand = new ReminderCommand(reminderScheduleService);
+  slashCommands.set(reminderCommand.name, reminderCommand);
+
+  const rest = new REST().setToken(process.env.TOKEN);
+  (async () => {
+    try {
+      const commands = slashCommands.map(c => c.build().toJSON());
+      await rest.put(
+        Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+        { body: commands },
+      );
+    } catch {
+      error('Unable to register slash commands');
+    }
+  })();
+  
+  readyClient.on(Events.InteractionCreate, async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+  
+    const command = slashCommands.get(interaction.commandName) as SlashCommand;
+    if (!command) return;
+    
+    try {
+      await command.execute(interaction);
+    } catch (e) {
+      error(e);
+    }
+  });
 });
 
 // Handle message
