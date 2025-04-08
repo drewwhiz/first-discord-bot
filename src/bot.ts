@@ -20,7 +20,6 @@ import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
 import sqlite3 from 'sqlite3';
 import { Database, open } from 'sqlite';
 import * as nodeCron from 'node-cron';
-import { RandomCommand } from './commands/utilityCommands/RandomCommand.js';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
 import { StopCommand } from './commands/funCommands/StopCommand.js';
@@ -60,6 +59,8 @@ import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
 import SlashCommand from './commands/slashCommands/SlashCommand.js';
 import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
 import BrandCommand from './commands/slashCommands/BrandCommand.js';
+import RollCommand from './commands/slashCommands/RollCommand.js';
+import FlipCommand from './commands/slashCommands/FlipCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -178,7 +179,6 @@ bot.once(Events.ClientReady, readyClient => {
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
 
-    new RandomCommand(new RandomNumberService(), seriousChannels),
     new MagicEightBallCommand(new RandomNumberService(), seriousChannels),
     new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
@@ -200,10 +200,14 @@ bot.once(Events.ClientReady, readyClient => {
 
   const reminderCommand = new ReminderCommand(reminderScheduleService);
   const brandCommand = new BrandCommand(brandColorDataService);
+  const rollCommand = new RollCommand(new RandomNumberService());
+  const flipCommand = new FlipCommand(new RandomNumberService());
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
   slashCommands.set(brandCommand.name, brandCommand);
+  slashCommands.set(rollCommand.name, rollCommand);
+  slashCommands.set(flipCommand.name, flipCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {

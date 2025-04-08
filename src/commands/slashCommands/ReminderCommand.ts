@@ -46,8 +46,8 @@ export default class ReminderCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const secondsInUnit = interaction.options.get(ReminderCommand._UNITS).value as number;
-    const length = interaction.options.get(ReminderCommand._LENGTH).value as number;
+    const secondsInUnit = interaction.options.get(ReminderCommand._UNITS)?.value as number;
+    const length = interaction.options.get(ReminderCommand._LENGTH)?.value as number;
     if (secondsInUnit == null || length == null) return;
     
     const secondsDuration = secondsInUnit * length;

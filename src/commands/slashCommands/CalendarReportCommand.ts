@@ -102,7 +102,7 @@ export default class CalendarReportCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const timeUnit = interaction.options.get(CalendarReportCommand._DURATION).value as ITimeUnit;
+    const timeUnit = interaction.options.get(CalendarReportCommand._DURATION)?.value as ITimeUnit;
     if (timeUnit == null) return;
 
     const response = await this.buildMessage(timeUnit, false);
