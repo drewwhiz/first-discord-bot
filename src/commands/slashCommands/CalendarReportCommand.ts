@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { Client, GuildBasedChannel, GuildScheduledEventManager, Message, TextChannel } from 'discord.js';
-import '../../extensions/StringExtension.js';
+import { ChatInputCommandInteraction, Client, GuildBasedChannel, GuildScheduledEventManager, Message, SlashCommandOptionsOnlyBuilder, TextChannel } from 'discord.js';
+import SlashCommand from './SlashCommand.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
-import { MessageCommand } from '../MessageCommand.js';
 
-export class CalendarReportCommand extends MessageCommand {
-  public readonly isSilly: boolean = false;
-  public readonly name: string = 'Calendar report';
-  public readonly description: string = 'Read the Discord Calendar';
-
+export default class CalendarReportCommand extends SlashCommand {
+  private static readonly _DURATION: string = 'duration';
   private static readonly MENTOR_EMOJI = ':hammer:';
   private static readonly UNAVAILABLE_EMOJI = ':baby_chick:';
   private static readonly STUDENT_EMOJI = ':robot:';
@@ -16,33 +11,28 @@ export class CalendarReportCommand extends MessageCommand {
 
   private readonly _eventManager: GuildScheduledEventManager;
 
-
-  public constructor(client: Client, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(client: Client) {
+    super('upcoming', 'List upcoming events');
     if (client?.guilds == null) return;
     const guilds = client.guilds.cache.map(g => g);
     if (guilds == null || guilds.length != 1) return;
     this._eventManager = guilds[0].scheduledEvents;
   }
 
-  public override messageTrigger(message: Message<boolean>): boolean {
-    const content: string = message.content.toLowerCase().stripPunctuation().trim();
-    const args = content.split(' ');
-    if (args.length > 2) return false;
-    return args[0] == 'upcoming';
-  }
-
-  private static mapToTimeUnit(data: string): ITimeUnit {
-    if (data == null || data.length == 0) return ITimeUnit.WEEK;
-    data = data.stripPunctuation().toLowerCase().trim();
-    switch (data) {
-    case 'day': return ITimeUnit.DAY;
-    case 'month': return ITimeUnit.MONTH;
-    case 'year': return ITimeUnit.YEAR;
-    case 'week': return ITimeUnit.WEEK;
-    }
-
-    return ITimeUnit.WEEK;
+  public override build(): SlashCommandOptionsOnlyBuilder {
+    return super.build()
+      .addNumberOption(option => 
+        option
+          .setName(CalendarReportCommand._DURATION)
+          .setDescription('Length of duration')
+          .setChoices(
+            { name: 'year', value: ITimeUnit.YEAR },
+            { name: 'month', value: ITimeUnit.MONTH },
+            { name: 'week', value: ITimeUnit.WEEK },
+            { name: 'day', value: ITimeUnit.DAY }
+          )
+          .setRequired(false))
+    ;
   }
 
   private async buildMessage(time: ITimeUnit, requestAttendance: boolean): Promise<string[]> {
@@ -110,11 +100,42 @@ export class CalendarReportCommand extends MessageCommand {
     events.unshift(header);
     return events;
   }
+  
+  public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    const timeUnit = interaction.options.get(CalendarReportCommand._DURATION).value as ITimeUnit;
+    if (timeUnit == null) return;
 
-  private static async sendMessages(firstMessage: Message<boolean>, response: string[], textChannel: TextChannel = null): Promise<void> {
+    const response = await this.buildMessage(timeUnit, false);
+    if (response.length == 1) {
+      interaction.reply(response[0]);
+      return;
+    }
+
+    await CalendarReportCommand.sendMessages(interaction, response);
+  }
+
+  private static async reply(previousMessage: ChatInputCommandInteraction | Message, reply: string, textChannel: TextChannel, isInitial: boolean): Promise<ChatInputCommandInteraction | Message> {
+    if (previousMessage == null) {
+      return await textChannel.send(reply);
+    }
+
+    const asInteraction = previousMessage as ChatInputCommandInteraction;
+    if (!asInteraction) return await previousMessage.reply(reply) as Message;
+    
+    if (isInitial) {
+      await asInteraction.reply(reply);
+    } else {
+      await asInteraction.followUp(reply);
+    }
+
+    return asInteraction;
+  }
+
+  private static async sendMessages(firstMessage: ChatInputCommandInteraction, response: string[], textChannel: TextChannel = null): Promise<void> {
     const lines = response.length;
-    let previousMessage = firstMessage;
+    let previousMessage: ChatInputCommandInteraction | Message = firstMessage;
     let reply = response[0];
+    let isInitial: boolean = true;
 
     for (let i = 1; i < lines; i++) {
       const currentLength = reply.length;
@@ -125,11 +146,14 @@ export class CalendarReportCommand extends MessageCommand {
         if (prospectiveLength < 1900) {
           reply += '\n';
           reply += response[i];
-          previousMessage = previousMessage == null ? await textChannel.send(reply) : await previousMessage.reply(reply);
+          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
+          isInitial &&= false;
         } else {
-          previousMessage = previousMessage == null ? await textChannel.send(reply) : await previousMessage.reply(reply);
+          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
+          isInitial &&= false;
           reply = response[i];
-          previousMessage = previousMessage == null ? await textChannel.send(reply) : await previousMessage.reply(reply);
+          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
+          isInitial &&= false;
         }
 
         continue;
@@ -144,30 +168,12 @@ export class CalendarReportCommand extends MessageCommand {
 
       // Send and start new message
       if (i != lines - 1) {
-        previousMessage = previousMessage == null ? await textChannel.send(reply) : await previousMessage.reply(reply);
+        previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
+        isInitial &&= false;
         reply = response[i];
         continue;
       }
     }
-
-    if (previousMessage == firstMessage) {
-      firstMessage == null ? await textChannel.send(reply) : await firstMessage.reply(reply);
-    }
-  }
-
-  public override async execute(message: Message<boolean>): Promise<void> {
-    const content: string = message.content.toLowerCase().stripPunctuation().trim();
-    const args = content.split(' ');
-    const timeString = args.length == 2 ? args[1] : 'week';
-    const timeUnit = CalendarReportCommand.mapToTimeUnit(timeString);
-
-    const response = await this.buildMessage(timeUnit, false);
-    if (response.length == 1) {
-      message.reply(response[0]);
-      return;
-    }
-
-    await CalendarReportCommand.sendMessages(message, response);
   }
 
   public async sendReminder(channels: GuildBasedChannel[]): Promise<void> {

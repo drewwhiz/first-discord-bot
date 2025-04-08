@@ -20,7 +20,6 @@ import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
 import sqlite3 from 'sqlite3';
 import { Database, open } from 'sqlite';
 import * as nodeCron from 'node-cron';
-import { CalendarReportCommand } from './commands/utilityCommands/CalendarReportCommand.js';
 import { RandomCommand } from './commands/utilityCommands/RandomCommand.js';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
@@ -58,8 +57,9 @@ import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
 import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
 import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
-import ReminderCommand from './commands/utility/ReminderCommand.js';
-import SlashCommand from './commands/utility/SlashCommand.js';
+import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
+import SlashCommand from './commands/slashCommands/SlashCommand.js';
+import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -139,11 +139,6 @@ bot.once(Events.ClientReady, readyClient => {
     seriousChannels.push(...channels);
   });
 
-  const calendarReportCommand = new CalendarReportCommand(readyClient, seriousChannels);
-  nodeCron.schedule('0 14 * * Sun', () => {
-    calendarReportCommand.sendReminder(generalChannels);
-  });
-
   nodeCron.schedule('0 0 3 * * *', async () => {
     await firstPublicApiWebService.updateAllSeasons();
   });
@@ -189,9 +184,7 @@ bot.once(Events.ClientReady, readyClient => {
     new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
-    new WeatherCommand(weatherService, seriousChannels),
-
-    calendarReportCommand
+    new WeatherCommand(weatherService, seriousChannels)
   ];
 
   reactionCommands = [
@@ -200,8 +193,15 @@ bot.once(Events.ClientReady, readyClient => {
     new JustAGirlCommand(readyClient.user.id, seriousChannels)
   ];
 
+  const calendarReportCommand = new CalendarReportCommand(readyClient);
+  nodeCron.schedule('0 14 * * Sun', () => {
+    calendarReportCommand.sendReminder(generalChannels);
+  });
+
+
   const reminderCommand = new ReminderCommand(reminderScheduleService);
   slashCommands.set(reminderCommand.name, reminderCommand);
+  slashCommands.set(calendarReportCommand.name, calendarReportCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {
