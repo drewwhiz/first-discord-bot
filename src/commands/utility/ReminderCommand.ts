@@ -3,10 +3,14 @@ import { IReminderScheduleService } from '../../services/interfaces/IReminderSch
 import SlashCommand from './SlashCommand.js';
 
 export default class ReminderCommand extends SlashCommand {
+  private static readonly _UNITS: string = 'units';
+  private static readonly _LENGTH: string = 'length';
+  private static readonly _REMINDER: string = 'reminder';
+
   private readonly _reminderSchedule: IReminderScheduleService;
 
   public constructor(reminderCrons: IReminderScheduleService) {
-    super('remindme', 'A command to set a reminder for a user.');
+    super('remindme', 'Set a reminder');
     this._reminderSchedule = reminderCrons;
   }
 
@@ -14,8 +18,8 @@ export default class ReminderCommand extends SlashCommand {
     return super.build()
       .addIntegerOption(option => 
         option
-          .setName('units')
-          .setDescription('The unit of time to wait')
+          .setName(ReminderCommand._UNITS)
+          .setDescription('Unit of time')
           .setChoices(
             { name: 'seconds', value: 1 },
             { name: 'minutes', value: 60 },
@@ -28,25 +32,26 @@ export default class ReminderCommand extends SlashCommand {
           .setRequired(true))
       .addNumberOption(option => 
         option
-          .setName('length')
-          .setDescription('The amount of unit to wait')
+          .setName(ReminderCommand._LENGTH)
+          .setDescription('How many of that unit?')
           .setRequired(true)
           .setMinValue(1)
       )
       .addStringOption(option => 
         option
-          .setName('reminder')
-          .setDescription('The message to remind the user with')
+          .setName(ReminderCommand._REMINDER)
+          .setDescription('The reminder message')
           .setRequired(true)
       );
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const secondsInUnit = interaction.options.get('units').value as number;
-    const length = interaction.options.get('length').value as number;
+    const secondsInUnit = interaction.options.get(ReminderCommand._UNITS).value as number;
+    const length = interaction.options.get(ReminderCommand._LENGTH).value as number;
+    if (secondsInUnit == null || length == null) return;
+    
     const secondsDuration = secondsInUnit * length;
-
-    const reminder = interaction.options.get('reminder').value as string;
+    const reminder = interaction.options.get(ReminderCommand._REMINDER).value as string;
     if (reminder == null || reminder.length === 0) return;
 
     const now = new Date();
