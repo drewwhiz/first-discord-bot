@@ -8,10 +8,10 @@ export class WompCommand extends MessageCommand {
 
   public override messageTrigger(message: Message): boolean {
     const content = message.content.toLowerCase().stripPunctuation().trim();
-    const hasWomp = content.includes('womp');
+    const hasWomp = content.includes('womp') || content.includes('whomp');
     if (!hasWomp) return false;
 
-    const hasNothingElse = content.replaceAll('womp', '').trim().length == 0;
+    const hasNothingElse = content.replaceAll('womp', '').trim().length == 0 || content.replaceAll('whomp', '').trim().length == 0;
     return hasNothingElse;
   }
 
