@@ -1,5 +1,5 @@
 import { APIApplicationCommandOptionChoice, ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 import { IBrandColorDataService } from '../../dataservices/interfaces/IBrandColorDataService.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
 

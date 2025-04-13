@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, Client, GuildBasedChannel, GuildScheduledEventManager, Message, SlashCommandOptionsOnlyBuilder, TextChannel } from 'discord.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 import { ITimeUnit } from '../../models/ITimeUnit.js';
 
 export default class CalendarReportCommand extends SlashCommand {

@@ -22,6 +22,6 @@ jobs:
                 cd ~/first-discord-bot
                 git fetch --all
                 git reset --hard origin/main 
-                ~/.nvm/versions/node/v20.18.0/bin/pm2 stop first-discord-bot
-                ~/.nvm/versions/node/v20.18.0/bin/npm ci --cache .npm
-                ~/.nvm/versions/node/v20.18.0/bin/pm2 restart first-discord-bot
+                ~/.nvm/versions/node/v22.14.0/bin/pm2 stop first-discord-bot
+                ~/.nvm/versions/node/v22.14.0/bin/npm ci --cache .npm
+                ~/.nvm/versions/node/v22.14.0/bin/pm2 restart first-discord-bot

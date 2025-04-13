@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
 import { IReminderScheduleService } from '../../services/interfaces/IReminderScheduleService.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 
 export default class ReminderCommand extends SlashCommand {
   private static readonly _UNITS: string = 'units';
