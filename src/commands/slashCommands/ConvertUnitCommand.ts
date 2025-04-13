@@ -1,7 +1,9 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
 import SlashCommand from '../SlashCommand.js';
 import { evaluate, Unit } from 'mathjs';
-import { debug } from 'winston';
+import winston from 'winston';
+
+const { debug } = winston;
 
 export default class ConvertUnitCommand extends SlashCommand {
   private static readonly _FROM: string = 'from';
