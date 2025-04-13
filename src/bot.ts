@@ -52,7 +52,7 @@ import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertComm
 import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
 import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
 import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
-import SlashCommand from './commands/slashCommands/SlashCommand.js';
+import SlashCommand from './commands/SlashCommand.js';
 import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
 import BrandCommand from './commands/slashCommands/BrandCommand.js';
 import RollCommand from './commands/slashCommands/RollCommand.js';

@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
 
 export default class MagicEightBallCommand extends SlashCommand {

@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 import { IFirstPublicApiWebService } from '../../webservices/interfaces/IFirstPublicApiWebService.js';
 import { IFirstProgram } from '../../models/IFirstProgram.js';
 

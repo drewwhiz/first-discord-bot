@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 import { evaluate, Unit } from 'mathjs';
 import { debug } from 'winston';
 

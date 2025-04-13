@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
-import SlashCommand from './SlashCommand.js';
+import SlashCommand from '../SlashCommand.js';
 
 export default class ChiefDelphiCommand extends SlashCommand {
   private static readonly _SEARCH: string = 'search';
