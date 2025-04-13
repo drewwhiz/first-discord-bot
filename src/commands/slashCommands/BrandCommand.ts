@@ -31,11 +31,17 @@ export default class BrandCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const brand = (interaction.options.get(BrandCommand._ENTITY)?.value as string)?.toUpperCase();
-    if (brand == null) return;
+    const brand = interaction.options.getString(BrandCommand._ENTITY)?.toUpperCase();
+    if (brand == null) {
+      await interaction.reply('Invalid subject provided');
+      return;
+    }
 
     const colors = await this._brandColors.getByBrand(brand);
-    if (colors == null || colors.length == 0) return;
+    if (colors == null || colors.length == 0) {
+      await interaction.reply('Subject colors could not be determined');
+      return;
+    }
 
     const header = `The colors used by ${brand} include these hexcodes:`;
     const lines = colors.map(c => c.hexcode);

@@ -46,17 +46,26 @@ export default class ReminderCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const secondsInUnit = interaction.options.get(ReminderCommand._UNITS)?.value as number;
-    const length = interaction.options.get(ReminderCommand._LENGTH)?.value as number;
-    if (secondsInUnit == null || length == null) return;
+    const secondsInUnit = interaction.options.getInteger(ReminderCommand._UNITS);
+    const length = interaction.options.getNumber(ReminderCommand._LENGTH);
+    if (secondsInUnit == null || length == null) {
+      await interaction.reply('Unable to compute reminder time');
+      return;
+    }
     
     const secondsDuration = secondsInUnit * length;
-    const reminder = interaction.options.get(ReminderCommand._REMINDER).value as string;
-    if (reminder == null || reminder.length === 0) return;
+    const reminder = interaction.options.getString(ReminderCommand._REMINDER);
+    if (reminder == null || reminder.length == 0) {
+      await interaction.reply('No valid message for reminder provided');
+      return;
+    }
 
     const now = new Date();
     const deadline = new Date(now.setSeconds(now.getSeconds() + secondsDuration));
-    if (deadline == null) return;
+    if (deadline == null) {
+      await interaction.reply('Deadline could not be determined');
+      return;
+    }
 
     await this._reminderSchedule.handleReminder(interaction, reminder, deadline);
   }

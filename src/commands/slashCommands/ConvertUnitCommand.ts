@@ -9,7 +9,6 @@ export default class ConvertUnitCommand extends SlashCommand {
   private static readonly _FROM: string = 'from';
   private static readonly _TO: string = 'to';
 
-
   public constructor() {
     super('convert', 'Converts units');
   }
@@ -33,20 +32,21 @@ export default class ConvertUnitCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const from = interaction.options.get(ConvertUnitCommand._FROM)?.value as string;
-    if (from == null) return;
-    if (from.length <= 0) return;
-
-    const to = interaction.options.get(ConvertUnitCommand._TO)?.value as string;
-    if (to == null) return;
-    if (to.length <= 0) return;
+    const from = interaction.options.getString(ConvertUnitCommand._FROM);
+    const to = interaction.options.getString(ConvertUnitCommand._TO);
+    if (from == null || from.length <= 0 || to == null || to.length <= 0) {
+      await interaction.reply('Unable to parse input parameters');
+      return;
+    }
 
     const convertPhrase = `${from} to ${to}`;
     const conversion = ConvertUnitCommand.computeConversion(convertPhrase);
-    if (conversion == null) return;
+    if (conversion == null) {
+      await interaction.reply('Unable to perform conversion');
+      return;
+    }
 
     const roundedResult = parseFloat(conversion.toNumber().toPrecision(15));
-
     await interaction.reply(`${from} is equivalent to ${roundedResult} ${to}`);
   }
 

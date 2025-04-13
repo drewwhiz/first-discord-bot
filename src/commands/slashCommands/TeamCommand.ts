@@ -40,15 +40,26 @@ export default class TeamCommand extends SlashCommand {
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     let year = await this._firstPublicApi.getCurrentSeason(IFirstProgram.FRC, false);
-    const team = interaction.options.get(TeamCommand._TEAM)?.value as number;
-    const program = interaction.options.get(TeamCommand._PROGRAM)?.value as string;
-    if (team == null) return;
-    if (program == null) return;
+    const team = interaction.options.getInteger(TeamCommand._TEAM);
+    const program = interaction.options.getString(TeamCommand._PROGRAM);
+    if (team == null) {
+      await interaction.reply('Team is required');
+      return;
+    }
+    
+    if (program == null) {
+      await interaction.reply('Program is required');
+      return;
+    }
 
     if (program != TeamCommand._FRC) year -= 1;
 
     const reply = TeamCommand.getReply(team, year, program);
-    if (reply == null) return;
+    if (reply == null) {
+      await interaction.reply('Unable to lookup team');
+      return;
+    }
+    
     await interaction.reply(reply);
   }
 

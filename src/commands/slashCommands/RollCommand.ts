@@ -53,17 +53,18 @@ export default class RollCommand extends SlashCommand {
       + `\n- Standard Deviation: ${standardDeviation}`;
 
     await interaction.reply(reply);
-    return;
   }
 
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const sides = interaction.options.get(RollCommand._SIDES)?.value as number;
-    if (sides == null) return;
+    const sides = interaction.options.getInteger(RollCommand._SIDES);
+    if (sides == null) {
+      await interaction.reply('Unable to determine the number of sides to roll');
+    }
 
-    let count = interaction.options.get(RollCommand._COUNT)?.value as number;
+    let count = interaction.options.getInteger(RollCommand._COUNT);
     if (count == null) count = 1;
 
-    return await this.roll(interaction, sides, count);
+    await this.roll(interaction, sides, count);
   }
 }
