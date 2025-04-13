@@ -5,7 +5,6 @@ import { GameCommand } from './commands/funCommands/GameCommand.js';
 import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
 import { ManualCommand } from './commands/funCommands/ManualCommand.js';
 import { DanceCommand } from './commands/funCommands/DanceCommand.js';
-import { TeamCommand } from './commands/frcCommands/TeamCommand.js';
 import { ImagineCommand } from './commands/funCommands/ImagineCommand.js';
 import { RespectsCommand } from './commands/funCommands/RespectsCommand.js';
 import { DoubtCommand } from './commands/funCommands/DoubtCommand.js';
@@ -61,6 +60,7 @@ import FlipCommand from './commands/slashCommands/FlipCommand.js';
 import MagicEightBallCommand from './commands/slashCommands/MagicEightBallCommand.js';
 import ChiefDelphiCommand from './commands/slashCommands/ChiefDelphiCommand.js';
 import ConvertUnitCommand from './commands/slashCommands/ConvertUnitCommand.js';
+import TeamCommand from './commands/slashCommands/TeamCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -177,7 +177,6 @@ bot.once(Events.ClientReady, readyClient => {
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
 
-    new TeamCommand(firstPublicApiWebService, seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
     new WeatherCommand(weatherService, seriousChannels)
@@ -202,6 +201,7 @@ bot.once(Events.ClientReady, readyClient => {
   const magicEightBallCommand = new MagicEightBallCommand(new RandomNumberService());
   const chiefDelphiCommand = new ChiefDelphiCommand();
   const convertCommand = new ConvertUnitCommand();
+  const teamCommand = new TeamCommand(firstPublicApiWebService);
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -211,6 +211,7 @@ bot.once(Events.ClientReady, readyClient => {
   slashCommands.set(magicEightBallCommand.name, magicEightBallCommand);
   slashCommands.set(chiefDelphiCommand.name, chiefDelphiCommand);
   slashCommands.set(convertCommand.name, convertCommand);
+  slashCommands.set(teamCommand.name, teamCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {
