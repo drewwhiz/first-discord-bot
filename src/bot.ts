@@ -26,7 +26,6 @@ import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCo
 import { AcronymDataService } from './dataservices/AcronymDataService.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
-import { ConvertUnitCommand } from './commands/utilityCommands/ConvertUnitCommand.js';
 import { ReminderDataService } from './dataservices/ReminderDataService.js';
 import { ReminderScheduleService } from './services/ReminderScheduleService.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
@@ -61,6 +60,7 @@ import RollCommand from './commands/slashCommands/RollCommand.js';
 import FlipCommand from './commands/slashCommands/FlipCommand.js';
 import MagicEightBallCommand from './commands/slashCommands/MagicEightBallCommand.js';
 import ChiefDelphiCommand from './commands/slashCommands/ChiefDelphiCommand.js';
+import ConvertUnitCommand from './commands/slashCommands/ConvertUnitCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -173,7 +173,6 @@ bot.once(Events.ClientReady, readyClient => {
     new DocumentationCommand(seriousChannels),
     new PartLookupCommand(seriousChannels),
     new ColorCommand(seriousChannels),
-    new ConvertUnitCommand(seriousChannels),
     new CoreValuesCommand(seriousChannels),
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
@@ -202,6 +201,7 @@ bot.once(Events.ClientReady, readyClient => {
   const flipCommand = new FlipCommand(new RandomNumberService());
   const magicEightBallCommand = new MagicEightBallCommand(new RandomNumberService());
   const chiefDelphiCommand = new ChiefDelphiCommand();
+  const convertCommand = new ConvertUnitCommand();
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -210,6 +210,7 @@ bot.once(Events.ClientReady, readyClient => {
   slashCommands.set(flipCommand.name, flipCommand);
   slashCommands.set(magicEightBallCommand.name, magicEightBallCommand);
   slashCommands.set(chiefDelphiCommand.name, chiefDelphiCommand);
+  slashCommands.set(convertCommand.name, convertCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {
