@@ -107,7 +107,7 @@ export default class CalendarReportCommand extends SlashCommand {
 
     const response = await this.buildMessage(timeUnit, false);
     if (response.length == 1) {
-      interaction.reply(response[0]);
+      await interaction.reply(response[0]);
       return;
     }
 

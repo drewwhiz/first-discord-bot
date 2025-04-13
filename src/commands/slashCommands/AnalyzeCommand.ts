@@ -28,7 +28,10 @@ export default class AnalyzeCommand extends SlashCommand {
     if (user == null) user = interaction.user;
 
     const channel = interaction.channel;
-    if (user.bot) return;
+    if (user.bot) {
+      await interaction.reply('Unable to identify channel');
+      return;
+    }
     
     await interaction.reply(`Please hold... Analyzing last ${AnalyzeCommand.MAX_MESSAGES} messages in <#${channel.id}> from <@!${user.id}> to determine their ${AnalyzeCommand.MAX_WORDS} most-used words.`);
     const messageText = await AnalyzeCommand.fetchUserMessages(channel, user.id);

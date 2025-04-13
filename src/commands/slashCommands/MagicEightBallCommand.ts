@@ -48,7 +48,11 @@ export default class MagicEightBallCommand extends SlashCommand {
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const question = interaction.options.getString(MagicEightBallCommand._QUESTION);
-    if (question == null || question.length <= 0) return;
+    if (question == null || question.length <= 0) {
+      await interaction.reply('Could not determine the question');
+      return;
+    }
+    
     const roll = this._random.getSingleRoll(MagicEightBallCommand.ANSWERS.length);
     const message = MagicEightBallCommand.ANSWERS[roll - 1];
     await interaction.reply(message);

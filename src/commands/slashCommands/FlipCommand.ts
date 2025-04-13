@@ -37,14 +37,12 @@ export default class FlipCommand extends SlashCommand {
 
     const tails = count - heads;
     await interaction.reply(`I got ${heads} heads and ${tails} tails! (And none on their side... again.)`);
-    return;
   }
 
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     let count = interaction.options.getInteger(FlipCommand._COUNT);
     if (count == null || count == 0) count = 1;
-
-    return await this.flip(interaction, count);
+    await this.flip(interaction, count);
   }
 }
