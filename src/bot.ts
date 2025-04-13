@@ -44,7 +44,6 @@ import { PoopCommand } from './commands/funCommands/PoopCommand.js';
 import { IMessageCommand, IReactionCommand } from './commands/ICommand.js';
 import { JustAGirlCommand } from './commands/funCommands/JustAGirlCommand.js';
 import { StrutCommand } from './commands/funCommands/StrutCommand.js';
-import { AnalyzeCommand } from './commands/funCommands/AnalyzeCommand.js';
 import { WordCloudWebService } from './webservices/WordCloudWebService.js';
 import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
 import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
@@ -61,6 +60,7 @@ import MagicEightBallCommand from './commands/slashCommands/MagicEightBallComman
 import ChiefDelphiCommand from './commands/slashCommands/ChiefDelphiCommand.js';
 import ConvertUnitCommand from './commands/slashCommands/ConvertUnitCommand.js';
 import TeamCommand from './commands/slashCommands/TeamCommand.js';
+import AnalyzeCommand from './commands/slashCommands/AnalyzeCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -167,7 +167,6 @@ bot.once(Events.ClientReady, readyClient => {
     new MainGoalCommand(cooldownDataService, seriousChannels),
     new GameCommand(cooldownDataService, seriousChannels),
     new GoodBotBadBotCommand(readyClient, seriousChannels),
-    new AnalyzeCommand(wordCloudService, seriousChannels),
     new EsdCommand(weatherService, seriousChannels),
     new ManualCommand(seriousChannels),
     new DocumentationCommand(seriousChannels),
@@ -202,6 +201,8 @@ bot.once(Events.ClientReady, readyClient => {
   const chiefDelphiCommand = new ChiefDelphiCommand();
   const convertCommand = new ConvertUnitCommand();
   const teamCommand = new TeamCommand(firstPublicApiWebService);
+  const analyzeCommand = new AnalyzeCommand(wordCloudService);
+
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -212,6 +213,7 @@ bot.once(Events.ClientReady, readyClient => {
   slashCommands.set(chiefDelphiCommand.name, chiefDelphiCommand);
   slashCommands.set(convertCommand.name, convertCommand);
   slashCommands.set(teamCommand.name, teamCommand);
+  slashCommands.set(analyzeCommand.name, analyzeCommand);
 
   const rest = new REST().setToken(process.env.TOKEN);
   (async () => {
