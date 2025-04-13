@@ -1,6 +1,6 @@
 {
   "name": "first-discord-bot",
-  "version": "1.0.55",
+  "version": "1.0.56",
   "description": "A Discord bot for FIRST Discord servers.",
   "main": "dist/bot.js",
   "type": "module",
