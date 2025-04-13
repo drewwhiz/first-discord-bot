@@ -22,7 +22,7 @@ export default class ChiefDelphiCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const search = interaction.options.get(ChiefDelphiCommand._SEARCH)?.value as string;
+    const search = interaction.options.getString(ChiefDelphiCommand._SEARCH);
     if (search == null) return;
     if (search.length <= 0) return;
 

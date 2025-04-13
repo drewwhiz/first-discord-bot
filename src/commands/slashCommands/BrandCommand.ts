@@ -31,7 +31,7 @@ export default class BrandCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const brand = (interaction.options.get(BrandCommand._ENTITY)?.value as string)?.toUpperCase();
+    const brand = interaction.options.getString(BrandCommand._ENTITY)?.toUpperCase();
     if (brand == null) return;
 
     const colors = await this._brandColors.getByBrand(brand);

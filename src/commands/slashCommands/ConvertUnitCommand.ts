@@ -9,7 +9,6 @@ export default class ConvertUnitCommand extends SlashCommand {
   private static readonly _FROM: string = 'from';
   private static readonly _TO: string = 'to';
 
-
   public constructor() {
     super('convert', 'Converts units');
   }
@@ -33,11 +32,11 @@ export default class ConvertUnitCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const from = interaction.options.get(ConvertUnitCommand._FROM)?.value as string;
+    const from = interaction.options.getString(ConvertUnitCommand._FROM);
     if (from == null) return;
     if (from.length <= 0) return;
 
-    const to = interaction.options.get(ConvertUnitCommand._TO)?.value as string;
+    const to = interaction.options.getString(ConvertUnitCommand._TO);
     if (to == null) return;
     if (to.length <= 0) return;
 

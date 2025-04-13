@@ -40,8 +40,8 @@ export default class TeamCommand extends SlashCommand {
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     let year = await this._firstPublicApi.getCurrentSeason(IFirstProgram.FRC, false);
-    const team = interaction.options.get(TeamCommand._TEAM)?.value as number;
-    const program = interaction.options.get(TeamCommand._PROGRAM)?.value as string;
+    const team = interaction.options.getInteger(TeamCommand._TEAM);
+    const program = interaction.options.getString(TeamCommand._PROGRAM);
     if (team == null) return;
     if (program == null) return;
 

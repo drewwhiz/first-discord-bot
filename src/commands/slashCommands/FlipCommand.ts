@@ -42,8 +42,8 @@ export default class FlipCommand extends SlashCommand {
 
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    let count = interaction.options.get(FlipCommand._COUNT)?.value as number;
-    if (count == null) count = 1;
+    let count = interaction.options.getInteger(FlipCommand._COUNT);
+    if (count == null || count == 0) count = 1;
 
     return await this.flip(interaction, count);
   }
