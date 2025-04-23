@@ -95,7 +95,7 @@ export default class TeamCommand extends SlashCommand {
   private static getFTCReply(team: number, year: number): string {
     return `Check out Team ${team} this season (${year}) on`
     + '\n'
-    + `- The Orange Alliance: <https://www.theorangealliance.com/teams/${team}>`
+    + `- The Orange Alliance: <https://www.theorangealliance.org/teams/${team}>`
     + '\n'
     + `- FTC Events: <https://ftc-events.firstinspires.org/${year}/team/${team}>`
     + '\n\n'
