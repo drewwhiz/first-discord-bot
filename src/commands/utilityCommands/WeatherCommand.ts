@@ -2,6 +2,7 @@ import { GuildBasedChannel, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Secrets } from '../../environment.js';
 
 export class WeatherCommand extends MessageCommand {
   public readonly isSilly: boolean = false;
@@ -30,7 +31,7 @@ export class WeatherCommand extends MessageCommand {
 
     let zipCode: string = null;
     if (invariant === 'weather') {
-      zipCode = process.env.DEFAULT_ZIP;
+      zipCode = Secrets.DEFAULT_ZIP;
     } else {
       zipCode = invariant.replace('weather', '').trim();
     }

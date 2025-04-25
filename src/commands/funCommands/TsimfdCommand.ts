@@ -1,6 +1,7 @@
 import { ChannelType, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Secrets } from '../../environment.js';
 
 export class TsimfdCommand extends MessageCommand {
   private static readonly TSIMFD: string = 'TSIMFD';
@@ -16,7 +17,7 @@ export class TsimfdCommand extends MessageCommand {
   public override async execute(message: Message): Promise<void> {
     const isInServerTextChannel = message.channel.type === ChannelType.GuildText;
     if (!isInServerTextChannel) return;
-    const isAllowed = message.channel?.name === process.env.RESTRICTED_CHANNEL;
+    const isAllowed = message.channel?.name === Secrets.RESTRICTED_CHANNEL;
     if (!isAllowed) return;
     await message.reply(TsimfdCommand.TSIMFD);
   }

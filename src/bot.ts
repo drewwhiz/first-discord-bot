@@ -61,6 +61,7 @@ import ChiefDelphiCommand from './commands/slashCommands/ChiefDelphiCommand.js';
 import ConvertUnitCommand from './commands/slashCommands/ConvertUnitCommand.js';
 import TeamCommand from './commands/slashCommands/TeamCommand.js';
 import AnalyzeCommand from './commands/slashCommands/AnalyzeCommand.js';
+import { Secrets } from './environment.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -131,7 +132,7 @@ bot.once(Events.ClientReady, readyClient => {
     });
   }
 
-  const seriousChannelNames: string[] = process.env.SERIOUS_CHANNELS?.split(',') ?? [];
+  const seriousChannelNames: string[] = Secrets.SERIOUS_CHANNELS?.split(',') ?? [];
   const seriousChannels: GuildBasedChannel[] = [];
   readyClient.guilds.cache.forEach(g => {
     const channels = g.channels.cache.filter(c => seriousChannelNames.includes(c.name)).map(c => c);
@@ -215,13 +216,13 @@ bot.once(Events.ClientReady, readyClient => {
   slashCommands.set(teamCommand.name, teamCommand);
   slashCommands.set(analyzeCommand.name, analyzeCommand);
 
-  const rest = new REST().setToken(process.env.TOKEN);
+  const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
     const commands = slashCommands.map(async c => (await c.build()).toJSON());
     Promise.all(commands).then(async r => {
       try {
         await rest.put(
-          Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+          Routes.applicationGuildCommands(Secrets.CLIENT_ID, Secrets.GUILD_ID),
           { body: r }
         );
       } catch {
@@ -287,4 +288,4 @@ bot.addListener(Events.MessageReactionAdd, async (reaction: MessageReaction, use
 });
 
 // Start bot.
-bot.login(process.env.TOKEN);
+bot.login(Secrets.TOKEN);

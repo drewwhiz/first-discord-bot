@@ -1,3 +1,4 @@
+import { Secrets } from '../environment.js';
 import { IWeather } from '../models/IWeather.js';
 import { IWeatherApiWebService } from './interfaces/IWeatherApiWebService.js';
 import https from 'https';
@@ -32,11 +33,12 @@ export class WeatherApiWebService implements IWeatherApiWebService {
   private static getUrl(zipCode: string): string {
     if (zipCode == null) return null;
     if (zipCode.length != 5 && zipCode.length != 10) return null;
+
     return WeatherApiWebService.API_URL
             + '?'
             + WeatherApiWebService.KEY_PARAM
             + '='
-            + process.env.WEATHER_API_KEY
+            + Secrets.WEATHER_API_KEY
             + '&'
             + WeatherApiWebService.ZIP_PARAM
             + '='
