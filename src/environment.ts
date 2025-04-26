@@ -9,4 +9,8 @@ export class Secrets {
   public static readonly RESTRICTED_CHANNEL: string = fs.readFileSync('/run/secrets/RESTRICTED_CHANNEL', 'utf8').trim();
   public static readonly MOD_REPORT_CHANNEL: string = fs.readFileSync('/run/secrets/MOD_REPORT_CHANNEL', 'utf8').trim();
   public static readonly SERIOUS_CHANNELS: string = fs.readFileSync('/run/secrets/SERIOUS_CHANNELS', 'utf8').trim();
+  public static readonly DATABASE: string = fs.readFileSync('/run/secrets/db_database', 'utf8').trim();
+  public static readonly DB_PASSWORD: string = fs.readFileSync('/run/secrets/db_password', 'utf8').trim();
+  public static readonly DB_HOST: string = fs.readFileSync('/run/secrets/db_host', 'utf8').trim();
+  public static readonly DB_PORT: number = parseInt(fs.readFileSync('/run/secrets/db_port', 'utf8').trim());
 }

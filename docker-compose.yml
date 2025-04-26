@@ -3,15 +3,57 @@ services:
     image: mysql:9.3
     secrets:
       - db_password
+      - db_database
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=first_discord_bot
+      - MYSQL_DATABASE=/run/secrets/db_database
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_password
     expose:
       - 3306
+  first_discord_bot:
+    depends_on:
+      - db
+    secrets:
+      - CLIENT_ID
+      - DEFAULT_ZIP
+      - GUILD_ID
+      - MOD_REPORT_CHANNEL
+      - RESTRICTED_CHANNEL
+      - SERIOUS_CHANNELS
+      - TOKEN
+      - WEATHER_API_KEY
+      - db_password
+      - db_database
+      - db_port
+      - db_host
+    build:
+      context: .
+      target: production
 volumes:
   db_data:
 secrets:
+  db_port:
+    file: secrets/db_port.txt
   db_password:
     file: secrets/db_password.txt
+  db_database:
+    file: secrets/db_database.txt
+  db_host:
+    file: secrets/db_host.txt
+  CLIENT_ID:
+    file: secrets/application_id.txt
+  DEFAULT_ZIP:
+    file: secrets/default_zip.txt
+  GUILD_ID:
+    file: secrets/server_guild_id.txt
+  MOD_REPORT_CHANNEL:
+    file: secrets/mod_report_channel.txt
+  RESTRICTED_CHANNEL:
+    file: secrets/restricted_channel.txt
+  SERIOUS_CHANNELS:
+    file: secrets/serious_channels.txt
+  TOKEN:
+    file: secrets/discord_token.txt
+  WEATHER_API_KEY:
+    file: secrets/weather_api_key.txt
