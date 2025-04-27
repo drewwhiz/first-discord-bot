@@ -42,7 +42,7 @@ export class AcronymHelperCommand extends MessageCommand {
   private static async sendReply(acronym: IAcronym, message: Message): Promise<void> {
     if (acronym == null) return;
 
-    if (!acronym.isChannelRestricted || message.channel.type !== ChannelType.GuildText) {
+    if (!acronym.is_channel_restricted || message.channel.type !== ChannelType.GuildText) {
       await message.reply(acronym.explanation);
       return;
     }

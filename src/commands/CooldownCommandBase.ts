@@ -29,8 +29,8 @@ export abstract class CooldownCommandBase extends MessageCommand {
     if (activeCooldown == null) {
       activeCooldown = {
         id: 0,
-        commandName: this.name,
-        channelId: message.channelId,
+        command_name: this.name,
+        channel_id: message.channelId,
         deadline: null
       };
     }

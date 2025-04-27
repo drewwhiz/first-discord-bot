@@ -1,6 +1,6 @@
 export interface ICooldown {
     id: number;
-    commandName: string;
-    channelId: string;
+    command_name: string;
+    channel_id: string;
     deadline: string;
 }

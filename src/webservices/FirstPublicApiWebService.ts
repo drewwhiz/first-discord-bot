@@ -46,18 +46,18 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
       if (knownValue == null) {
         knownValue = {
           id: 0,
-          currentSeasonYear: newValue,
-          programCode: ProgramUtilities.mapProgramToCode(program)
+          current_season_year: newValue,
+          program_code: ProgramUtilities.mapProgramToCode(program)
         };
       } else {
-        knownValue.currentSeasonYear = newValue;
+        knownValue.current_season_year = newValue;
       }
 
       await this._programData.upsert(knownValue);
       return newValue;
     }
 
-    return knownValue.currentSeasonYear;
+    return knownValue.current_season_year;
   }
 
   private static getCurrentSeasonData(url: string): Promise<IFirstSeasonResponse[]> {
