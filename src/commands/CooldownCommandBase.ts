@@ -36,7 +36,7 @@ export abstract class CooldownCommandBase extends MessageCommand {
     }
 
     if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
-    activeCooldown.deadline = DateTimeUtilities.getFutureTimeUTCString(this.cooldownHours);
+    activeCooldown.deadline = DateTimeUtilities.getFutureTime(this.cooldownHours);
     await this._cooldowns.upsert(activeCooldown);
     await this.action(message);
   }

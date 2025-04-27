@@ -1,60 +1,60 @@
+import knex from 'knex';
 import { ICooldown } from '../models/ICooldown.js';
 import { ICooldownDataService } from './interfaces/ICooldownDataService.js';
-import { Database } from 'sqlite';
-import sqlite3 from 'sqlite3';
 
 export class CooldownDataService implements ICooldownDataService {
-  private readonly _database: Database<sqlite3.Database, sqlite3.Statement>;
+  private readonly _database: knex.Knex;
 
-  public constructor(database: Database<sqlite3.Database, sqlite3.Statement>) {
+  public constructor(database: knex.Knex) {
     this._database = database;
   }
 
   public async get(id: number): Promise<ICooldown> {
-    const sql = 'SELECT * FROM Cooldowns WHERE id = ?';
-    const row = await this._database.get(sql, [id]);
+    const row = await this._database('cooldowns')
+      .where('id', id)
+      .first('*');
+    if (row == null) return null;
     return row as ICooldown;
   }
 
   public async add(cooldown: ICooldown): Promise<ICooldown> {
-    const matching = (await this.getByKeys(cooldown.commandName, cooldown.channelId));
+    const matching = await this.get(cooldown.id);
     if (matching != null) return matching;
 
-    const sql = 'INSERT INTO Cooldowns (commandName, channelId, deadline) VALUES (?, ?, ?)';
-    const result = await this._database.run(sql, [cooldown.commandName, cooldown.channelId, cooldown.deadline]);
-
-    if (!result.lastID) return null;
-    return await this.get(result.lastID);
+    const [result] = await this._database('cooldowns').insert(cooldown);
+    return await this.get(result);
   }
 
   public async getByCommand(command: string): Promise<ICooldown[]> {
-    const sql = 'SELECT * FROM Cooldowns WHERE commandName = ?';
-    const results = await this._database.all(sql, [command]);
-    if (results == null) return [] as ICooldown[];
-    return results as ICooldown[];
+    const rows = await this._database('cooldowns')
+      .where('command_name', command)
+      .select('*');
+    if (rows == null || rows.length == 0) return [];
+    return rows as ICooldown[];
   }
 
   public async getByKeys(command: string, channelId: string): Promise<ICooldown> {
-    const sql = 'SELECT * FROM Cooldowns WHERE commandName = ? AND channelId = ?';
-    const row = await this._database.get(sql, [command, channelId]);
+    const row = await this._database('cooldowns')
+      .where({command_name: command, channel_id: channelId })
+      .first('*');
+    if (row == null) return null;
     return row as ICooldown;
   }
 
   public async update(record: ICooldown): Promise<ICooldown> {
-    const sql = 'UPDATE Cooldowns SET deadline = ? WHERE commandName = ? AND channelId = ?';
-    const result = await this._database.run(sql, [record.deadline, record.commandName, record.channelId]);
-    if (result.changes == 0) return await this.getByKeys(record.commandName, record.channelId);
-    return record;
+    const result = await this._database('cooldowns')
+      .where({ command_name: record.command_name, channel_id: record.channel_id })
+      .update(record);
+    return await this.get(result);
   }
 
   public async upsert(record: ICooldown): Promise<ICooldown> {
     if (record == null) return null;
-    const existing = await this.getByKeys(record.commandName, record.channelId);
+    const existing = await this.getByKeys(record.command_name, record.channel_id);
     if (existing == null) {
       return await this.add(record);
     } else {
       return await this.update(record);
     }
   }
-
 }

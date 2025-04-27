@@ -1,15 +1,12 @@
 export class DateTimeUtilities {
-  public static isCooldownInEffect(deadline: string): boolean {
+  public static isCooldownInEffect(deadline: Date): boolean {
     if (deadline == null) return false;
-    if (deadline.length == 0) return false;
-    const deadlineDate = new Date(deadline);
-    const now = new Date();
-    return now < deadlineDate;
+    return new Date() < deadline;
   }
 
-  public static getFutureTimeUTCString(hours: number): string {
+  public static getFutureTime(hours: number): Date {
     const now = new Date();
     now.setHours(now.getHours() + hours);
-    return now.toUTCString();
+    return now;
   }
 }
