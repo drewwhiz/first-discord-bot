@@ -9,7 +9,6 @@
     "build": "tsc",
     "start": "node dist/bot.js",
     "test": "mocha",
-    "copy-assets": "./scripts/copy-assets.sh",
     "lint": "eslint src test",
     "fix": "eslint --fix src test"
   },
@@ -50,8 +49,6 @@
     "node-cron": "^3.0.3",
     "node-schedule": "^2.1.1",
     "sharp": "^0.34.1",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7",
     "typescript-collections": "^1.3.3",
     "winston": "^3.16.0",
     "zalgo-generator": "^1.5.1"
