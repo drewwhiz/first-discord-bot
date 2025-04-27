@@ -66,7 +66,6 @@ export async function seed(knex: Knex): Promise<void> {
   await knex('brand_colors')
     .insert(
       [
-        { brand: '', hexcode: '' },
         { brand: 'FIRST', hexcode: '#0066B3' },
         { brand: 'FIRST', hexcode: '#ED1C24' },
         { brand: 'FIRST', hexcode: '#9A989A' },

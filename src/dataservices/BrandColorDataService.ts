@@ -1,26 +1,24 @@
-import { Database } from 'sqlite';
-import sqlite3 from 'sqlite3';
 import { IBrandColorDataService } from './interfaces/IBrandColorDataService.js';
 import { IBrandColor } from '../models/IBrandColor.js';
+import knex from 'knex';
 
 export class BrandColorDataService implements IBrandColorDataService {
-  private readonly _database: Database<sqlite3.Database, sqlite3.Statement>;
+  private readonly _database: knex.Knex;
 
-  public constructor(database: Database<sqlite3.Database, sqlite3.Statement>) {
+  public constructor(database: knex.Knex) {
     this._database = database;
   }
 
   public async getBrands(): Promise<string[]> {
-    const sql = 'SELECT DISTINCT brand FROM BrandColors';
-    const results = await this._database.all(sql);
-    if (results == null) return [] as string[];
-    return (results as IBrandColor[]).map(b => b.brand) as string[];
+    const rows = await this._database('brand_colors').distinct('brand').pluck('brand');
+    if (rows == null) return [];
+    if (rows.length == 0) return [];
+    return rows as string[];
   }
 
   public async getByBrand(brand: string): Promise<IBrandColor[]> {
-    const sql = 'SELECT * FROM BrandColors WHERE (brand = ?)';
-    const results = await this._database.all(sql, [ brand ]);
-    if (results == null) return [] as IBrandColor[];
-    return results as IBrandColor[];
+    const rows = await this._database('brand_colors').where('brand', brand).select('*');
+    if (rows == null || rows.length == 0) return [];
+    return rows as IBrandColor[];
   }
 }
