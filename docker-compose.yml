@@ -7,13 +7,23 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=/run/secrets/db_database
+      - MYSQL_DATABASE=first_discord_bot
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_password
     expose:
       - 3306
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: out=$$(mysqladmin ping -h db -P 3306 -u root --password=$$(cat $${MYSQL_ROOT_PASSWORD_FILE}) 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
+      interval: 10s
+      timeout: 30s
+      retries: 10
+      start_period: 30s
   first_discord_bot:
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
     secrets:
       - CLIENT_ID
       - DEFAULT_ZIP
