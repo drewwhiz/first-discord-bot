@@ -1,13 +1,9 @@
 import { Client, Collection, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, REST, Routes, User } from 'discord.js';
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
-import { GameCommand } from './commands/funCommands/GameCommand.js';
-import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
 import { ManualCommand } from './commands/funCommands/ManualCommand.js';
 import { DanceCommand } from './commands/funCommands/DanceCommand.js';
 import { ImagineCommand } from './commands/funCommands/ImagineCommand.js';
-import { RespectsCommand } from './commands/funCommands/RespectsCommand.js';
-import { DoubtCommand } from './commands/funCommands/DoubtCommand.js';
 import { AtMeCommand } from './commands/funCommands/AtMeCommand.js';
 import { TsimfdCommand } from './commands/funCommands/TsimfdCommand.js';
 import { BonkCommand } from './commands/funCommands/BonkCommand.js';
@@ -15,25 +11,13 @@ import { YikesCommand } from './commands/funCommands/YikesCommand.js';
 import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
-import sqlite3 from 'sqlite3';
-import { Database, open } from 'sqlite';
 import * as nodeCron from 'node-cron';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
 import { StopCommand } from './commands/funCommands/StopCommand.js';
-import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCommand.js';
-import { AcronymDataService } from './dataservices/AcronymDataService.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
-import { ReminderDataService } from './dataservices/ReminderDataService.js';
-import { ReminderScheduleService } from './services/ReminderScheduleService.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
-import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
-import { ProgramDataService } from './dataservices/ProgramDataService.js';
-import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
-import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
-import { VexCommand } from './commands/funCommands/VexCommand.js';
-import { CooldownDataService } from './dataservices/CooldownDataService.js';
 import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
 import { WeatherApiWebService } from './webservices/WeatherApiWebService.js';
 import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
@@ -50,18 +34,33 @@ import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
 import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
 import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
-import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
 import SlashCommand from './commands/SlashCommand.js';
 import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
-import BrandCommand from './commands/slashCommands/BrandCommand.js';
 import RollCommand from './commands/slashCommands/RollCommand.js';
 import FlipCommand from './commands/slashCommands/FlipCommand.js';
 import MagicEightBallCommand from './commands/slashCommands/MagicEightBallCommand.js';
 import ChiefDelphiCommand from './commands/slashCommands/ChiefDelphiCommand.js';
 import ConvertUnitCommand from './commands/slashCommands/ConvertUnitCommand.js';
-import TeamCommand from './commands/slashCommands/TeamCommand.js';
 import AnalyzeCommand from './commands/slashCommands/AnalyzeCommand.js';
 import { Secrets } from './environment.js';
+import knex from 'knex';
+import { AcronymDataService } from './dataservices/AcronymDataService.js';
+import { AcronymHelperCommand } from './commands/utilityCommands/AcronymHelperCommand.js';
+import { ReminderDataService } from './dataservices/ReminderDataService.js';
+import { ReminderScheduleService } from './services/ReminderScheduleService.js';
+import ReminderCommand from './commands/slashCommands/ReminderCommand.js';
+import { ProgramDataService } from './dataservices/ProgramDataService.js';
+import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
+import TeamCommand from './commands/slashCommands/TeamCommand.js';
+import { CooldownDataService } from './dataservices/CooldownDataService.js';
+import { VexCommand } from './commands/funCommands/VexCommand.js';
+import { RespectsCommand } from './commands/funCommands/RespectsCommand.js';
+import { DoubtCommand } from './commands/funCommands/DoubtCommand.js';
+import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
+import { GameCommand } from './commands/funCommands/GameCommand.js';
+import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
+import BrandCommand from './commands/slashCommands/BrandCommand.js';
+import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -86,20 +85,20 @@ const bot = new Client({
   partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
-const openDb = async (): Promise<Database<sqlite3.Database, sqlite3.Statement>> => {
-  const db = await open({
-    filename: './database.db',
-    driver: sqlite3.Database
-  });
+const database = knex({
+  client: 'mysql2',
+  connection: {
+    host: Secrets.DB_HOST,
+    port: Secrets.DB_PORT,
+    user: 'root',
+    database: Secrets.DATABASE,
+    password: Secrets.DB_PASSWORD
+  },
+});
 
-  await db.migrate({
-    migrationsPath: './migrations'
-  });
+await database.migrate.latest({ directory: './dist/migrations' });
+await database.seed.run({ directory: './dist/seeds' });
 
-  return db;
-};
-
-const database = await openDb();
 let newMessageCommands: IMessageCommand[] = [];
 let reactionCommands: IReactionCommand[] = [];
 const slashCommands = new Collection<string, SlashCommand>();
