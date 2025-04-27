@@ -19,4 +19,12 @@ This project requires a `.env` file in the root directory. The expected variable
 
 ## Migrations
 
+To add a new migration:
+
 `knex migrate:make NAME --client mysql2 --migrations-directory src/migrations -x ts`
+
+## Seed
+
+To add a new seed:
+
+`knex seed:make ../src/seeds/NAME -x ts`

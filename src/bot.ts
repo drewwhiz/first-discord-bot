@@ -10,7 +10,6 @@ import { BonkCommand } from './commands/funCommands/BonkCommand.js';
 import { YikesCommand } from './commands/funCommands/YikesCommand.js';
 import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
-import { PartLookupCommand } from './commands/frcCommands/PartLookupCommand.js';
 import * as nodeCron from 'node-cron';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
@@ -61,6 +60,8 @@ import { GameCommand } from './commands/funCommands/GameCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import BrandCommand from './commands/slashCommands/BrandCommand.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
+import { VendorDataService } from './dataservices/VendorDataService.js';
+import PartLookupCommand from './commands/slashCommands/PartLookupCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -112,6 +113,7 @@ bot.once(Events.ClientReady, readyClient => {
   const programDataService = new ProgramDataService(database);
   const brandColorDataService = new BrandColorDataService(database);
   const cooldownDataService = new CooldownDataService(database);
+  const vendorDataService = new VendorDataService(database);
 
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
@@ -170,7 +172,6 @@ bot.once(Events.ClientReady, readyClient => {
     new EsdCommand(weatherService, seriousChannels),
     new ManualCommand(seriousChannels),
     new DocumentationCommand(seriousChannels),
-    new PartLookupCommand(seriousChannels),
     new ColorCommand(seriousChannels),
     new CoreValuesCommand(seriousChannels),
     new WeAreATeamCommand(seriousChannels),
@@ -192,7 +193,6 @@ bot.once(Events.ClientReady, readyClient => {
     calendarReportCommand.sendReminder(generalChannels);
   });
 
-
   const reminderCommand = new ReminderCommand(reminderScheduleService);
   const brandCommand = new BrandCommand(brandColorDataService);
   const rollCommand = new RollCommand(new RandomNumberService());
@@ -202,7 +202,7 @@ bot.once(Events.ClientReady, readyClient => {
   const convertCommand = new ConvertUnitCommand();
   const teamCommand = new TeamCommand(firstPublicApiWebService);
   const analyzeCommand = new AnalyzeCommand(wordCloudService);
-
+  const partLookupCommand = new PartLookupCommand(vendorDataService);
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -214,6 +214,7 @@ bot.once(Events.ClientReady, readyClient => {
   slashCommands.set(convertCommand.name, convertCommand);
   slashCommands.set(teamCommand.name, teamCommand);
   slashCommands.set(analyzeCommand.name, analyzeCommand);
+  slashCommands.set(partLookupCommand.name, partLookupCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {

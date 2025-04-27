@@ -4,6 +4,7 @@ export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
   await knex('acronyms').del();
   await knex('brand_colors').del();
+  await knex('vendors').del();
 
   await knex('acronyms')
     .insert(
@@ -83,6 +84,15 @@ export async function seed(knex: Knex): Promise<void> {
         { brand: '10101', hexcode: '#00c1c1' },
         { brand: '10101', hexcode: '#f10101' },
         { brand: '10101', hexcode: '#fbca13' }
+      ]
+    );
+
+  await knex('vendors')
+    .insert(
+      [
+        { prefix: 'am-', url_format: 'https://www.andymark.com/{0}', source: 'AndyMark' },
+        { prefix: 'rev-', url_format: 'https://www.revrobotics.com/{0}', source: 'REV Robotics' },
+        { prefix: 'wcp-', url_format: 'https://wcproducts.com/products/{0}', source: 'West Coast Products' }
       ]
     );
 };
