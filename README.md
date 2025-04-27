@@ -16,3 +16,7 @@ This project requires a `.env` file in the root directory. The expected variable
 - `RESTRICTED_CHANNEL`: TBD
 - `MOD_REPORT_CHANNEL`: TBD
 - `SERIOUS_CHANNELS`: TBD
+
+## Migrations
+
+`knex migrate:make NAME --client mysql2 --migrations-directory src/migrations -x ts`
