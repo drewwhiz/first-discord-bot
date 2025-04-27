@@ -1,9 +1,9 @@
-import type { Knex } from "knex";
+import type { Knex } from 'knex';
 
 const TABLE_NAME = 'reminders';
 
 export async function up(knex: Knex): Promise<void> {
-  knex.schema.createTable(TABLE_NAME, function (table) {
+  return await knex.schema.createTable(TABLE_NAME, function (table) {
     table.increments('id', { primaryKey: true });
     table.string('user_id');
     table.string('channel_id');
@@ -14,6 +14,6 @@ export async function up(knex: Knex): Promise<void> {
 
 
 export async function down(knex: Knex): Promise<void> {
-  knex.schema.dropTable(TABLE_NAME);
+  return await knex.schema.dropTable(TABLE_NAME);
 }
 
