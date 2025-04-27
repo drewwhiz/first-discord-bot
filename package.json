@@ -11,8 +11,7 @@
     "test": "mocha",
     "copy-assets": "./scripts/copy-assets.sh",
     "lint": "eslint src test",
-    "fix": "eslint --fix src test",
-    "knex": "tsx ./node_modules/knex/bin/cli.js"
+    "fix": "eslint --fix src test"
   },
   "author": "Lawrence (Drew) Whisenant",
   "repository": {
