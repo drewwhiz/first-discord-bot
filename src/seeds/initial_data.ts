@@ -60,7 +60,8 @@ export async function seed(knex: Knex): Promise<void> {
         { acronym: 'STIMS',  case_sensitive: false, explanation: 'Student Team Information Management System (<https://my.firstinspires.org/Dashboard/>)',                                        is_channel_restricted: false },
         { acronym: 'VMS',    case_sensitive: false, explanation: 'Volunteer Management System (<https://my.firstinspires.org/VMS/Login.aspx>)',                                                   is_channel_restricted: false },
         { acronym: 'OPR',    case_sensitive: false, explanation: 'Offensive Power Rating (<https://www.statbotics.io/blog/models>)',                                                              is_channel_restricted: false },
-        { acronym: 'EPA',    case_sensitive: false, explanation: 'Expected Points Added (<https://www.statbotics.io/blog/models>)',                                                               is_channel_restricted: false }
+        { acronym: 'EPA',    case_sensitive: false, explanation: 'Expected Points Added (<https://www.statbotics.io/blog/models>)',                                                               is_channel_restricted: false },
+        { acronym: 'YAGNI',  case_sensitive: false, explanation: 'You Ain\'t Gonna Need It',                                                                                                      is_channel_restricted: false }
       ]
     );
 
