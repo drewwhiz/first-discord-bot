@@ -1,6 +1,6 @@
 export interface IAcronym {
   acronym: string;
-  caseSensitive: boolean;
+  case_sensitive: boolean;
   explanation: string;
-  isChannelRestricted: boolean;
+  is_channel_restricted: boolean;
 }

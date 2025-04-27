@@ -29,20 +29,20 @@ export class ReminderScheduleService implements IReminderScheduleService {
       return;  
     }  
 
-    if (reminder.userId == null || reminder.userId.length == 0) {
+    if (reminder.user_id == null || reminder.user_id.length == 0) {
       await this._reminders.delete(reminder.id);
       return;
     }
     
     const deadline = new Date(reminder.deadline);
     if (deadline < new Date()) {
-      await ReminderScheduleService.sendReminder(client, reminder.reminder, reminder.userId, reminder.channelId, true);
+      await ReminderScheduleService.sendReminder(client, reminder.reminder, reminder.user_id, reminder.channel_id, true);
       await this._reminders.delete(reminder.id);
       return;
     }
 
     scheduleJob(deadline, async () => {
-      await ReminderScheduleService.sendReminder(client, reminder.reminder, reminder.userId, reminder.channelId);
+      await ReminderScheduleService.sendReminder(client, reminder.reminder, reminder.user_id, reminder.channel_id);
       await this._reminders.delete(reminder.id);
     });
   }
@@ -67,25 +67,25 @@ export class ReminderScheduleService implements IReminderScheduleService {
 
     const createdReminder = await this._reminders.add({
       id: 0,
-      userId: interaction.user.id,
-      channelId: interaction.channelId,
-      deadline: deadline.toUTCString(),
+      user_id: interaction.user.id,
+      channel_id: interaction.channelId,
+      deadline: deadline,
       reminder: reminderMessage
     });
 
     const time = new Date(createdReminder.deadline);
     scheduleJob(time, async () => {
-      await ReminderScheduleService.sendReminder(interaction.client, reminderMessage, createdReminder.userId, createdReminder.channelId);
+      await ReminderScheduleService.sendReminder(interaction.client, reminderMessage, createdReminder.user_id, createdReminder.channel_id);
       await this._reminders.delete(createdReminder.id);
     });
 
     if (interaction != null) await interaction.reply('Got it, boss!');
   }
 
-  private static async sendReminder(client: Client<true>, reminder: string, userId: string, channelId: string, isLate: boolean = false): Promise<void> {
-    const channel = await client.channels.fetch(channelId);
+  private static async sendReminder(client: Client<true>, reminder: string, user_id: string, channel_id: string, isLate: boolean = false): Promise<void> {
+    const channel = await client.channels.fetch(channel_id);
     if (channel == null) {
-      const user = await client.users.fetch(userId);
+      const user = await client.users.fetch(user_id);
       if (user == null) return;
       await user.send(reminder);
       return;
@@ -93,7 +93,7 @@ export class ReminderScheduleService implements IReminderScheduleService {
 
     const textChannel = channel as TextChannel;
     if (textChannel == null) {
-      const user = await client.users.fetch(userId);
+      const user = await client.users.fetch(user_id);
       if (user == null) return;
       await user.send(reminder);
       return;

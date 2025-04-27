@@ -1,42 +1,38 @@
+import knex from 'knex';
 import { IReminder } from '../models/IReminder.js';
 import { IReminderDataService } from './interfaces/IReminderDataService.js';
-import { Database } from 'sqlite';
-import sqlite3 from 'sqlite3';
 
 export class ReminderDataService implements IReminderDataService {
-  private readonly _database: Database<sqlite3.Database, sqlite3.Statement>;
+  private readonly _database: knex.Knex;
 
-  public constructor(database: Database<sqlite3.Database, sqlite3.Statement>) {
+  public constructor(database: knex.Knex) {
     this._database = database;
   }
 
   public async add(reminder: IReminder): Promise<IReminder> {
-    const matching = (await this.getAll()).filter(r => r.id == reminder.id);
-    if (matching.length > 0) return matching[0];
+    const matching = await this.get(reminder.id);
+    if (matching != null) return matching;
 
-    const sql = 'INSERT INTO Reminders (userId, channelId, deadline, reminder) VALUES (?, ?, ?, ?)';
-    const result = await this._database.run(sql, [reminder.userId, reminder.channelId, reminder.deadline, reminder.reminder]);
-    if (!result.lastID) return null;
-    return await this.get(result.lastID);
+    const [result] = await this._database('reminders').insert(reminder);
+    return await this.get(result);
   }
 
   public async get(id: number): Promise<IReminder> {
-    const sql = 'SELECT * FROM Reminders WHERE id = ?';
-    const row = await this._database.get(sql, [id]);
+    const row = await this._database('reminders')
+      .where('id', id)
+      .first('*');
+    if (row == null) return null;
     return row as IReminder;
   }
 
   public async getAll(): Promise<IReminder[]> {
-    const sql = 'SELECT * FROM Reminders';
-    const results = await this._database.all(sql);
-    if (results == null) return [] as IReminder[];
-    return results as IReminder[];
+    const rows = await this._database('reminders').select('*');
+    if (rows == null) return [];
+    if (rows.length == 0) return [];
+    return rows as IReminder[];
   }
 
   public async delete(id: number): Promise<boolean> {
-    const sql = 'DELETE FROM Reminders WHERE id = ?';
-    const row = await this._database.run(sql, [id]);
-    return row.changes === 1;
+    return await this._database('reminders').where('id', id).del() === 1;
   }
-
 }
