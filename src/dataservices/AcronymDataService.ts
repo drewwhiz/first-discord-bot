@@ -1,19 +1,22 @@
-import { Database } from 'sqlite';
-import sqlite3 from 'sqlite3';
 import { IAcronymDataService } from './interfaces/IAcronymDataService.js';
 import { IAcronym } from '../models/IAcronym.js';
+import knex from 'knex';
 
 export class AcronymDataService implements IAcronymDataService {
-  private readonly _database: Database<sqlite3.Database, sqlite3.Statement>;
+  private readonly _database: knex.Knex;
 
-  public constructor(database: Database<sqlite3.Database, sqlite3.Statement>) {
+  public constructor(database: knex.Knex) {
     this._database = database;
   }
 
   public async get(acronym: string): Promise<IAcronym> {
-    const lowercase = acronym.toUpperCase();
-    const sql = 'SELECT * FROM Acronyms WHERE (acronym = ?) OR (acronym = ? AND caseSensitive = 0)';
-    const row = await this._database.get(sql, [acronym, lowercase]);
-    return row as IAcronym;
+    const upperCase = acronym.toUpperCase();
+    const rows = await this._database('acronyms')
+      .where({ 'acronym': acronym })
+      .orWhere({ 'acronym': upperCase, 'case_sensitive': false })
+      .select('*');
+
+    if (rows == null || rows.length == 0) return null;
+    return rows[0] as IAcronym;
   }
 }
