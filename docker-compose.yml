@@ -11,8 +11,6 @@ services:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db_password
     expose:
       - 3306
-    ports:
-      - 3306:3306
     healthcheck:
       test: out=$$(mysqladmin ping -h db -P 3306 -u root --password=$$(cat $${MYSQL_ROOT_PASSWORD_FILE}) 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
       interval: 10s
