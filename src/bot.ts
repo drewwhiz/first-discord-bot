@@ -98,7 +98,6 @@ const database = knex({
 });
 
 await database.migrate.latest({ directory: './dist/migrations' });
-await database.seed.run({ directory: './dist/seeds' });
 
 let newMessageCommands: IMessageCommand[] = [];
 let reactionCommands: IReactionCommand[] = [];

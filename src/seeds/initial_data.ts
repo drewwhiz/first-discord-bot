@@ -1,11 +1,6 @@
 import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
-  // Deletes ALL existing entries
-  await knex('acronyms').del();
-  await knex('brand_colors').del();
-  await knex('vendors').del();
-
   await knex('acronyms')
     .insert(
       [
@@ -97,3 +92,10 @@ export async function seed(knex: Knex): Promise<void> {
       ]
     );
 };
+
+export async function unseed(knex: Knex): Promise<void> {
+  // Deletes ALL existing entries
+  await knex('acronyms').del();
+  await knex('brand_colors').del();
+  await knex('vendors').del();
+}
