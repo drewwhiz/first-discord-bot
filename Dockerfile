@@ -12,6 +12,5 @@ COPY package*.json ./
 RUN npm ci --only=production
 COPY --from=build /app/dist ./dist
 COPY img/ img/
-COPY data/ data/
 
 CMD [ "npm", "start" ]
