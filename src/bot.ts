@@ -63,6 +63,7 @@ import { VendorDataService } from './dataservices/VendorDataService.js';
 import PartLookupCommand from './commands/slashCommands/PartLookupCommand.js';
 import DanceCommand from './commands/slashCommands/DanceCommand.js';
 import { SongDataService } from './dataservices/SongDataService.js';
+import { ForbiddenPhraseDataService } from './dataservices/ForbiddenPhraseDataService.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -115,6 +116,7 @@ bot.once(Events.ClientReady, readyClient => {
   const cooldownDataService = new CooldownDataService(database);
   const vendorDataService = new VendorDataService(database);
   const songDataService = new SongDataService(database);
+  const forbiddenPhraseDataService = new ForbiddenPhraseDataService(database);
 
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
@@ -152,7 +154,7 @@ bot.once(Events.ClientReady, readyClient => {
     new AtMeCommand(readyClient.user.id, seriousChannels),
     new BetCommand(seriousChannels),
     new ImagineCommand(seriousChannels),
-    new BonkCommand(seriousChannels),
+    new BonkCommand(forbiddenPhraseDataService, seriousChannels),
     new YikesCommand(seriousChannels),
     new HearMeOutCommand(seriousChannels),
     new LolCommand(seriousChannels),
