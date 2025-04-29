@@ -1,6 +1,7 @@
 import { ChannelType, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Secrets } from '../../environment.js';
 
 export class StrutCommand extends MessageCommand {
   public readonly isSilly: boolean = true;
@@ -16,7 +17,7 @@ export class StrutCommand extends MessageCommand {
 
   public override async execute(message: Message): Promise<void> {
     if (message.channel.type !== ChannelType.GuildText) return;
-    const isAllowed = message.channel?.name === process.env.RESTRICTED_CHANNEL;
+    const isAllowed = message.channel?.name === Secrets.RESTRICTED_CHANNEL;
     if (!isAllowed) return;
 
     const invariant = message.content.toLowerCase().stripPunctuation().trim();

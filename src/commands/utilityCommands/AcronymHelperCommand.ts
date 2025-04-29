@@ -3,6 +3,7 @@ import '../../extensions/StringExtension.js';
 import { IAcronymDataService } from '../../dataservices/interfaces/IAcronymDataService.js';
 import { IAcronym } from '../../models/IAcronym.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Secrets } from '../../environment.js';
 
 export class AcronymHelperCommand extends MessageCommand {
   public readonly isSilly: boolean = false;
@@ -41,12 +42,12 @@ export class AcronymHelperCommand extends MessageCommand {
   private static async sendReply(acronym: IAcronym, message: Message): Promise<void> {
     if (acronym == null) return;
 
-    if (!acronym.isChannelRestricted || message.channel.type !== ChannelType.GuildText) {
+    if (!acronym.is_channel_restricted || message.channel.type !== ChannelType.GuildText) {
       await message.reply(acronym.explanation);
       return;
     }
 
-    const isAllowed = message.channel?.name === process.env.RESTRICTED_CHANNEL;
+    const isAllowed = message.channel?.name === Secrets.RESTRICTED_CHANNEL;
     if (!isAllowed) return;
     await message.reply(acronym.explanation);
   }

@@ -29,14 +29,14 @@ export abstract class CooldownCommandBase extends MessageCommand {
     if (activeCooldown == null) {
       activeCooldown = {
         id: 0,
-        commandName: this.name,
-        channelId: message.channelId,
+        command_name: this.name,
+        channel_id: message.channelId,
         deadline: null
       };
     }
 
     if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
-    activeCooldown.deadline = DateTimeUtilities.getFutureTimeUTCString(this.cooldownHours);
+    activeCooldown.deadline = DateTimeUtilities.getFutureTime(this.cooldownHours);
     await this._cooldowns.upsert(activeCooldown);
     await this.action(message);
   }

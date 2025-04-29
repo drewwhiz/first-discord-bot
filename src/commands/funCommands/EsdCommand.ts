@@ -2,6 +2,7 @@ import { GuildBasedChannel, Message } from 'discord.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Secrets } from '../../environment.js';
 
 export class EsdCommand extends MessageCommand {
   public readonly isSilly: boolean = true;
@@ -25,7 +26,7 @@ export class EsdCommand extends MessageCommand {
   }
 
   public override async execute(message: Message<boolean>): Promise<void> {
-    const weather = await this._weather.getCurrentWeather(process.env.DEFAULT_ZIP);
+    const weather = await this._weather.getCurrentWeather(Secrets.DEFAULT_ZIP);
     if (weather == null) return;
     if (weather.current.humidity < 45) return;
 

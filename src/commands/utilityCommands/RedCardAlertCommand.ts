@@ -1,6 +1,7 @@
 import '../../extensions/StringExtension.js';
 import { GuildTextBasedChannel, ChannelType, MessageReaction, EmbedBuilder, User } from 'discord.js';
 import { ReactionCommand } from '../ReactionCommand.js';
+import { Secrets } from '../../environment.js';
 
 export class RedCardAlertCommand extends ReactionCommand {
   public readonly isSilly: boolean = false;
@@ -13,8 +14,8 @@ export class RedCardAlertCommand extends ReactionCommand {
   }
 
   public override async execute(reaction: MessageReaction, user: User): Promise<void> {
-    if (process.env.MOD_REPORT_CHANNEL == null || process.env.MOD_REPORT_CHANNEL.length === 0) return;
-    const modChannel = reaction.client.channels.cache.find(c => c.type === ChannelType.GuildText && (c as GuildTextBasedChannel).name === process.env.MOD_REPORT_CHANNEL) as GuildTextBasedChannel;
+    if (Secrets.MOD_REPORT_CHANNEL == null || Secrets.MOD_REPORT_CHANNEL.length === 0) return;
+    const modChannel = reaction.client.channels.cache.find(c => c.type === ChannelType.GuildText && (c as GuildTextBasedChannel).name === Secrets.MOD_REPORT_CHANNEL) as GuildTextBasedChannel;
     if (modChannel == null) return;
 
     const reactionChannel = reaction.message.channel as GuildTextBasedChannel;

@@ -1,5 +1,5 @@
 export interface IProgramData {
     id: number;
-    programCode: string;
-    currentSeasonYear: number;
+    program_code: string;
+    current_season_year: number;
 }

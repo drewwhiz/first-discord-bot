@@ -1,7 +1,7 @@
 export interface IReminder {
     id: number;
-    userId: string;
-    channelId: string;
-    deadline: string;
+    user_id: string;
+    channel_id: string;
+    deadline: Date;
     reminder: string;
 }
