@@ -2,7 +2,6 @@ import { Client, Collection, Events, GuildBasedChannel, IntentsBitField, Message
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { ManualCommand } from './commands/funCommands/ManualCommand.js';
-import { DanceCommand } from './commands/funCommands/DanceCommand.js';
 import { ImagineCommand } from './commands/funCommands/ImagineCommand.js';
 import { AtMeCommand } from './commands/funCommands/AtMeCommand.js';
 import { TsimfdCommand } from './commands/funCommands/TsimfdCommand.js';
@@ -62,6 +61,8 @@ import BrandCommand from './commands/slashCommands/BrandCommand.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
 import { VendorDataService } from './dataservices/VendorDataService.js';
 import PartLookupCommand from './commands/slashCommands/PartLookupCommand.js';
+import DanceCommand from './commands/slashCommands/DanceCommand.js';
+import { SongDataService } from './dataservices/SongDataService.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -113,6 +114,7 @@ bot.once(Events.ClientReady, readyClient => {
   const brandColorDataService = new BrandColorDataService(database);
   const cooldownDataService = new CooldownDataService(database);
   const vendorDataService = new VendorDataService(database);
+  const songDataService = new SongDataService(database);
 
   const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
   const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
@@ -149,7 +151,6 @@ bot.once(Events.ClientReady, readyClient => {
     new TsimfdCommand(seriousChannels),
     new AtMeCommand(readyClient.user.id, seriousChannels),
     new BetCommand(seriousChannels),
-    new DanceCommand(seriousChannels),
     new ImagineCommand(seriousChannels),
     new BonkCommand(seriousChannels),
     new YikesCommand(seriousChannels),
@@ -202,6 +203,7 @@ bot.once(Events.ClientReady, readyClient => {
   const teamCommand = new TeamCommand(firstPublicApiWebService);
   const analyzeCommand = new AnalyzeCommand(wordCloudService);
   const partLookupCommand = new PartLookupCommand(vendorDataService);
+  const danceCommand = new DanceCommand(songDataService);
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -214,6 +216,7 @@ bot.once(Events.ClientReady, readyClient => {
   slashCommands.set(teamCommand.name, teamCommand);
   slashCommands.set(analyzeCommand.name, analyzeCommand);
   slashCommands.set(partLookupCommand.name, partLookupCommand);
+  slashCommands.set(danceCommand.name, danceCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
