@@ -48,7 +48,14 @@ export default class CalendarReportCommand extends SlashCommand {
     case ITimeUnit.YEAR: endDate = new Date(new Date(startDate).setFullYear(startDate.getFullYear() + 1)); break;
     }
 
-    const results = this._eventManager == null ? [] : (await this._eventManager.fetch()).map(e => e).filter(e => e.scheduledStartAt >= startDate && e.scheduledStartAt < endDate);
+    const results = 
+      this._eventManager == null 
+        ? [] 
+        : (await this._eventManager.fetch())
+          .map(e => e)
+          .filter(e => e.scheduledStartAt >= startDate && e.scheduledStartAt < endDate)
+          .sort((a,b) => a.scheduledStartTimestamp - b.scheduledStartTimestamp);
+    
     if (results.length == 0) {
       switch (time) {
       case ITimeUnit.DAY: return ['There are no events upcoming in the next day.'];
