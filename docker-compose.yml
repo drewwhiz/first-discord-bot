@@ -35,6 +35,8 @@ services:
       - db_database
       - db_port
       - db_host
+    environment:
+      - TZ=America/Chicago
     build:
       context: .
       target: production

@@ -105,16 +105,18 @@ export default class CalendarReportCommand extends SlashCommand {
     let timeUnit = interaction.options.getNumber(CalendarReportCommand._DURATION) as ITimeUnit;
     if (timeUnit == null) timeUnit = ITimeUnit.WEEK;
 
+    await interaction.deferReply();
+
     const response = await this.buildMessage(timeUnit, false);
     if (response.length == 1) {
-      await interaction.reply(response[0]);
+      await interaction.followUp(response[0]);
       return;
     }
 
     await CalendarReportCommand.sendMessages(interaction, response);
   }
 
-  private static async reply(previousMessage: ChatInputCommandInteraction | Message, reply: string, textChannel: TextChannel, isInitial: boolean): Promise<ChatInputCommandInteraction | Message> {
+  private static async reply(previousMessage: ChatInputCommandInteraction | Message, reply: string, textChannel: TextChannel): Promise<ChatInputCommandInteraction | Message> {
     if (previousMessage == null) {
       return await textChannel.send(reply);
     }
@@ -122,12 +124,7 @@ export default class CalendarReportCommand extends SlashCommand {
     const asInteraction = previousMessage as ChatInputCommandInteraction;
     if (!asInteraction) return await previousMessage.reply(reply) as Message;
     
-    if (isInitial) {
-      await asInteraction.reply(reply);
-    } else {
-      await asInteraction.followUp(reply);
-    }
-
+    await asInteraction.followUp(reply);
     return asInteraction;
   }
 
@@ -135,7 +132,6 @@ export default class CalendarReportCommand extends SlashCommand {
     const lines = response.length;
     let previousMessage: ChatInputCommandInteraction | Message = firstMessage;
     let reply = response[0];
-    let isInitial: boolean = true;
 
     for (let i = 1; i < lines; i++) {
       const currentLength = reply.length;
@@ -146,16 +142,12 @@ export default class CalendarReportCommand extends SlashCommand {
         if (prospectiveLength < 1900) {
           reply += '\n';
           reply += response[i];
-          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
-          isInitial &&= false;
         } else {
-          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
-          isInitial &&= false;
+          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel);
           reply = response[i];
-          previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
-          isInitial &&= false;
         }
 
+        previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel);
         continue;
       }
 
@@ -168,8 +160,7 @@ export default class CalendarReportCommand extends SlashCommand {
 
       // Send and start new message
       if (i != lines - 1) {
-        previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel, isInitial);
-        isInitial &&= false;
+        previousMessage = await CalendarReportCommand.reply(previousMessage, reply, textChannel);
         reply = response[i];
         continue;
       }
