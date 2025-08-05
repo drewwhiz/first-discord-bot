@@ -191,7 +191,7 @@ bot.once(Events.ClientReady, readyClient => {
   ];
 
   const calendarReportCommand = new CalendarReportCommand(readyClient);
-  nodeCron.schedule('0 16 * * Sun', () => {
+  nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
   });
 
