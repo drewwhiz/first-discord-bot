@@ -1,4 +1,16 @@
-import { Client, Collection, Events, GuildBasedChannel, IntentsBitField, Message, MessageReaction, Partials, REST, Routes, User } from 'discord.js';
+import {
+  Client,
+  Collection,
+  Events,
+  GuildBasedChannel,
+  IntentsBitField,
+  Message,
+  MessageReaction,
+  Partials,
+  REST,
+  Routes,
+  User,
+} from 'discord.js';
 import winston from 'winston';
 import { BetCommand } from './commands/funCommands/BetCommand.js';
 import { ManualCommand } from './commands/funCommands/ManualCommand.js';
@@ -85,7 +97,7 @@ myIntents.add(
 
 const bot = new Client({
   intents: myIntents,
-  partials: [Partials.Message, Partials.Channel, Partials.Reaction]
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 const database = knex({
@@ -95,7 +107,7 @@ const database = knex({
     port: Secrets.DB_PORT,
     user: 'root',
     database: Secrets.DATABASE,
-    password: Secrets.DB_PASSWORD
+    password: Secrets.DB_PASSWORD,
   },
 });
 
@@ -106,7 +118,7 @@ let reactionCommands: IReactionCommand[] = [];
 const slashCommands = new Collection<string, SlashCommand>();
 
 // Connect
-bot.once(Events.ClientReady, readyClient => {
+bot.once(Events.ClientReady, (readyClient) => {
   info(`Ready! Logged in as ${readyClient.user.tag}`);
 
   const acronymDataService = new AcronymDataService(database);
@@ -118,28 +130,38 @@ bot.once(Events.ClientReady, readyClient => {
   const songDataService = new SongDataService(database);
   const forbiddenPhraseDataService = new ForbiddenPhraseDataService(database);
 
-  const firstPublicApiWebService = new FirstPublicApiWebService(programDataService);
-  const reminderScheduleService = new ReminderScheduleService(reminderDataService, readyClient);
+  const firstPublicApiWebService = new FirstPublicApiWebService(
+    programDataService
+  );
+  const reminderScheduleService = new ReminderScheduleService(
+    reminderDataService,
+    readyClient
+  );
   const weatherService = new WeatherApiWebService();
   const wordCloudService = new WordCloudWebService();
 
   const generalChannels: GuildBasedChannel[] = [];
-  readyClient.guilds.cache.forEach(g => {
-    const announcementsChannel = g.channels.cache.find(c => c.name == 'announcements');
+  readyClient.guilds.cache.forEach((g) => {
+    const announcementsChannel = g.channels.cache.find(
+      (c) => c.name == 'announcements'
+    );
     if (announcementsChannel) generalChannels.push(announcementsChannel);
   });
 
   if (generalChannels.length === 0) {
-    readyClient.guilds.cache.forEach(g => {
-      const generalChannel = g.channels.cache.find(c => c.name == 'general');
+    readyClient.guilds.cache.forEach((g) => {
+      const generalChannel = g.channels.cache.find((c) => c.name == 'general');
       if (generalChannel) generalChannels.push(generalChannel);
     });
   }
 
-  const seriousChannelNames: string[] = Secrets.SERIOUS_CHANNELS?.split(',') ?? [];
+  const seriousChannelNames: string[] =
+    Secrets.SERIOUS_CHANNELS?.split(',') ?? [];
   const seriousChannels: GuildBasedChannel[] = [];
-  readyClient.guilds.cache.forEach(g => {
-    const channels = g.channels.cache.filter(c => seriousChannelNames.includes(c.name)).map(c => c);
+  readyClient.guilds.cache.forEach((g) => {
+    const channels = g.channels.cache
+      .filter((c) => seriousChannelNames.includes(c.name))
+      .map((c) => c);
     if (channels == null) return;
     if (channels.length == 0) return;
     seriousChannels.push(...channels);
@@ -181,17 +203,17 @@ bot.once(Events.ClientReady, readyClient => {
 
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
-    new WeatherCommand(weatherService, seriousChannels)
+    new WeatherCommand(weatherService, seriousChannels),
   ];
 
   reactionCommands = [
     new GlitchCommand(seriousChannels),
     new RedCardAlertCommand(seriousChannels),
-    new JustAGirlCommand(readyClient.user.id, seriousChannels)
+    new JustAGirlCommand(readyClient.user.id, seriousChannels),
   ];
 
   const calendarReportCommand = new CalendarReportCommand(readyClient);
-  nodeCron.schedule('0 16 * * Sun', () => {
+  nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
   });
 
@@ -199,7 +221,9 @@ bot.once(Events.ClientReady, readyClient => {
   const brandCommand = new BrandCommand(brandColorDataService);
   const rollCommand = new RollCommand(new RandomNumberService());
   const flipCommand = new FlipCommand(new RandomNumberService());
-  const magicEightBallCommand = new MagicEightBallCommand(new RandomNumberService());
+  const magicEightBallCommand = new MagicEightBallCommand(
+    new RandomNumberService()
+  );
   const chiefDelphiCommand = new ChiefDelphiCommand();
   const convertCommand = new ConvertUnitCommand();
   const teamCommand = new TeamCommand(firstPublicApiWebService);
@@ -222,8 +246,8 @@ bot.once(Events.ClientReady, readyClient => {
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
-    const commands = slashCommands.map(async c => (await c.build()).toJSON());
-    Promise.all(commands).then(async r => {
+    const commands = slashCommands.map(async (c) => (await c.build()).toJSON());
+    Promise.all(commands).then(async (r) => {
       try {
         await rest.put(
           Routes.applicationGuildCommands(Secrets.CLIENT_ID, Secrets.GUILD_ID),
@@ -234,13 +258,13 @@ bot.once(Events.ClientReady, readyClient => {
       }
     });
   })();
-  
-  readyClient.on(Events.InteractionCreate, async interaction => {
+
+  readyClient.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
-  
+
     const command = slashCommands.get(interaction.commandName) as SlashCommand;
     if (!command) return;
-    
+
     try {
       await command.execute(interaction);
     } catch (e) {
@@ -266,30 +290,33 @@ bot.addListener(Events.MessageCreate, async (message: Message) => {
   }
 });
 
-bot.addListener(Events.MessageReactionAdd, async (reaction: MessageReaction, user: User) => {
-  // Ignore bot reactions
-  if (user.bot) return;
+bot.addListener(
+  Events.MessageReactionAdd,
+  async (reaction: MessageReaction, user: User) => {
+    // Ignore bot reactions
+    if (user.bot) return;
 
-  // Handle fetching message in case of partial
-  if (reaction.partial) {
-    try {
-      await reaction.fetch();
-    } catch (e) {
-      error('Unable to fetch message:', e);
-      return;
-    }
-  }
-
-  for (const command of reactionCommands) {
-    if (command != null && command.trigger(reaction)) {
+    // Handle fetching message in case of partial
+    if (reaction.partial) {
       try {
-        await command.execute(reaction, user);
+        await reaction.fetch();
       } catch (e) {
-        error(e.message);
+        error('Unable to fetch message:', e);
+        return;
+      }
+    }
+
+    for (const command of reactionCommands) {
+      if (command != null && command.trigger(reaction)) {
+        try {
+          await command.execute(reaction, user);
+        } catch (e) {
+          error(e.message);
+        }
       }
     }
   }
-});
+);
 
 // Start bot.
 bot.login(Secrets.TOKEN);
