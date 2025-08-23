@@ -76,6 +76,7 @@ import PartLookupCommand from './commands/slashCommands/PartLookupCommand.js';
 import DanceCommand from './commands/slashCommands/DanceCommand.js';
 import { SongDataService } from './dataservices/SongDataService.js';
 import { ForbiddenPhraseDataService } from './dataservices/ForbiddenPhraseDataService.js';
+import { ThingCommand } from './commands/funCommands/ThingCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -200,6 +201,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new CoreValuesCommand(seriousChannels),
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
+    new ThingCommand(cooldownDataService, seriousChannels),
 
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),

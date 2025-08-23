@@ -19,6 +19,7 @@ export class LolCommand extends MessageCommand {
       return;
     }
 
-    await message.reply('lol? more like 10101 - amirite!?');
+    message = await message.reply('lol? more like 10101 - amirite!?');
+    await message.reply('You are *so* right.');
   }
 }
