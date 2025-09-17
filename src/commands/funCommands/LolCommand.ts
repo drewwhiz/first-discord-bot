@@ -20,6 +20,6 @@ export class LolCommand extends MessageCommand {
     }
 
     message = await message.reply('lol? more like 10101 - amirite!?');
-    await message.reply('You are *so* right.');
+    await message.reply('"You are *so* right." - Caitlin');
   }
 }
