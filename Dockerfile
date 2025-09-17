@@ -12,5 +12,6 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 COPY --from=build /app/dist ./dist
 COPY img/ img/
+COPY audio/ audio/
 
 CMD [ "npm", "start" ]
