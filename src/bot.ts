@@ -77,6 +77,7 @@ import DanceCommand from './commands/slashCommands/DanceCommand.js';
 import { SongDataService } from './dataservices/SongDataService.js';
 import { ForbiddenPhraseDataService } from './dataservices/ForbiddenPhraseDataService.js';
 import { ThingCommand } from './commands/funCommands/ThingCommand.js';
+import SocialCommand from './commands/slashCommands/SocialCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -232,6 +233,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   const analyzeCommand = new AnalyzeCommand(wordCloudService);
   const partLookupCommand = new PartLookupCommand(vendorDataService);
   const danceCommand = new DanceCommand(songDataService);
+  const socialCommand = new SocialCommand();
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -245,6 +247,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   slashCommands.set(analyzeCommand.name, analyzeCommand);
   slashCommands.set(partLookupCommand.name, partLookupCommand);
   slashCommands.set(danceCommand.name, danceCommand);
+  slashCommands.set(socialCommand.name, socialCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
