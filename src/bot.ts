@@ -78,6 +78,7 @@ import { SongDataService } from './dataservices/SongDataService.js';
 import { ForbiddenPhraseDataService } from './dataservices/ForbiddenPhraseDataService.js';
 import { ThingCommand } from './commands/funCommands/ThingCommand.js';
 import SocialCommand from './commands/slashCommands/SocialCommand.js';
+import { SecretTunnelCommand } from './commands/funCommands/SecretTunnelCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -203,6 +204,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
     new ThingCommand(cooldownDataService, seriousChannels),
+    new SecretTunnelCommand(seriousChannels),
 
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
