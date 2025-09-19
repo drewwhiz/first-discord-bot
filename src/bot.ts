@@ -203,7 +203,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new CoreValuesCommand(seriousChannels),
     new WeAreATeamCommand(seriousChannels),
     new MichaelSaidCommand(seriousChannels),
-    new ThingCommand(cooldownDataService, seriousChannels),
+    new ThingCommand(seriousChannels),
     new SecretTunnelCommand(seriousChannels),
 
     new AcronymHelperCommand(acronymDataService, seriousChannels),
