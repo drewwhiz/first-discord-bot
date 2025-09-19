@@ -79,6 +79,7 @@ import { ForbiddenPhraseDataService } from './dataservices/ForbiddenPhraseDataSe
 import { ThingCommand } from './commands/funCommands/ThingCommand.js';
 import SocialCommand from './commands/slashCommands/SocialCommand.js';
 import { SecretTunnelCommand } from './commands/funCommands/SecretTunnelCommand.js';
+import { CrashOutCommand } from './commands/funCommands/CrashOutCommand.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -205,6 +206,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new MichaelSaidCommand(seriousChannels),
     new ThingCommand(seriousChannels),
     new SecretTunnelCommand(seriousChannels),
+    new CrashOutCommand(cooldownDataService, seriousChannels),
 
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
