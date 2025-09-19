@@ -1,15 +1,14 @@
 import { GuildBasedChannel, Message } from 'discord.js';
-import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
-import { CooldownCommandBase } from '../CooldownCommandBase.js';
+import { MessageCommand } from '../MessageCommand.js';
 
-export class ThingCommand extends CooldownCommandBase {
+export class ThingCommand extends MessageCommand {
   public override readonly isSilly: boolean = true;
   public override readonly name: string = 'the thing';
   public override readonly description: string = 'Here\'s the thing';
-  public override readonly cooldownHours: number = 24;
+  private readonly _emojiName: string = 'thething';
 
-  public constructor(cooldowns: ICooldownDataService, seriousChannels: GuildBasedChannel[]) {
-    super(cooldowns, seriousChannels);
+  public constructor(seriousChannels: GuildBasedChannel[]) {
+    super(seriousChannels);
   }
 
   public override messageTrigger(message: Message): boolean {
@@ -17,10 +16,9 @@ export class ThingCommand extends CooldownCommandBase {
     return content.includes('the thing');
   }
 
-  public override async action(message: Message): Promise<void> {
-    await message.reply({
-      content: 'Here\'s The Thing...',
-      files: ['./img/the-thing.avif']
-    });
+  public override async execute(message: Message): Promise<void> {
+    const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === this._emojiName);
+    if (reactionEmoji == null) return;
+    await message.react(reactionEmoji);
   }
 }
