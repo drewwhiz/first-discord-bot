@@ -14,7 +14,7 @@ export class CrashOutCommand extends CooldownCommandBase {
 
   public override messageTrigger(message: Message): boolean {
     const invariant = message.content.stripPunctuation().trim().toLowerCase();
-    return  invariant.containsAnyPhrases(['crash out', 'crashout']);
+    return  invariant.containsAnyPhrases(['crash out', 'crashout', 'crashing out', 'crashed out']);
   }
 
   public override async action(message: Message): Promise<void> {
