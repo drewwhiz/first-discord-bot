@@ -9,6 +9,7 @@ import {
   Partials,
   REST,
   Routes,
+  TextChannel,
   User,
 } from 'discord.js';
 import winston from 'winston';
@@ -82,6 +83,7 @@ import { SecretTunnelCommand } from './commands/funCommands/SecretTunnelCommand.
 import { CrashOutCommand } from './commands/funCommands/CrashOutCommand.js';
 import { LaunchCommand } from './commands/funCommands/LaunchCommand.js';
 import { ThisIsCommand } from './commands/funCommands/ThisIsCommand.js';
+import { SongUtilities } from './utility/SongUtilities.js';
 
 const { configure, transports, error, info } = winston;
 
@@ -147,11 +149,13 @@ bot.once(Events.ClientReady, (readyClient) => {
   const wordCloudService = new WordCloudWebService();
 
   const generalChannels: GuildBasedChannel[] = [];
+  const musicChannels: TextChannel[] = [];
+
   readyClient.guilds.cache.forEach((g) => {
-    const announcementsChannel = g.channels.cache.find(
-      (c) => c.name == 'announcements'
-    );
+    const announcementsChannel = g.channels.cache.find(c => c.name == 'announcements');
     if (announcementsChannel) generalChannels.push(announcementsChannel);
+    const musicChannel = g.channels.cache.find(c => c.name == 'music') as TextChannel;
+    if (musicChannel != null) musicChannels.push(musicChannel);
   });
 
   if (generalChannels.length === 0) {
@@ -226,6 +230,14 @@ bot.once(Events.ClientReady, (readyClient) => {
   const calendarReportCommand = new CalendarReportCommand(readyClient);
   nodeCron.schedule('0 14 * * Sun', () => {
     calendarReportCommand.sendReminder(generalChannels);
+  });
+
+  nodeCron.schedule('0 20 21 9 *', () => {
+    SongUtilities.doYouRemember(musicChannels);
+  });
+
+  nodeCron.schedule('0 0 1 10 *', () => {
+    SongUtilities.wakeMeUp(musicChannels);
   });
 
   const reminderCommand = new ReminderCommand(reminderScheduleService);
