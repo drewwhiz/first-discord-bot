@@ -236,6 +236,10 @@ bot.once(Events.ClientReady, (readyClient) => {
     SongUtilities.doYouRemember(musicChannels);
   });
 
+  nodeCron.schedule('0 0 1 10 *', () => {
+    SongUtilities.wakeMeUp(musicChannels);
+  });
+
   const reminderCommand = new ReminderCommand(reminderScheduleService);
   const brandCommand = new BrandCommand(brandColorDataService);
   const rollCommand = new RollCommand(new RandomNumberService());

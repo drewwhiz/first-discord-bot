@@ -16,19 +16,44 @@ export class SongUtilities {
     const words = remainder.split(' ');
     musicChannels.forEach(async (musicChannel) => {
       let message = await musicChannel.send('Do you remember');
-      await this.delay(10000);
+      await this.delay(15000);
       message = await message.reply('The 21st night of September?');
-      await this.delay(7000);
+      await this.delay(10000);
       message = await message.reply(
         'Love was changin\' the minds of pretenders'
       );
-      await this.delay(4000);
+      await this.delay(7000);
       message = await message.reply('While chasin\' the clouds away');
       await this.delay(4000);
 
       words.forEach(async (word) => {
         message = await message.reply(word);
-        await this.delay(2000);
+        await this.delay(3000);
+      });
+    });
+  }
+
+  public static async wakeMeUp(musicChannels: TextChannel[]): Promise<void> {
+    if (musicChannels == null || musicChannels.length == 0) return;
+
+    const remainder = 'Like my father\'s come to pass Seven years has gone so fast Wake me up when September ends Here comes the rain again Falling from the stars Drenched in my pain again Becoming who we are As my memory rests But never forgets what I lost Wake me up when September ends Summer has come and passed The innocent can never last Wake me up when September ends Ring out the bells again Like we did when spring began Wake me up when September ends Here comes the rain again Falling from the stars Drenched in my pain again Becoming who we are As my memory rests But never forgets what I lost Wake me up when September ends Summer has come and passed The innocent can never last Wake me up when September ends Like my father\'s come to pass 20 years has gone so fast Wake me up when September ends Wake me up when September ends Wake me up when September ends';
+
+    const words = remainder.split(' ');
+    musicChannels.forEach(async (musicChannel) => {
+      let message = await musicChannel.send('Sum-mer');
+      await this.delay(15000);
+      message = await message.reply('Has come and passed');
+      await this.delay(10000);
+      message = await message.reply('The innocent can never last');
+      await this.delay(7000);
+      message = await message.reply('Wake me up');
+      await this.delay(5000);
+      message = await message.reply('When September ends');
+      await this.delay(5000);
+
+      words.forEach(async (word) => {
+        message = await message.reply(word);
+        await this.delay(3000);
       });
     });
   }
