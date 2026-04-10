@@ -44,7 +44,7 @@
     "discord.js": "^14.21.0",
     "emoji-regex": "^10.4.0",
     "knex": "^3.1.0",
-    "mathjs": "^14.5.3",
+    "mathjs": "^15.2.0",
     "mysql2": "^3.14.2",
     "node-cron": "^3.0.3",
     "node-schedule": "^2.1.1",
