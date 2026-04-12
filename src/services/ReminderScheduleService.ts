@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Client, TextChannel } from 'discord.js';
+import { ChatInputCommandInteraction, Client, PermissionFlagsBits, TextChannel } from 'discord.js';
 import { IReminderDataService } from '../dataservices/interfaces/IReminderDataService.js';
 import { IReminderScheduleService } from './interfaces/IReminderScheduleService.js';
 import { scheduleJob } from 'node-schedule';
@@ -98,6 +98,9 @@ export class ReminderScheduleService implements IReminderScheduleService {
       await user.send(reminder);
       return;
     };
+
+    const bot = client.user;
+    if (!textChannel.permissionsFor(bot).has(PermissionFlagsBits.SendMessages)) return;
 
     const message = await textChannel.send(reminder);
     if (isLate) {
