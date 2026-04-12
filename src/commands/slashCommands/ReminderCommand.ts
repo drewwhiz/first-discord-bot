@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandOptionsOnlyBuilder } from 'discord.js';
 import { IReminderScheduleService } from '../../services/interfaces/IReminderScheduleService.js';
 import SlashCommand from '../SlashCommand.js';
 
@@ -46,6 +46,12 @@ export default class ReminderCommand extends SlashCommand {
   }
   
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    const channel = interaction.channel;
+    const bot = interaction.client.user;
+    if (channel == null || bot == null) return;
+
+    if (!channel.permissionsFor(bot).has(PermissionFlagsBits.SendMessages)) return;
+    
     const secondsInUnit = interaction.options.getInteger(ReminderCommand._UNITS);
     const length = interaction.options.getNumber(ReminderCommand._LENGTH);
     if (secondsInUnit == null || length == null) {
