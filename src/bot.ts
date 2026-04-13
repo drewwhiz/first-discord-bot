@@ -7,9 +7,12 @@ import {
   Message,
   MessageReaction,
   Partials,
+  PermissionFlagsBits,
   REST,
+  Role,
   Routes,
   TextChannel,
+  ThreadChannel,
   User,
 } from 'discord.js';
 import winston from 'winston';
@@ -124,6 +127,8 @@ let newMessageCommands: IMessageCommand[] = [];
 let reactionCommands: IReactionCommand[] = [];
 const slashCommands = new Collection<string, SlashCommand>();
 
+const rolesToTag: Role[] = [];
+
 // Connect
 bot.once(Events.ClientReady, (readyClient) => {
   info(`Ready! Logged in as ${readyClient.user.tag}`);
@@ -153,8 +158,15 @@ bot.once(Events.ClientReady, (readyClient) => {
   readyClient.guilds.cache.forEach((g) => {
     const announcementsChannel = g.channels.cache.find(c => c.name == 'announcements');
     if (announcementsChannel) generalChannels.push(announcementsChannel);
+
     const musicChannel = g.channels.cache.find(c => c.name == 'music') as TextChannel;
     if (musicChannel != null) musicChannels.push(musicChannel);
+
+    const studentRole = g.roles.cache.find(r => r.name == 'Student');
+    if (studentRole != null) rolesToTag.push(studentRole);
+
+    const mentorRole = g.roles.cache.find(r => r.name == 'Mentor');
+    if (mentorRole != null) rolesToTag.push(mentorRole);
   });
 
   if (generalChannels.length === 0) {
@@ -340,6 +352,22 @@ bot.addListener(
     }
   }
 );
+
+bot.addListener(Events.ThreadCreate, async (thread: ThreadChannel) => {
+  const parentChannel = thread.parent;
+  if (parentChannel == null) return;
+
+  const roles = parentChannel.guild.roles.cache.map(r => r);
+  const roleMatches = roles.filter((value) =>
+    rolesToTag.includes(value),
+  );
+
+  roleMatches.forEach(async (role: Role) => {
+    const hasPermission = parentChannel.permissionsFor(role).has(PermissionFlagsBits.ViewChannel);
+    if (!hasPermission)return;
+    await thread.send(`<@&${role.id}>`);
+  });
+});
 
 // Start bot.
 bot.login(Secrets.TOKEN);
