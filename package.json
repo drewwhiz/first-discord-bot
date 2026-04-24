@@ -41,7 +41,7 @@
   "dependencies": {
     "axios": "^1.15.0",
     "convert-units": "^2.3.4",
-    "discord.js": "^14.21.0",
+    "discord.js": "^14.26.3",
     "emoji-regex": "^10.4.0",
     "knex": "^3.1.0",
     "mathjs": "^15.2.0",
