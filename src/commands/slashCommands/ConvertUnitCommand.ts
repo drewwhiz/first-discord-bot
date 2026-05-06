@@ -1,10 +1,8 @@
 import { ChatInputCommandInteraction, SlashCommandOptionsOnlyBuilder } from 'discord.js';
 import SlashCommand from '../SlashCommand.js';
 import { evaluate, Unit } from 'mathjs';
-import winston from 'winston';
-
-const { debug } = winston;
-
+import { Logger } from '../../utility/Logger.js';
+import { Nullable } from '../../models/Nullable.js';
 export default class ConvertUnitCommand extends SlashCommand {
   private static readonly _FROM: string = 'from';
   private static readonly _TO: string = 'to';
@@ -50,11 +48,11 @@ export default class ConvertUnitCommand extends SlashCommand {
     await interaction.reply(`${from} is equivalent to ${roundedResult} ${to}`);
   }
 
-  private static computeConversion(input: string): Unit {
+  private static computeConversion(input: string): Nullable<Unit> {
     try {
       return evaluate(input) as Unit;
     } catch (e) {
-      debug(e.toString());
+      if (e instanceof Error) Logger.logDebug(e.toString());
       return null;
     }
   }

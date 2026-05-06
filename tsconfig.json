@@ -3,11 +3,11 @@
     "module": "NodeNext",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "target": "ES2021",
+    "target": "ES2024",
     "moduleResolution": "NodeNext",
     "sourceMap": true,
     "outDir": "dist",
     "noImplicitOverride": true
   },
-  "lib": ["ES2021"]
+  "lib": ["ES2024"]
 }

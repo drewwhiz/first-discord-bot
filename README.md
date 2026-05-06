@@ -19,6 +19,7 @@ This project requires a `secrets` folder in the same directory as the `docker-co
 - `db_host.txt`: The container name of the MySQL database in the Docker network.
 - `db_password.txt`: The root password for the MySQL database in the Docker network.
 - `db_port.txt`: The port for the MySQL database container in the Docker network.
+- `blue_alliance_key.txt`: The API key for calling the Blue Alliance API.
 
 
 ## Migrations
