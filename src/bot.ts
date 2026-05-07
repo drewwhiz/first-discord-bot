@@ -86,8 +86,11 @@ import { SecretTunnelCommand } from './commands/funCommands/SecretTunnelCommand.
 import { CrashOutCommand } from './commands/funCommands/CrashOutCommand.js';
 import { LaunchCommand } from './commands/funCommands/LaunchCommand.js';
 import { SongUtilities } from './utility/SongUtilities.js';
+import { ProgramApiWebService } from './webservices/ProgramApiWebService.js';
+import HistoryCommand from './commands/slashCommands/HistoryCommand.js';
+import { Logger } from './utility/Logger.js';
 
-const { configure, transports, error, info } = winston;
+const { configure, transports } = winston;
 
 // Configure default logger settings
 configure({
@@ -131,10 +134,11 @@ const rolesToTag: Role[] = [];
 
 // Connect
 bot.once(Events.ClientReady, (readyClient) => {
-  info(`Ready! Logged in as ${readyClient.user.tag}`);
+  Logger.logInfo(`Ready! Logged in as ${readyClient.user.tag}`);
 
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
+
   const programDataService = new ProgramDataService(database);
   const brandColorDataService = new BrandColorDataService(database);
   const cooldownDataService = new CooldownDataService(database);
@@ -145,12 +149,15 @@ bot.once(Events.ClientReady, (readyClient) => {
   const firstPublicApiWebService = new FirstPublicApiWebService(
     programDataService
   );
+  // firstPublicApiWebService.updateAllSeasons().then().catch();
+
   const reminderScheduleService = new ReminderScheduleService(
     reminderDataService,
     readyClient
   );
   const weatherService = new WeatherApiWebService();
   const wordCloudService = new WordCloudWebService();
+  const programApiWebService = new ProgramApiWebService(programDataService);
 
   const generalChannels: GuildBasedChannel[] = [];
   const musicChannels: TextChannel[] = [];
@@ -264,6 +271,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   const partLookupCommand = new PartLookupCommand(vendorDataService);
   const danceCommand = new DanceCommand(songDataService);
   const socialCommand = new SocialCommand();
+  const historyCommand = new HistoryCommand(programApiWebService, programDataService);
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -278,6 +286,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   slashCommands.set(partLookupCommand.name, partLookupCommand);
   slashCommands.set(danceCommand.name, danceCommand);
   slashCommands.set(socialCommand.name, socialCommand);
+  slashCommands.set(historyCommand.name, historyCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
@@ -289,7 +298,7 @@ bot.once(Events.ClientReady, (readyClient) => {
           { body: r }
         );
       } catch {
-        error('Unable to register slash commands');
+        Logger.logError('Unable to register slash commands');
       }
     });
   })();
@@ -303,7 +312,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     try {
       await command.execute(interaction);
     } catch (e) {
-      error(e);
+      if (e instanceof Error) Logger.logError(e.message);
     }
   });
 });
@@ -318,8 +327,8 @@ bot.addListener(Events.MessageCreate, async (message: Message) => {
     if (command != null && command.trigger(message)) {
       try {
         await command.execute(message);
-      } catch (e) {
-        error(e.message);
+      } catch (e: unknown) {
+        if (e instanceof Error) Logger.logError(e.message);
       }
     }
   }
@@ -336,7 +345,7 @@ bot.addListener(
       try {
         await reaction.fetch();
       } catch (e) {
-        error('Unable to fetch message:', e);
+        if (e instanceof Error) Logger.logError(`Unable to fetch message: ${e.message}`);
         return;
       }
     }
@@ -345,8 +354,8 @@ bot.addListener(
       if (command != null && command.trigger(reaction)) {
         try {
           await command.execute(reaction, user);
-        } catch (e) {
-          error(e.message);
+        } catch (e: unknown) {
+          if (e instanceof Error) Logger.logError(e.message);
         }
       }
     }
