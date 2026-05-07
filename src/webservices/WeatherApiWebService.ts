@@ -1,11 +1,9 @@
 import { Secrets } from '../environment.js';
 import { IWeather } from '../models/IWeather.js';
+import { Nullable } from '../models/Nullable.js';
+import { Logger } from '../utility/Logger.js';
 import { IWeatherApiWebService } from './interfaces/IWeatherApiWebService.js';
 import https from 'https';
-import winston from 'winston';
-
-const { error } = winston;
-
 export class WeatherApiWebService implements IWeatherApiWebService {
   private static readonly RATE_LIMIT_MINUTES = 5;
   private static readonly API_URL = 'https://api.weatherapi.com/v1/current.json';
@@ -13,9 +11,9 @@ export class WeatherApiWebService implements IWeatherApiWebService {
   private static readonly ZIP_PARAM = 'q';
   private static readonly AQI_PARAM = 'aqi';
 
-  private _rateLimitExpires: Date;
+  private _rateLimitExpires: Nullable<Date> = null;
 
-  public async getCurrentWeather(zipCode: string): Promise<IWeather> {
+  public async getCurrentWeather(zipCode: string): Promise<Nullable<IWeather>> {
     const now = new Date();
     if (this._rateLimitExpires != null && now < this._rateLimitExpires) return null;
 
@@ -30,7 +28,7 @@ export class WeatherApiWebService implements IWeatherApiWebService {
     }
   }
 
-  private static getUrl(zipCode: string): string {
+  private static getUrl(zipCode: string): Nullable<string> {
     if (zipCode == null) return null;
     if (zipCode.length != 5 && zipCode.length != 10) return null;
 
@@ -48,18 +46,18 @@ export class WeatherApiWebService implements IWeatherApiWebService {
             + '=no';
   }
 
-  private static fetchWeather(url: string): Promise<IWeather> {
+  private static fetchWeather(url: string): Promise<Nullable<IWeather>> {
     return new Promise((resolve, reject) => {
       https
         .get(url, res => {
           let s = '';
           res.on('data', d => s += d);
           res.on('end', () => {
-            let value: IWeather = null;
+            let value: Nullable<IWeather> = null;
             try {
               value = JSON.parse(s);
             } catch {
-              error(`Unable to parse ${s}`);
+              Logger.logError(`Unable to parse ${s}`);
               value = null;
             }
             resolve(value);

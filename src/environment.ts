@@ -27,4 +27,5 @@ export class Secrets {
   public static readonly DB_PASSWORD: string = this.getSecretString('db_password');
   public static readonly DB_HOST: string = this.getSecretString('db_host');
   public static readonly DB_PORT: number = this.getSecretInteger('db_port');
+  public static readonly BLUE_ALLIANCE_KEY: string = this.getSecretString('BLUE_ALLIANCE_KEY');
 }

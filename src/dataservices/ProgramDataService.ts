@@ -3,6 +3,7 @@ import { IFirstProgram } from '../models/IFirstProgram.js';
 import { IProgramData } from '../models/IProgramData.js';
 import knex from 'knex';
 import { ProgramUtilities } from '../utility/ProgramUtilities.js';
+import { Nullable } from '../models/Nullable.js';
 
 export class ProgramDataService implements IProgramDataService {
   private readonly _database: knex.Knex;
@@ -11,7 +12,7 @@ export class ProgramDataService implements IProgramDataService {
     this._database = database;
   }
 
-  public async insert(record: IProgramData): Promise<IProgramData> {
+  public async insert(record: IProgramData): Promise<Nullable<IProgramData>> {
     const matching = (await this.getAll()).filter(c => c.program_code == record.program_code);
     if (matching.length > 0) return matching[0];
 
@@ -26,13 +27,13 @@ export class ProgramDataService implements IProgramDataService {
     return rows as IProgramData[];
   }
 
-  public async upsert(record: IProgramData): Promise<IProgramData> {
+  public async upsert(record: IProgramData): Promise<Nullable<IProgramData>> {
     if (record == null) return null;
     if (record.id > 0) return await this.update(record.id, record);
     return await this.insert(record);
   }
 
-  public async get(id: number): Promise<IProgramData> {
+  public async get(id: number): Promise<Nullable<IProgramData>> {
     const row = await this._database('program_data')
       .where('id', id)
       .first('*');
@@ -40,7 +41,7 @@ export class ProgramDataService implements IProgramDataService {
     return row as IProgramData;
   }
 
-  public async getByProgram(program: IFirstProgram): Promise<IProgramData> {
+  public async getByProgram(program: IFirstProgram): Promise<Nullable<IProgramData>> {
     const programCode = ProgramUtilities.mapProgramToCode(program);
     if (program == null) return null;
     return await this._database('program_data')
@@ -48,7 +49,7 @@ export class ProgramDataService implements IProgramDataService {
       .first('*') as IProgramData;
   }
 
-  public async update(id: number, updatedRecord: IProgramData): Promise<IProgramData> {
+  public async update(id: number, updatedRecord: IProgramData): Promise<Nullable<IProgramData>> {
     const result = await this._database('program_data')
       .where('id', id)
       .update(updatedRecord);

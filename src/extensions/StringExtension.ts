@@ -1,13 +1,15 @@
 import emojiRegex from 'emoji-regex';
+import { Nullable } from '../models/Nullable.js';
 
 declare global {
   interface String {
     containsAnyWords: (this: string, ...args: string[]) => boolean;
     containsAnyPhrases: (this: string, args: string[]) => boolean;
-    getFirstMatchingPhrase: (this: string, args: string[]) => string;
+    getFirstMatchingPhrase: (this: string, args: string[]) => Nullable<string>;
     isFirstWord: (this: string, startText: string) => boolean;
     stripPunctuation: (this: string) => string;
     capitalize: (this: string) => string;
+    format: (this: string, ...args: string[]) => string;
   }
 }
 
@@ -50,7 +52,7 @@ String.prototype.containsAnyPhrases = function (this: string, args: string[]): b
   return false;
 };
 
-String.prototype.getFirstMatchingPhrase = function (this: string, args: string[]): string {
+String.prototype.getFirstMatchingPhrase = function (this: string, args: string[]): Nullable<string> {
   if (args == null || args.length == 0) return null;
 
   const keywords = [] as string[];
@@ -89,4 +91,10 @@ String.prototype.stripPunctuation = function (this: string): string {
 
   // eslint-disable-next-line
   return currentString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~@()'‘’"“”\?]/g, '').replace(/\s{2,}/g, ' ');
+};
+
+String.prototype.format = function (...args: string[]) {
+  return this.replace(/{(\d+)}/g, function (match, number) {
+    return typeof args[number] != 'undefined' ? args[number] : match;
+  });
 };

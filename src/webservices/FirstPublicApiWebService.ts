@@ -2,13 +2,11 @@ import { IProgramDataService } from '../dataservices/interfaces/IProgramDataServ
 import { IFirstProgram } from '../models/IFirstProgram.js';
 import { IFirstSeasonResponse } from '../models/IFirstSeasonResponse.js';
 import { IProgramData } from '../models/IProgramData.js';
+import { Nullable } from '../models/Nullable.js';
+import { Logger } from '../utility/Logger.js';
 import { ProgramUtilities } from '../utility/ProgramUtilities.js';
 import { IFirstPublicApiWebService } from './interfaces/IFirstPublicApiWebService.js';
 import https from 'https';
-import winston from 'winston';
-
-const { error } = winston;
-
 export class FirstPublicApiWebService implements IFirstPublicApiWebService {
   private static readonly API_BASE_URL: string = 'https://my.firstinspires.org/usfirstapi';
   private static readonly SEASON_ENDPOINT: string = 'seasons/search';
@@ -40,7 +38,7 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
   }
 
   public async getCurrentSeason(program: IFirstProgram, override: boolean): Promise<number> {
-    let knownValue: IProgramData = await this._programData.getByProgram(program);
+    let knownValue: Nullable<IProgramData> = await this._programData.getByProgram(program);
     if (knownValue == null || override) {
       const newValue = (await FirstPublicApiWebService.fetchCurrentSeasonYear(program));
       if (knownValue == null) {
@@ -60,18 +58,18 @@ export class FirstPublicApiWebService implements IFirstPublicApiWebService {
     return knownValue.current_season_year;
   }
 
-  private static getCurrentSeasonData(url: string): Promise<IFirstSeasonResponse[]> {
+  private static getCurrentSeasonData(url: string): Promise<Nullable<IFirstSeasonResponse[]>> {
     return new Promise((resolve, reject) => {
       https
         .get(url, res => {
           let s = '';
           res.on('data', d => s += d);
           res.on('end', () => {
-            let value: IFirstSeasonResponse[] = null;
+            let value: Nullable<IFirstSeasonResponse[]> = null;
             try {
               value = JSON.parse(s);
             } catch {
-              error(`Unable to parse ${s}`);
+              Logger.logError(`Unable to parse ${s}`);
               value = null;
             }
             resolve(value);

@@ -1,18 +1,17 @@
 import https from 'https';
-import winston from 'winston';
 import { IWordCloudWebService } from './interfaces/IWordCloudWebService.js';
-
-const { error } = winston;
+import { Logger } from '../utility/Logger.js';
+import { Nullable } from '../models/Nullable.js';
 
 export class WordCloudWebService implements IWordCloudWebService {
   private static readonly URL: string = 'https://quickchart.io/wordcloud?format=png&removeStopwords=true&backgroundColor=white&text=';
 
-  public async getWordCloud(text: string): Promise<Buffer> {
+  public async getWordCloud(text: string): Promise<Nullable<Buffer>> {
     const url = WordCloudWebService.URL + text;
     return await WordCloudWebService.fetchWordCloud(url);
   }
 
-  private static fetchWordCloud(url: string): Promise<Buffer> {
+  private static fetchWordCloud(url: string): Promise<Nullable<Buffer>> {
     return new Promise((resolve, reject) => {
       https
         .get(url, res => {
@@ -23,7 +22,7 @@ export class WordCloudWebService implements IWordCloudWebService {
             try {
               buffer = Buffer.concat(data);
             } catch (e) {
-              error(e);
+              if (e instanceof Error) Logger.logError(e.toString());
               resolve(null);
               return;
             }

@@ -35,6 +35,7 @@ services:
       - db_database
       - db_port
       - db_host
+      - BLUE_ALLIANCE_KEY
     environment:
       - TZ=America/Chicago
     build:
@@ -67,3 +68,5 @@ secrets:
     file: secrets/discord_token.txt
   WEATHER_API_KEY:
     file: secrets/weather_api_key.txt
+  BLUE_ALLIANCE_KEY:
+    file: secrets/blue_alliance_key.txt
