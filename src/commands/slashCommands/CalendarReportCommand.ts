@@ -48,9 +48,8 @@ export default class CalendarReportCommand extends SlashCommand {
   }
 
   private async buildMessage(time: ITimeUnit, requestAttendance: boolean): Promise<string[]> {
-    // Start midnight today
     const startDate = new Date();
-    startDate.setHours(23, 59, 59);
+    if (requestAttendance) startDate.setHours(23, 59, 59);
 
     let endDate = startDate;
     switch (time) {
@@ -59,6 +58,8 @@ export default class CalendarReportCommand extends SlashCommand {
     case ITimeUnit.MONTH: endDate = new Date(new Date(startDate).setMonth(startDate.getMonth() + 1)); break;
     case ITimeUnit.YEAR: endDate = new Date(new Date(startDate).setFullYear(startDate.getFullYear() + 1)); break;
     }
+
+    endDate.setHours(23, 59, 59);
 
     const results = 
       this._eventManager == null 
