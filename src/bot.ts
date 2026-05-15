@@ -90,6 +90,7 @@ import { ProgramApiWebService } from './webservices/ProgramApiWebService.js';
 import HistoryCommand from './commands/slashCommands/HistoryCommand.js';
 import { Logger } from './utility/Logger.js';
 import RoleLookupCommand from './commands/slashCommands/RoleLookupCommand.js';
+import UserRoleLookupCommand from './commands/slashCommands/UserRoleLookupCommand.js';
 
 const { configure, transports } = winston;
 
@@ -275,6 +276,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   const socialCommand = new SocialCommand();
   const historyCommand = new HistoryCommand(programApiWebService, programDataService);
   const roleLookupCommand = new RoleLookupCommand();
+  const userRoleLookupCommand = new UserRoleLookupCommand();
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -291,6 +293,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   slashCommands.set(socialCommand.name, socialCommand);
   slashCommands.set(historyCommand.name, historyCommand);
   slashCommands.set(roleLookupCommand.name, roleLookupCommand);
+  slashCommands.set(userRoleLookupCommand.name, userRoleLookupCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
