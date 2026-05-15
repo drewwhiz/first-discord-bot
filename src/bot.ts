@@ -106,7 +106,8 @@ myIntents.add(
   IntentsBitField.Flags.Guilds,
   IntentsBitField.Flags.GuildMessages,
   IntentsBitField.Flags.DirectMessages,
-  IntentsBitField.Flags.GuildMessageReactions
+  IntentsBitField.Flags.GuildMessageReactions,
+  IntentsBitField.Flags.GuildPresences
 );
 
 const bot = new Client({
