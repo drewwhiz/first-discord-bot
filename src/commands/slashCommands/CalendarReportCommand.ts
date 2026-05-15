@@ -50,7 +50,7 @@ export default class CalendarReportCommand extends SlashCommand {
   private async buildMessage(time: ITimeUnit, requestAttendance: boolean): Promise<string[]> {
     // Start midnight today
     const startDate = new Date();
-    startDate.setHours(0, 0, 0);
+    startDate.setHours(23, 59, 59);
 
     let endDate = startDate;
     switch (time) {
