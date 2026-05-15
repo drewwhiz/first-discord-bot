@@ -89,6 +89,7 @@ import { SongUtilities } from './utility/SongUtilities.js';
 import { ProgramApiWebService } from './webservices/ProgramApiWebService.js';
 import HistoryCommand from './commands/slashCommands/HistoryCommand.js';
 import { Logger } from './utility/Logger.js';
+import RoleLookupCommand from './commands/slashCommands/RoleLookupCommand.js';
 
 const { configure, transports } = winston;
 
@@ -272,6 +273,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   const danceCommand = new DanceCommand(songDataService);
   const socialCommand = new SocialCommand();
   const historyCommand = new HistoryCommand(programApiWebService, programDataService);
+  const roleLookupCommand = new RoleLookupCommand();
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -287,6 +289,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   slashCommands.set(danceCommand.name, danceCommand);
   slashCommands.set(socialCommand.name, socialCommand);
   slashCommands.set(historyCommand.name, historyCommand);
+  slashCommands.set(roleLookupCommand.name, roleLookupCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
