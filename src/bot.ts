@@ -91,6 +91,7 @@ import HistoryCommand from './commands/slashCommands/HistoryCommand.js';
 import { Logger } from './utility/Logger.js';
 import RoleLookupCommand from './commands/slashCommands/RoleLookupCommand.js';
 import UserRoleLookupCommand from './commands/slashCommands/UserRoleLookupCommand.js';
+import { StonksCommand } from './commands/funCommands/StonksCommand.js';
 
 const { configure, transports } = winston;
 
@@ -235,7 +236,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new SecretTunnelCommand(seriousChannels),
     new CrashOutCommand(cooldownDataService, seriousChannels),
     new LaunchCommand(cooldownDataService, seriousChannels),
-
+    new StonksCommand(seriousChannels),
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
     new WeatherCommand(weatherService, seriousChannels),
