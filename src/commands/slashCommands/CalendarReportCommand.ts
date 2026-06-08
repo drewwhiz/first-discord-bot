@@ -87,8 +87,15 @@ export default class CalendarReportCommand extends SlashCommand {
       const date = r.scheduledStartAt;
       if (date == null) return null;
       const startString = `${date.toLocaleDateString('en-GB', dateOption)} at ${date.toLocaleTimeString('en-US', timeOption)}`;
-      const locationString = r.entityMetadata?.location != null ? ` (${r.entityMetadata.location})` : '';
-      return `- ${r.name}: ${startString}${locationString}`;
+
+      let location = '';
+      if (r.channelId != null) {
+        location = ` (<#${r.channelId}>)`;
+      } else if (r.entityMetadata?.location != null) {
+        location = ` (${r.entityMetadata.location})`;
+      }
+
+      return `- ${r.name}: ${startString}${location}`;
     }).filter(e => e != null);
 
     let header = '';
