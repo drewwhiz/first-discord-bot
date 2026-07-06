@@ -8,18 +8,19 @@ export class LolCommand extends MessageCommand {
   public readonly description: string = 'replies to lol';
 
   public override messageTrigger(message: Message): boolean {
-    const invariant = message.content.toLowerCase().stripPunctuation().trim();
-    return invariant.containsAnyWords('lol', 'lolol');
+    const invariant = message.content.toLowerCase().stripPunctuation().replace(/\s/g, '');
+    return invariant.includes('lol');
   }
 
   public override async execute(message: Message): Promise<void> {
-    const invariant = message.content.toLowerCase().stripPunctuation().trim();
-    if (invariant.containsAnyWords('lolol')) {
+    const invariant = message.content.toLowerCase().stripPunctuation().replace(/\s/g, '');
+    if (invariant.includes('lolol')) {
       await message.reply('lolol? more like 10101 - amirite!?');
       return;
     }
 
     message = await message.reply('lol? more like 10101 - amirite!?');
-    await message.reply('"You are *so* right." - Caitlin');
+    message = await message.reply('"You are *so* right." - Caitlin');
+    await message.react('🫠');
   }
 }
