@@ -92,6 +92,7 @@ import { Logger } from './utility/Logger.js';
 import RoleLookupCommand from './commands/slashCommands/RoleLookupCommand.js';
 import UserRoleLookupCommand from './commands/slashCommands/UserRoleLookupCommand.js';
 import { StonksCommand } from './commands/funCommands/StonksCommand.js';
+import CubeRuleCommand from './commands/slashCommands/CubeRuleCommand.js';
 
 const { configure, transports } = winston;
 
@@ -278,6 +279,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   const historyCommand = new HistoryCommand(programApiWebService, programDataService);
   const roleLookupCommand = new RoleLookupCommand();
   const userRoleLookupCommand = new UserRoleLookupCommand();
+  const cubeRuleCommand = new CubeRuleCommand();
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -295,6 +297,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   slashCommands.set(historyCommand.name, historyCommand);
   slashCommands.set(roleLookupCommand.name, roleLookupCommand);
   slashCommands.set(userRoleLookupCommand.name, userRoleLookupCommand);
+  slashCommands.set(cubeRuleCommand.name, cubeRuleCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
@@ -381,7 +384,7 @@ bot.addListener(Events.ThreadCreate, async (thread: ThreadChannel) => {
 
   roleMatches.forEach(async (role: Role) => {
     const hasPermission = parentChannel.permissionsFor(role).has(PermissionFlagsBits.ViewChannel);
-    if (!hasPermission)return;
+    if (!hasPermission) return;
     await thread.send(`<@&${role.id}>`);
   });
 });
