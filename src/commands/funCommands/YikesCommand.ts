@@ -12,12 +12,13 @@ export class YikesCommand extends MessageCommand {
   }
 
   public override async execute(message: Message): Promise<void> {
-    const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === this._emojiName);
+    const reactionEmoji = message?.guild?.emojis?.cache?.find(emoji => emoji.name === this._emojiName);
     if (reactionEmoji == null) return;
 
     const isReply = message.type == MessageType.Reply;
     if (isReply) {
-      const messageId = message.reference.messageId;
+      const messageId = message?.reference?.messageId;
+      if (messageId == null) return;
       const messageToReact = await message.channel.messages.fetch(messageId);
       messageToReact.react(reactionEmoji);
       return;
