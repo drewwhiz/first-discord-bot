@@ -93,6 +93,7 @@ import RoleLookupCommand from './commands/slashCommands/RoleLookupCommand.js';
 import UserRoleLookupCommand from './commands/slashCommands/UserRoleLookupCommand.js';
 import { StonksCommand } from './commands/funCommands/StonksCommand.js';
 import CubeRuleCommand from './commands/slashCommands/CubeRuleCommand.js';
+import { SixSevenCommand } from './commands/funCommands/SixSevenCommand.js';
 
 const { configure, transports } = winston;
 
@@ -241,6 +242,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new AcronymHelperCommand(acronymDataService, seriousChannels),
     new RoshamboCommand(new RandomNumberService(), seriousChannels),
     new WeatherCommand(weatherService, seriousChannels),
+    new SixSevenCommand(cooldownDataService, seriousChannels)
   ];
 
   reactionCommands = [
