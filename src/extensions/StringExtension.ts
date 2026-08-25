@@ -83,10 +83,16 @@ String.prototype.isFirstWord = function (this: string, startText: string): boole
 
 String.prototype.stripPunctuation = function (this: string): string {
   let currentString = `${this}`;
-  const regex = emojiRegex();
-  for (const match of currentString.matchAll(regex)) {
+  const standardEmojiRegex = emojiRegex();
+  for (const match of currentString.matchAll(standardEmojiRegex)) {
     const emoji = match[0];
     currentString = currentString.replace(emoji, ' ');
+  }
+
+  const customEmojiRegex = new RegExp(/<a?:.+?:\d+>/, 'gmi');
+  for (const match of currentString.matchAll(customEmojiRegex)) {
+    const emoji = match[0];
+    currentString = currentString.replace(emoji, '');
   }
 
   // eslint-disable-next-line
