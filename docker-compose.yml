@@ -28,7 +28,6 @@ services:
       - GUILD_ID
       - MOD_REPORT_CHANNEL
       - RESTRICTED_CHANNEL
-      - SERIOUS_CHANNELS
       - TOKEN
       - WEATHER_API_KEY
       - db_password
@@ -62,8 +61,6 @@ secrets:
     file: secrets/mod_report_channel.txt
   RESTRICTED_CHANNEL:
     file: secrets/restricted_channel.txt
-  SERIOUS_CHANNELS:
-    file: secrets/serious_channels.txt
   TOKEN:
     file: secrets/discord_token.txt
   WEATHER_API_KEY:

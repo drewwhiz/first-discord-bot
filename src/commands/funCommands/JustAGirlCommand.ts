@@ -1,5 +1,6 @@
-import { GuildBasedChannel, MessageReaction } from 'discord.js';
+import { MessageReaction } from 'discord.js';
 import { ReactionCommand } from '../ReactionCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class JustAGirlCommand extends ReactionCommand {
   public readonly isSilly: boolean = true;
@@ -8,17 +9,18 @@ export class JustAGirlCommand extends ReactionCommand {
   public description: string = 'sends a video when one of my messages are reacted negatively';
   private readonly _userId: string;
 
-  public constructor(userId: string, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(userId: string, channelService: IChannelService) {
+    super(channelService);
     this._userId = userId;
   }
 
   public override reactionTrigger(reaction: MessageReaction): boolean {
-    if (reaction.message.author.id !== this._userId) return false;
-    if (!JustAGirlCommand.NEGATIVE_REACTS.includes(reaction.emoji.name)) return false;
+    if (reaction?.message?.author?.id !== this._userId) return false;
+    if (reaction?.emoji?.name == null) return false;
+    if (!JustAGirlCommand.NEGATIVE_REACTS.includes(reaction?.emoji?.name)) return false;
 
     const negativeReactions = reaction.message.reactions.cache
-      .filter(r => JustAGirlCommand.NEGATIVE_REACTS.includes(r.emoji.name))
+      .filter(r => r?.emoji?.name == null ? false : JustAGirlCommand.NEGATIVE_REACTS.includes(r?.emoji?.name))
       .map(r => r.count)
       .reduce((acc, val) => acc + val, 0);
 

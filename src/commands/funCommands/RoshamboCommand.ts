@@ -1,7 +1,8 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IRandomNumberService } from '../../services/interfaces/IRandomNumberService.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class RoshamboCommand extends MessageCommand {
   public readonly isSilly: boolean = true;
@@ -14,8 +15,8 @@ export class RoshamboCommand extends MessageCommand {
   private static readonly ROCK_EMOJI: string[] = ['🪨', '🗿'];
   private static readonly SCISSORS_EMOJI: string[] = ['✂️', '✁', '✃', '✄', '✂'];
 
-  public constructor(random: IRandomNumberService, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(random: IRandomNumberService, channelService: IChannelService) {
+    super(channelService);
     this._random = random;
   }
 

@@ -15,7 +15,7 @@ export class GlitchCommand extends ReactionCommand {
 
   public override async execute(reaction: MessageReaction): Promise<void> {
     if (reaction == null) return;
-    const content = reaction.message.content;
+    const content = reaction.message.content ?? '';
     const zalgoText = zalgoGeneration(content, 2, 2, 2);
     if (zalgoText.length >= 1999) return;
     await reaction.message.reply(zalgoText);

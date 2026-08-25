@@ -1,13 +1,14 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class WeAreATeamCommand extends MessageCommand {
   public override name: string = 'we\'re a team message';
   public override description: string = 'fist bump or respond';
   public override isSilly: boolean = true;
 
-  public constructor(seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(channelService: IChannelService) {
+    super(channelService);
   }
 
   private static isEmoji(content: string): boolean {

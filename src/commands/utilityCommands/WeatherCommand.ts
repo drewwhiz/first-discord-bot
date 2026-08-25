@@ -1,8 +1,10 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import { MessageCommand } from '../MessageCommand.js';
 import { Secrets } from '../../environment.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
+import { Nullable } from '../../models/Nullable.js';
 
 export class WeatherCommand extends MessageCommand {
   public readonly isSilly: boolean = false;
@@ -12,8 +14,8 @@ export class WeatherCommand extends MessageCommand {
 
   private readonly _weather: IWeatherApiWebService;
 
-  public constructor(weather: IWeatherApiWebService, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(weather: IWeatherApiWebService, channelService: IChannelService) {
+    super(channelService);
     this._weather = weather;
   }
 
@@ -29,7 +31,7 @@ export class WeatherCommand extends MessageCommand {
   public override async execute(message: Message): Promise<void> {
     const invariant = message.content.toLowerCase().trim();
 
-    let zipCode: string = null;
+    let zipCode: Nullable<string> = null;
     if (invariant === 'weather') {
       zipCode = Secrets.DEFAULT_ZIP;
     } else {

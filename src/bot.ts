@@ -95,6 +95,7 @@ import { StonksCommand } from './commands/funCommands/StonksCommand.js';
 import CubeRuleCommand from './commands/slashCommands/CubeRuleCommand.js';
 import { SixSevenCommand } from './commands/funCommands/SixSevenCommand.js';
 import BrewCommand from './commands/slashCommands/BrewCommand.js';
+import { ChannelService } from './services/ChannelService.js';
 
 const { configure, transports } = winston;
 
@@ -143,6 +144,8 @@ const rolesToTag: Role[] = [];
 bot.once(Events.ClientReady, (readyClient) => {
   Logger.logInfo(`Ready! Logged in as ${readyClient.user.tag}`);
 
+  const channelService = new ChannelService();
+
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
 
@@ -190,66 +193,54 @@ bot.once(Events.ClientReady, (readyClient) => {
     });
   }
 
-  const seriousChannelNames: string[] =
-    Secrets.SERIOUS_CHANNELS?.split(',') ?? [];
-  const seriousChannels: GuildBasedChannel[] = [];
-  readyClient.guilds.cache.forEach((g) => {
-    const channels = g.channels.cache
-      .filter((c) => seriousChannelNames.includes(c.name))
-      .map((c) => c);
-    if (channels == null) return;
-    if (channels.length == 0) return;
-    seriousChannels.push(...channels);
-  });
-
   nodeCron.schedule('0 0 3 * * *', async () => {
     await firstPublicApiWebService.updateAllSeasons();
   });
 
   newMessageCommands = [
-    new TsimfdCommand(seriousChannels),
-    new AtMeCommand(readyClient.user.id, seriousChannels),
-    new BetCommand(seriousChannels),
-    new ImagineCommand(seriousChannels),
-    new BonkCommand(forbiddenPhraseDataService, seriousChannels),
-    new YikesCommand(seriousChannels),
-    new HearMeOutCommand(seriousChannels),
-    new LolCommand(seriousChannels),
-    new StopCommand(seriousChannels),
-    new WompCommand(seriousChannels),
-    new ShockerCommand(seriousChannels),
-    new YouProblemCommand(seriousChannels),
-    new PoopCommand(seriousChannels),
-    new StrutCommand(seriousChannels),
-    new EveryoneCommand(seriousChannels),
-    new VexCommand(cooldownDataService, seriousChannels),
-    new RespectsCommand(cooldownDataService, seriousChannels),
-    new DoubtCommand(cooldownDataService, seriousChannels),
-    new MainGoalCommand(cooldownDataService, seriousChannels),
-    new GameCommand(cooldownDataService, seriousChannels),
-    new GoodBotBadBotCommand(readyClient, seriousChannels),
-    new EsdCommand(weatherService, seriousChannels),
-    new ManualCommand(seriousChannels),
-    new DocumentationCommand(seriousChannels),
-    new ColorCommand(seriousChannels),
-    new CoreValuesCommand(seriousChannels),
-    new WeAreATeamCommand(seriousChannels),
-    new MichaelSaidCommand(seriousChannels),
-    new ThingCommand(seriousChannels),
-    new SecretTunnelCommand(seriousChannels),
-    new CrashOutCommand(cooldownDataService, seriousChannels),
-    new LaunchCommand(cooldownDataService, seriousChannels),
-    new StonksCommand(seriousChannels),
-    new AcronymHelperCommand(acronymDataService, seriousChannels),
-    new RoshamboCommand(new RandomNumberService(), seriousChannels),
-    new WeatherCommand(weatherService, seriousChannels),
-    new SixSevenCommand(cooldownDataService, seriousChannels)
+    new TsimfdCommand(channelService),
+    new AtMeCommand(readyClient.user.id, channelService),
+    new BetCommand(channelService),
+    new ImagineCommand(channelService),
+    new BonkCommand(forbiddenPhraseDataService, channelService),
+    new YikesCommand(channelService),
+    new HearMeOutCommand(channelService),
+    new LolCommand(channelService),
+    new StopCommand(channelService),
+    new WompCommand(channelService),
+    new ShockerCommand(channelService),
+    new YouProblemCommand(channelService),
+    new PoopCommand(channelService),
+    new StrutCommand(channelService),
+    new EveryoneCommand(channelService),
+    new VexCommand(cooldownDataService, channelService),
+    new RespectsCommand(cooldownDataService, channelService),
+    new DoubtCommand(cooldownDataService, channelService),
+    new MainGoalCommand(cooldownDataService, channelService),
+    new GameCommand(cooldownDataService, channelService),
+    new GoodBotBadBotCommand(readyClient, channelService),
+    new EsdCommand(weatherService, channelService),
+    new ManualCommand(channelService),
+    new DocumentationCommand(channelService),
+    new ColorCommand(channelService),
+    new CoreValuesCommand(channelService),
+    new WeAreATeamCommand(channelService),
+    new MichaelSaidCommand(channelService),
+    new ThingCommand(channelService),
+    new SecretTunnelCommand(channelService),
+    new CrashOutCommand(cooldownDataService, channelService),
+    new LaunchCommand(cooldownDataService, channelService),
+    new StonksCommand(channelService),
+    new AcronymHelperCommand(acronymDataService, channelService),
+    new RoshamboCommand(new RandomNumberService(), channelService),
+    new WeatherCommand(weatherService, channelService),
+    new SixSevenCommand(cooldownDataService, channelService)
   ];
 
   reactionCommands = [
-    new GlitchCommand(seriousChannels),
-    new RedCardAlertCommand(seriousChannels),
-    new JustAGirlCommand(readyClient.user.id, seriousChannels),
+    new GlitchCommand(channelService),
+    new RedCardAlertCommand(channelService),
+    new JustAGirlCommand(readyClient.user.id, channelService),
   ];
 
   const calendarReportCommand = new CalendarReportCommand(readyClient);

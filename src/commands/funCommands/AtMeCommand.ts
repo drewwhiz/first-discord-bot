@@ -1,5 +1,6 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class AtMeCommand extends MessageCommand {
   public override readonly name: string = 'don\'t @ me';
@@ -8,8 +9,8 @@ export class AtMeCommand extends MessageCommand {
 
   private readonly _userId: string;
 
-  public constructor(userId: string, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(userId: string, channelService: IChannelService) {
+    super(channelService);
     this._userId = userId;
   }
 

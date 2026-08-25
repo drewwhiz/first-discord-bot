@@ -2,13 +2,14 @@ import { Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { ColorUtilities } from '../../utility/ColorUtilities.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Nullable } from '../../models/Nullable.js';
 
 export class ColorCommand extends MessageCommand {
   public override isSilly: boolean = false;
   public readonly name: string = 'color';
   public readonly description: string = 'Generates a color from an RGB code';
 
-  private static convertPotentialHexCode(input: string): number[] {
+  private static convertPotentialHexCode(input: string): Nullable<number[]> {
     if (input == null) return null;
 
     const invariant = input.toLowerCase().trim();
@@ -27,7 +28,7 @@ export class ColorCommand extends MessageCommand {
     return [red, green, blue];
   }
 
-  private static convertRGBA(codes: string[]): number[] {
+  private static convertRGBA(codes: string[]): Nullable<number[]> {
     if (codes.length != 4) return null;
     const colors = this.convertRGB(codes);
     if (colors == null) return null;
@@ -38,7 +39,7 @@ export class ColorCommand extends MessageCommand {
     return colors;
   }
 
-  private static convertRGB(codes: string[]): number[] {
+  private static convertRGB(codes: string[]): Nullable<number[]> {
     const red = Number(codes[0]);
     if (!Number.isInteger(red) || red < 0 || red > 255) return null;
 
@@ -51,7 +52,7 @@ export class ColorCommand extends MessageCommand {
     return [red, green, blue];
   }
 
-  private static convertPotentialRGB(input: string): number[] {
+  private static convertPotentialRGB(input: string): Nullable<number[]> {
     if (input == null) return null;
 
     let invariant = input.toLowerCase().trim();
