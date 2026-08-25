@@ -94,6 +94,7 @@ import UserRoleLookupCommand from './commands/slashCommands/UserRoleLookupComman
 import { StonksCommand } from './commands/funCommands/StonksCommand.js';
 import CubeRuleCommand from './commands/slashCommands/CubeRuleCommand.js';
 import { SixSevenCommand } from './commands/funCommands/SixSevenCommand.js';
+import BrewCommand from './commands/slashCommands/BrewCommand.js';
 
 const { configure, transports } = winston;
 
@@ -282,6 +283,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   const roleLookupCommand = new RoleLookupCommand();
   const userRoleLookupCommand = new UserRoleLookupCommand();
   const cubeRuleCommand = new CubeRuleCommand();
+  const brewCommand = new BrewCommand();
 
   slashCommands.set(reminderCommand.name, reminderCommand);
   slashCommands.set(calendarReportCommand.name, calendarReportCommand);
@@ -300,6 +302,7 @@ bot.once(Events.ClientReady, (readyClient) => {
   slashCommands.set(roleLookupCommand.name, roleLookupCommand);
   slashCommands.set(userRoleLookupCommand.name, userRoleLookupCommand);
   slashCommands.set(cubeRuleCommand.name, cubeRuleCommand);
+  slashCommands.set(brewCommand.name, brewCommand);
 
   const rest = new REST().setToken(Secrets.TOKEN);
   (async () => {
