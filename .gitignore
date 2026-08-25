@@ -1,6 +1,5 @@
 /dist
 /node_modules
-/.vscode
 log.txt
 __pycache__
 .env

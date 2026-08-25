@@ -5,19 +5,17 @@ export class WompCommand extends MessageCommand {
   public readonly isSilly: boolean = true;
   public readonly name: string = 'womp';
   public readonly description: string = 'Womp womp';
+  private readonly _emojiName: string = 'womp';
+
 
   public override messageTrigger(message: Message): boolean {
     const content = message.content.toLowerCase().stripPunctuation().trim();
-    const hasWomp = content.includes('womp') || content.includes('whomp');
-    if (!hasWomp) return false;
-
-    const hasNothingElse = content.replaceAll('womp', '').trim().length == 0 || content.replaceAll('whomp', '').trim().length == 0;
-    return hasNothingElse;
+    return content.includes('womp') || content.includes('whomp');
   }
 
   public override async execute(message: Message): Promise<void> {
-    await message.reply({
-      files: ['./img/womp-womp.gif']
-    });
+    const reactionEmoji = message?.guild?.emojis?.cache?.find(emoji => emoji.name === this._emojiName);
+    if (reactionEmoji == null) return;
+    await message.react(reactionEmoji);
   }
 }
