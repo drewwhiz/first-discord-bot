@@ -8,7 +8,7 @@ export class SixSevenCommand extends CooldownCommandBase {
   public override readonly name: string = 'six-seven';
   public override readonly description: string = 'respond to someone doing six-seven';
 
-  private readonly _regex: RegExp = new RegExp(/(six|6)\s*(seven|7)/, 'gmi');
+  private readonly _regex: RegExp = new RegExp(/(six|6)\s*(or|to)\s*(seven|7)/, 'gmi');
 
   public constructor(cooldowns: ICooldownDataService, channelService: IChannelService) {
     super(channelService, cooldowns, 24);
