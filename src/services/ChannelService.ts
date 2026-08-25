@@ -13,10 +13,15 @@ export class ChannelService implements IChannelService {
     if (textChannel.name.toLowerCase().includes('rant')) return true;
     if (textChannel.name.toLowerCase().includes('quote')) return true;
 
-    const parent = textChannel.parent;
+    let parent = textChannel.parent;
     if (parent == null) return false;
 
-    return parent.name == 'off-topic';
+    do {
+      if (parent.name == 'off-topic') return true;
+      parent = parent.parent;
+    } while (parent != null);
+
+    return false;
   }
 
 }
