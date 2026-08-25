@@ -1,9 +1,10 @@
-import { ChannelType, GuildBasedChannel, Message } from 'discord.js';
+import { ChannelType, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { IAcronymDataService } from '../../dataservices/interfaces/IAcronymDataService.js';
 import { IAcronym } from '../../models/IAcronym.js';
 import { MessageCommand } from '../MessageCommand.js';
 import { Secrets } from '../../environment.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class AcronymHelperCommand extends MessageCommand {
   public readonly isSilly: boolean = false;
@@ -12,8 +13,8 @@ export class AcronymHelperCommand extends MessageCommand {
 
   private readonly _acronyms: IAcronymDataService;
 
-  public constructor(acronymDataService: IAcronymDataService, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(acronymDataService: IAcronymDataService, channelService: IChannelService) {
+    super(channelService);
     this._acronyms = acronymDataService;
   }
 

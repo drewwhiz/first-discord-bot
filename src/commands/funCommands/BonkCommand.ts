@@ -1,6 +1,7 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { MessageCommand } from '../MessageCommand.js';
 import { IForbiddenPhraseDataService } from '../../dataservices/interfaces/IForbiddenPhraseDataService.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class BonkCommand extends MessageCommand {
   public readonly isSilly: boolean = true;
@@ -10,8 +11,8 @@ export class BonkCommand extends MessageCommand {
   private readonly _forbiddenPhrases: IForbiddenPhraseDataService;
   private _cache: string[] = [];
 
-  public constructor(forbiddenPhrases: IForbiddenPhraseDataService, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(forbiddenPhrases: IForbiddenPhraseDataService, channelService: IChannelService) {
+    super(channelService);
     this._forbiddenPhrases = forbiddenPhrases;
     if (this._forbiddenPhrases != null) this._forbiddenPhrases.getAll().then(x => this._cache = x);
   }

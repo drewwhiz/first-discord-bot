@@ -26,7 +26,7 @@ export class RedCardAlertCommand extends ReactionCommand {
       .setTitle('Red Card Issued')
       .setDescription(`${(user.globalName ?? user.username) ?? user.username} issued a red card on this post.`)
       .addFields(
-        { name: 'Author', value: (reaction.message.author.globalName ?? reaction.message.author.username) ?? reaction.message.author.username, inline: true },
+        { name: 'Author', value: (reaction?.message?.author?.globalName ?? reaction?.message?.author?.username) ?? reaction?.message?.author?.username ?? 'unknown', inline: true },
         { name: 'Message Link', value: `${reaction.message.url}`, inline: true }
       )
       .addFields(

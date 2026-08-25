@@ -1,8 +1,9 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { IWeatherApiWebService } from '../../webservices/interfaces/IWeatherApiWebService.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
 import { Secrets } from '../../environment.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class EsdCommand extends MessageCommand {
   public readonly isSilly: boolean = true;
@@ -11,8 +12,8 @@ export class EsdCommand extends MessageCommand {
 
   private readonly _weather: IWeatherApiWebService;
 
-  public constructor(weather: IWeatherApiWebService, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(weather: IWeatherApiWebService, channelService: IChannelService) {
+    super(channelService);
     this._weather = weather;
   }
 

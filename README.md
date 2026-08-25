@@ -15,7 +15,6 @@ This project requires a `secrets` folder in the same directory as the `docker-co
 - `default_zip.txt`: The default ZIP code to use for [https://www.weatherapi.com](https://www.weatherapi.com).
 - `restricted_channel.txt`: A safe channel for mentor-only content.
 - `mod_report_channel.txt`: The channel red and yellow cards should be reported to.
-- `serious_channels.txt`: A comma-separated list of channels that joke actions should not run in.
 - `db_host.txt`: The container name of the MySQL database in the Docker network.
 - `db_password.txt`: The root password for the MySQL database in the Docker network.
 - `db_port.txt`: The port for the MySQL database container in the Docker network.

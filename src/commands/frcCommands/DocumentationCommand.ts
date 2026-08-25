@@ -1,9 +1,10 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { ProgrammingLanguage } from '../../enum/ProgrammingLanguage.js';
 import { DocumentationSource } from '../../enum/DocumentationSource.js';
 import { Dictionary } from 'typescript-collections';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class DocumentationCommand extends MessageCommand {
   public override isSilly: boolean = false;
@@ -17,8 +18,8 @@ export class DocumentationCommand extends MessageCommand {
   private readonly WPILIB: string = '<https://docs.wpilib.org/en/stable/>';
   private readonly VIVID: string = '<https://frc-radio.vivid-hosting.net>';
 
-  public constructor(seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(channelService: IChannelService) {
+    super(channelService);
     this.WPILIB_API.setValue(ProgrammingLanguage.CPP, '<https://github.wpilib.org/allwpilib/docs/release/cpp/index.html>');
     this.WPILIB_API.setValue(ProgrammingLanguage.JAVA, '<https://github.wpilib.org/allwpilib/docs/release/java/index.html>');
     this.WPILIB_API.setValue(ProgrammingLanguage.PYTHON, '<https://robotpy.readthedocs.io/projects/robotpy/en/stable/>');

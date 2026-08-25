@@ -1,5 +1,5 @@
 export class DateTimeUtilities {
-  public static isCooldownInEffect(deadline: Date): boolean {
+  public static isCooldownInEffect(deadline: Date | null): boolean {
     if (deadline == null) return false;
     return new Date() < deadline;
   }

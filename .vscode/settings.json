@@ -1,12 +1,22 @@
 {
-    "cSpell.words": [
-        "annayikes",
-        "Cooldown",
-        "cooldowns",
-        "crashout",
-        "dataservices",
-        "Roshambo",
-        "Stonks",
-        "Womp"
-    ]
+  "editor.tabSize": 2,
+  "editor.indentSize": "tabSize",
+  "editor.detectIndentation": false,
+  "cSpell.words": [
+    "annayikes",
+    "Cooldown",
+    "cooldowns",
+    "crashout",
+    "CTRE",
+    "ctrelectronics",
+    "dataservices",
+    "labview",
+    "REVLIB",
+    "revrobotics",
+    "Roshambo",
+    "Stonks",
+    "webservices",
+    "Womp",
+    "wpilib"
+  ]
 }

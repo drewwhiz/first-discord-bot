@@ -1,17 +1,17 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { ICooldownDataService } from '../dataservices/interfaces/ICooldownDataService.js';
 import { DateTimeUtilities } from '../utility/DateTimeUtilities.js';
 import { MessageCommand } from './MessageCommand.js';
+import { IChannelService } from '../services/interfaces/IChannelService.js';
 
 export abstract class CooldownCommandBase extends MessageCommand {
-  public readonly name: string;
-  public readonly description: string;
-  protected readonly cooldownHours: number;
+  private readonly _cooldownHours: number;
   private readonly _cooldowns: ICooldownDataService;
 
-  public constructor(cooldowns: ICooldownDataService, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(channelService: IChannelService, cooldowns: ICooldownDataService, cooldownHours: number) {
+    super(channelService);
     this._cooldowns = cooldowns;
+    this._cooldownHours = cooldownHours;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,7 +36,7 @@ export abstract class CooldownCommandBase extends MessageCommand {
     }
 
     if (DateTimeUtilities.isCooldownInEffect(activeCooldown.deadline)) return;
-    activeCooldown.deadline = DateTimeUtilities.getFutureTime(this.cooldownHours);
+    activeCooldown.deadline = DateTimeUtilities.getFutureTime(this._cooldownHours);
     await this._cooldowns.upsert(activeCooldown);
     await this.action(message);
   }

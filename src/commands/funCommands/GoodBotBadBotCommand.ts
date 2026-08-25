@@ -1,6 +1,7 @@
-import { Client, GuildBasedChannel, Message } from 'discord.js';
+import { Client, Message } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class GoodBotBadBotCommand extends MessageCommand {
   public readonly name: string = 'good bot, bad bot';
@@ -12,8 +13,8 @@ export class GoodBotBadBotCommand extends MessageCommand {
 
   private client: Client;
 
-  public constructor(client: Client, seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(client: Client, channelService: IChannelService) {
+    super(channelService);
     this.client = client;
   }
 

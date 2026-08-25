@@ -1,6 +1,8 @@
+import { Nullable } from './Nullable.js';
+
 export interface ICooldown {
-    id: number;
-    command_name: string;
-    channel_id: string;
-    deadline: Date;
+  id: number;
+  command_name: string;
+  channel_id: string;
+  deadline: Nullable<Date>;
 }

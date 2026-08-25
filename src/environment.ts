@@ -22,7 +22,6 @@ export class Secrets {
   public static readonly DEFAULT_ZIP: string = this.getSecretString('DEFAULT_ZIP');
   public static readonly RESTRICTED_CHANNEL: string = this.getSecretString('RESTRICTED_CHANNEL');
   public static readonly MOD_REPORT_CHANNEL: string = this.getSecretString('MOD_REPORT_CHANNEL');
-  public static readonly SERIOUS_CHANNELS: string = this.getSecretString('SERIOUS_CHANNELS');
   public static readonly DATABASE: string = this.getSecretString('db_database');
   public static readonly DB_PASSWORD: string = this.getSecretString('db_password');
   public static readonly DB_HOST: string = this.getSecretString('db_host');

@@ -1,22 +1,22 @@
-import { ChannelType, GuildBasedChannel, Message } from 'discord.js';
+import { ChannelType, Message } from 'discord.js';
 import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
 import { CooldownCommandBase } from '../CooldownCommandBase.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class LaunchCommand extends CooldownCommandBase {
   public override readonly isSilly: boolean = true;
   public override readonly name: string = 'launch';
   public override readonly description: string = 'correct shoot vs launch terminology';
-  public override readonly cooldownHours: number = 24;
 
-  public constructor(cooldowns: ICooldownDataService, seriousChannels: GuildBasedChannel[]) {
-    super(cooldowns, seriousChannels);
+  public constructor(cooldowns: ICooldownDataService, channelService: IChannelService) {
+    super(channelService, cooldowns, 24);
   }
 
   public override messageTrigger(message: Message): boolean {
     if (message.channel.type !== ChannelType.GuildText) return false;
     const channelName = message.channel?.name;
     if (channelName !== 'ftc' && channelName !== 'strategy') return false;
-    
+
     const invariant = message.content.stripPunctuation().trim().toLowerCase();
     return invariant.containsAnyPhrases(['shoot', 'shooter', 'shooting', 'shoots']);
   }

@@ -1,5 +1,6 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class ThingCommand extends MessageCommand {
   public override readonly isSilly: boolean = true;
@@ -7,8 +8,8 @@ export class ThingCommand extends MessageCommand {
   public override readonly description: string = 'Here\'s the thing';
   private readonly _emojiName: string = 'thething';
 
-  public constructor(seriousChannels: GuildBasedChannel[]) {
-    super(seriousChannels);
+  public constructor(channelService: IChannelService) {
+    super(channelService);
   }
 
   public override messageTrigger(message: Message): boolean {
@@ -17,7 +18,7 @@ export class ThingCommand extends MessageCommand {
   }
 
   public override async execute(message: Message): Promise<void> {
-    const reactionEmoji = message.guild.emojis.cache.find(emoji => emoji.name === this._emojiName);
+    const reactionEmoji = message?.guild?.emojis?.cache?.find(emoji => emoji.name === this._emojiName);
     if (reactionEmoji == null) return;
     await message.react(reactionEmoji);
   }

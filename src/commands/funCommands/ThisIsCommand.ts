@@ -1,15 +1,15 @@
-import { GuildBasedChannel, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import { CooldownCommandBase } from '../CooldownCommandBase.js';
 import { ICooldownDataService } from '../../dataservices/interfaces/ICooldownDataService.js';
+import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class ThisIsCommand extends CooldownCommandBase {
   public readonly isSilly: boolean = true;
   public override readonly name: string = 'this is';
   public override readonly description: string = 'Sends the 10101 meme image.';
-  public override readonly cooldownHours: number = 24;
 
-  public constructor(cooldowns: ICooldownDataService, seriousChannels: GuildBasedChannel[]) {
-    super(cooldowns, seriousChannels);
+  public constructor(cooldowns: ICooldownDataService, channelService: IChannelService) {
+    super(channelService, cooldowns, 24);
   }
 
   public override messageTrigger(message: Message): boolean {
