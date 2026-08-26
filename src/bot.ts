@@ -97,6 +97,7 @@ import { SixSevenCommand } from './commands/funCommands/SixSevenCommand.js';
 import BrewCommand from './commands/slashCommands/BrewCommand.js';
 import { ChannelService } from './services/ChannelService.js';
 import { NoScrubsCommand } from './commands/funCommands/NoScrubsCommand.js';
+import { DadCommand } from './commands/funCommands/DadCommand.js';
 
 const { configure, transports } = winston;
 
@@ -236,7 +237,8 @@ bot.once(Events.ClientReady, (readyClient) => {
     new RoshamboCommand(new RandomNumberService(), channelService),
     new WeatherCommand(weatherService, channelService),
     new SixSevenCommand(cooldownDataService, channelService),
-    new NoScrubsCommand(cooldownDataService, channelService)
+    new NoScrubsCommand(cooldownDataService, channelService),
+    new DadCommand(cooldownDataService, channelService)
   ];
 
   reactionCommands = [
