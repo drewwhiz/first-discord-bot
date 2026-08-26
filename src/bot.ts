@@ -99,6 +99,7 @@ import { ChannelService } from './services/ChannelService.js';
 import { NoScrubsCommand } from './commands/sillyCommands/NoScrubsCommand.js';
 import { DadCommand } from './commands/sillyCommands/DadCommand.js';
 import { UnexpectedFactorialCommand } from './commands/funCommands/UexpectedFactorialCommand.js';
+import { OopsCommand } from './commands/sillyCommands/OopsCommand.js';
 
 const { configure, transports } = winston;
 
@@ -240,7 +241,8 @@ bot.once(Events.ClientReady, (readyClient) => {
     new SixSevenCommand(cooldownDataService, channelService),
     new NoScrubsCommand(cooldownDataService, channelService),
     new DadCommand(cooldownDataService, channelService),
-    new UnexpectedFactorialCommand(channelService)
+    new UnexpectedFactorialCommand(channelService),
+    new OopsCommand(channelService)
   ];
 
   reactionCommands = [
