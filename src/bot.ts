@@ -98,6 +98,7 @@ import BrewCommand from './commands/slashCommands/BrewCommand.js';
 import { ChannelService } from './services/ChannelService.js';
 import { NoScrubsCommand } from './commands/sillyCommands/NoScrubsCommand.js';
 import { DadCommand } from './commands/sillyCommands/DadCommand.js';
+import { UnexpectedFactorialCommand } from './commands/funCommands/UexpectedFactorialCommand.js';
 
 const { configure, transports } = winston;
 
@@ -238,7 +239,8 @@ bot.once(Events.ClientReady, (readyClient) => {
     new WeatherCommand(weatherService, channelService),
     new SixSevenCommand(cooldownDataService, channelService),
     new NoScrubsCommand(cooldownDataService, channelService),
-    new DadCommand(cooldownDataService, channelService)
+    new DadCommand(cooldownDataService, channelService),
+    new UnexpectedFactorialCommand(channelService)
   ];
 
   reactionCommands = [
