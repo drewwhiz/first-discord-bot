@@ -13,6 +13,6 @@ export class OopsCommand extends MessageCommand {
   }
 
   public override async execute(message: Message): Promise<void> {
-    message.reply('> oops\nClassic');
+    await message.reply('> oops\nClassic');
   }
 }
