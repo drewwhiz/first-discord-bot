@@ -3,7 +3,7 @@ import { MessageCommand } from '../MessageCommand.js';
 import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class ThingCommand extends MessageCommand {
-  public override readonly isSilly: boolean = true;
+  public override readonly isSilly: boolean = false;
   public override readonly name: string = 'the thing';
   public override readonly description: string = 'Here\'s the thing';
   private readonly _emojiName: string = 'thething';

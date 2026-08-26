@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
-import { BetCommand } from '../../../src/commands/funCommands/BetCommand.js';
+import { BetCommand } from '../../../src/commands/sillyCommands/BetCommand.js';
 import { expect } from 'chai';
 
-describe('Bet Command', function() {
-  it('should trigger on \'bet\'', function() {
+describe('Bet Command', function () {
+  it('should trigger on \'bet\'', function () {
     const content = 'bet';
     const message = Message.prototype;
     message.content = content;
@@ -14,7 +14,7 @@ describe('Bet Command', function() {
     expect(result).to.be.true;
   });
 
-  it('should trigger on \'i bet\'', function() {
+  it('should trigger on \'i bet\'', function () {
     const content = 'i bet';
     const message = Message.prototype;
     message.content = content;
@@ -24,7 +24,7 @@ describe('Bet Command', function() {
     expect(result).to.be.true;
   });
 
-  it('should trigger on \'bet? sure\'', function() {
+  it('should trigger on \'bet? sure\'', function () {
     const content = 'bet? sure';
     const message = Message.prototype;
     message.content = content;
@@ -34,7 +34,7 @@ describe('Bet Command', function() {
     expect(result).to.be.true;
   });
 
-  it('should not trigger on \'better\'', function() {
+  it('should not trigger on \'better\'', function () {
     const content = 'better';
     const message = Message.prototype;
     message.content = content;

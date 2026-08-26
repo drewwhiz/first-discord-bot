@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { YouProblemCommand } from '../../../src/commands/funCommands/YouProblemCommand.js';
+import { YouProblemCommand } from '../../../src/commands/sillyCommands/YouProblemCommand.js';
 
 describe('You Problem Command', function () {
   it('should trigger on i hate', function () {

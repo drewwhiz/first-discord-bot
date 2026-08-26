@@ -4,7 +4,7 @@ import { zalgoGeneration } from 'zalgo-generator';
 import { ReactionCommand } from '../ReactionCommand.js';
 
 export class GlitchCommand extends ReactionCommand {
-  public override isSilly: boolean = true;
+  public override isSilly: boolean = false;
   public readonly name: string = 'glitch';
   public readonly description: string = 'Generates glitch text.';
 

@@ -3,7 +3,7 @@ import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
 
 export class LolCommand extends MessageCommand {
-  public readonly isSilly: boolean = true;
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'lol';
   public readonly description: string = 'replies to lol';
 

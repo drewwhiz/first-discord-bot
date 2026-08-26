@@ -3,7 +3,7 @@ import { ReactionCommand } from '../ReactionCommand.js';
 import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class JustAGirlCommand extends ReactionCommand {
-  public readonly isSilly: boolean = true;
+  public readonly isSilly: boolean = false;
   private static readonly NEGATIVE_REACTS = '😒🙄😕😟🙁☹😧😦😨😥😢😖😣😞😓😩😫😤😡😠🤬👿💩🤡😾🖕👎🔪🛑🔇🔕📉🗑⚰⚱🚮⚠⛔🚫⏸⏹⏏🔅📴✖❌❎➖🆘🔴🚩⏸️⏹️';
   public name: string = 'just a girl';
   public description: string = 'sends a video when one of my messages are reacted negatively';

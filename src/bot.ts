@@ -16,38 +16,38 @@ import {
   User,
 } from 'discord.js';
 import winston from 'winston';
-import { BetCommand } from './commands/funCommands/BetCommand.js';
+import { BetCommand } from './commands/sillyCommands/BetCommand.js';
 import { ManualCommand } from './commands/funCommands/ManualCommand.js';
-import { ImagineCommand } from './commands/funCommands/ImagineCommand.js';
+import { ImagineCommand } from './commands/sillyCommands/ImagineCommand.js';
 import { AtMeCommand } from './commands/funCommands/AtMeCommand.js';
-import { TsimfdCommand } from './commands/funCommands/TsimfdCommand.js';
+import { TsimfdCommand } from './commands/sillyCommands/TsimfdCommand.js';
 import { BonkCommand } from './commands/funCommands/BonkCommand.js';
 import { YikesCommand } from './commands/funCommands/YikesCommand.js';
-import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
+import { HearMeOutCommand } from './commands/sillyCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 import * as nodeCron from 'node-cron';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
 import { GlitchCommand } from './commands/funCommands/GlitchCommand.js';
-import { StopCommand } from './commands/funCommands/StopCommand.js';
+import { StopCommand } from './commands/sillyCommands/StopCommand.js';
 import { WompCommand } from './commands/funCommands/WompCommand.js';
 import { RandomNumberService } from './services/RandomNumberService.js';
 import { LolCommand } from './commands/funCommands/LolCommand.js';
-import { YouProblemCommand } from './commands/funCommands/YouProblemCommand.js';
+import { YouProblemCommand } from './commands/sillyCommands/YouProblemCommand.js';
 import { WeatherApiWebService } from './webservices/WeatherApiWebService.js';
 import { WeatherCommand } from './commands/utilityCommands/WeatherCommand.js';
-import { EsdCommand } from './commands/funCommands/EsdCommand.js';
-import { ShockerCommand } from './commands/funCommands/ShockerCommand.js';
-import { RoshamboCommand } from './commands/funCommands/RoshamboCommand.js';
-import { PoopCommand } from './commands/funCommands/PoopCommand.js';
+import { EsdCommand } from './commands/sillyCommands/EsdCommand.js';
+import { ShockerCommand } from './commands/sillyCommands/ShockerCommand.js';
+import { RoshamboCommand } from './commands/sillyCommands/RoshamboCommand.js';
+import { PoopCommand } from './commands/sillyCommands/PoopCommand.js';
 import { IMessageCommand, IReactionCommand } from './commands/ICommand.js';
 import { JustAGirlCommand } from './commands/funCommands/JustAGirlCommand.js';
-import { StrutCommand } from './commands/funCommands/StrutCommand.js';
+import { StrutCommand } from './commands/sillyCommands/StrutCommand.js';
 import { WordCloudWebService } from './webservices/WordCloudWebService.js';
-import { EveryoneCommand } from './commands/funCommands/EveryoneCommand.js';
+import { EveryoneCommand } from './commands/sillyCommands/EveryoneCommand.js';
 import { CoreValuesCommand } from './commands/frcCommands/CoreValuesCommand.js';
 import { RedCardAlertCommand } from './commands/utilityCommands/RedCardAlertCommand.js';
-import { WeAreATeamCommand } from './commands/funCommands/WeAreATeamCommand.js';
-import { MichaelSaidCommand } from './commands/funCommands/MichaelSaidCommand.js';
+import { WeAreATeamCommand } from './commands/sillyCommands/WeAreATeamCommand.js';
+import { MichaelSaidCommand } from './commands/sillyCommands/MichaelSaidCommand.js';
 import SlashCommand from './commands/SlashCommand.js';
 import CalendarReportCommand from './commands/slashCommands/CalendarReportCommand.js';
 import RollCommand from './commands/slashCommands/RollCommand.js';
@@ -67,11 +67,11 @@ import { ProgramDataService } from './dataservices/ProgramDataService.js';
 import { FirstPublicApiWebService } from './webservices/FirstPublicApiWebService.js';
 import TeamCommand from './commands/slashCommands/TeamCommand.js';
 import { CooldownDataService } from './dataservices/CooldownDataService.js';
-import { VexCommand } from './commands/funCommands/VexCommand.js';
-import { RespectsCommand } from './commands/funCommands/RespectsCommand.js';
-import { DoubtCommand } from './commands/funCommands/DoubtCommand.js';
-import { MainGoalCommand } from './commands/funCommands/MainGoalCommand.js';
-import { GameCommand } from './commands/funCommands/GameCommand.js';
+import { VexCommand } from './commands/sillyCommands/VexCommand.js';
+import { RespectsCommand } from './commands/sillyCommands/RespectsCommand.js';
+import { DoubtCommand } from './commands/sillyCommands/DoubtCommand.js';
+import { MainGoalCommand } from './commands/sillyCommands/MainGoalCommand.js';
+import { GameCommand } from './commands/sillyCommands/GameCommand.js';
 import { BrandColorDataService } from './dataservices/BrandColorDataService.js';
 import BrandCommand from './commands/slashCommands/BrandCommand.js';
 import { ColorCommand } from './commands/utilityCommands/ColorCommand.js';
@@ -82,22 +82,25 @@ import { SongDataService } from './dataservices/SongDataService.js';
 import { ForbiddenPhraseDataService } from './dataservices/ForbiddenPhraseDataService.js';
 import { ThingCommand } from './commands/funCommands/ThingCommand.js';
 import SocialCommand from './commands/slashCommands/SocialCommand.js';
-import { SecretTunnelCommand } from './commands/funCommands/SecretTunnelCommand.js';
-import { CrashOutCommand } from './commands/funCommands/CrashOutCommand.js';
-import { LaunchCommand } from './commands/funCommands/LaunchCommand.js';
+import { SecretTunnelCommand } from './commands/sillyCommands/SecretTunnelCommand.js';
+import { CrashOutCommand } from './commands/sillyCommands/CrashOutCommand.js';
+import { LaunchCommand } from './commands/sillyCommands/LaunchCommand.js';
 import { SongUtilities } from './utility/SongUtilities.js';
 import { ProgramApiWebService } from './webservices/ProgramApiWebService.js';
 import HistoryCommand from './commands/slashCommands/HistoryCommand.js';
 import { Logger } from './utility/Logger.js';
 import RoleLookupCommand from './commands/slashCommands/RoleLookupCommand.js';
 import UserRoleLookupCommand from './commands/slashCommands/UserRoleLookupCommand.js';
-import { StonksCommand } from './commands/funCommands/StonksCommand.js';
+import { StonksCommand } from './commands/sillyCommands/StonksCommand.js';
 import CubeRuleCommand from './commands/slashCommands/CubeRuleCommand.js';
-import { SixSevenCommand } from './commands/funCommands/SixSevenCommand.js';
+import { SixSevenCommand } from './commands/sillyCommands/SixSevenCommand.js';
 import BrewCommand from './commands/slashCommands/BrewCommand.js';
 import { ChannelService } from './services/ChannelService.js';
-import { NoScrubsCommand } from './commands/funCommands/NoScrubsCommand.js';
-import { DadCommand } from './commands/funCommands/DadCommand.js';
+import { NoScrubsCommand } from './commands/sillyCommands/NoScrubsCommand.js';
+import { DadCommand } from './commands/sillyCommands/DadCommand.js';
+import { UnexpectedFactorialCommand } from './commands/funCommands/UexpectedFactorialCommand.js';
+import { OopsCommand } from './commands/sillyCommands/OopsCommand.js';
+import { SwearCommand } from './commands/sillyCommands/SwearCommand.js';
 
 const { configure, transports } = winston;
 
@@ -238,7 +241,10 @@ bot.once(Events.ClientReady, (readyClient) => {
     new WeatherCommand(weatherService, channelService),
     new SixSevenCommand(cooldownDataService, channelService),
     new NoScrubsCommand(cooldownDataService, channelService),
-    new DadCommand(cooldownDataService, channelService)
+    new DadCommand(cooldownDataService, channelService),
+    new UnexpectedFactorialCommand(channelService),
+    new OopsCommand(channelService),
+    new SwearCommand(channelService)
   ];
 
   reactionCommands = [
