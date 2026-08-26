@@ -140,13 +140,13 @@ let newMessageCommands: IMessageCommand[] = [];
 let reactionCommands: IReactionCommand[] = [];
 const slashCommands = new Collection<string, SlashCommand>();
 
+const channelService = new ChannelService();
+
 const rolesToTag: Role[] = [];
 
 // Connect
 bot.once(Events.ClientReady, (readyClient) => {
   Logger.logInfo(`Ready! Logged in as ${readyClient.user.tag}`);
-
-  const channelService = new ChannelService();
 
   const acronymDataService = new AcronymDataService(database);
   const reminderDataService = new ReminderDataService(database);
@@ -376,6 +376,8 @@ bot.addListener(
 bot.addListener(Events.ThreadCreate, async (thread: ThreadChannel) => {
   const parentChannel = thread.parent;
   if (parentChannel == null) return;
+
+  if (!channelService.notifyOnThreadCreation(parentChannel)) return;
 
   const roles = parentChannel.guild.roles.cache.map(r => r);
   const roleMatches = roles.filter((value) =>
