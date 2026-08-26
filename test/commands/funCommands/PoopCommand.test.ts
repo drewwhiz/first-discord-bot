@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { PoopCommand } from '../../../src/commands/funCommands/PoopCommand.js';
+import { PoopCommand } from '../../../src/commands/sillyCommands/PoopCommand.js';
 
 describe('Poop Command', function () {
   it('should trigger on 💩', function () {

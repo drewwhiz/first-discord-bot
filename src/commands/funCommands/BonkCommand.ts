@@ -4,7 +4,7 @@ import { IForbiddenPhraseDataService } from '../../dataservices/interfaces/IForb
 import { IChannelService } from '../../services/interfaces/IChannelService.js';
 
 export class BonkCommand extends MessageCommand {
-  public readonly isSilly: boolean = true;
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'bonk';
   public readonly description: string = 'Sends the bonk meme if the user mentions a forbidden phrase.';
 

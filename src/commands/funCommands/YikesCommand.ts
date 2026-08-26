@@ -2,7 +2,7 @@ import { Message, MessageType, TextChannel } from 'discord.js';
 import { MessageCommand } from '../MessageCommand.js';
 
 export class YikesCommand extends MessageCommand {
-  public readonly isSilly: boolean = true;
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'yikes';
   public readonly description: string = 'Uses a yikes reaction on the message being replied to. If not replying, just messages the emoji.';
   private readonly _emojiName: string = 'annayikes';

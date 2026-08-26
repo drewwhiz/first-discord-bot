@@ -2,7 +2,7 @@
 import { Message, TextChannel } from 'discord.js';
 import { expect } from 'chai';
 import * as TypeMoq from 'typemoq';
-import { RespectsCommand } from '../../../src/commands/funCommands/RespectsCommand.js';
+import { RespectsCommand } from '../../../src/commands/sillyCommands/RespectsCommand.js';
 
 describe('Respect Command', function () {
   it('should trigger on F', function () {

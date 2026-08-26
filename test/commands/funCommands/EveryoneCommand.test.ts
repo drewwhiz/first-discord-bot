@@ -2,11 +2,11 @@
 import { Message, MessageMentions } from 'discord.js';
 import { expect } from 'chai';
 import * as TypeMoq from 'typemoq';
-import { EveryoneCommand } from '../../../src/commands/funCommands/EveryoneCommand.js';
+import { EveryoneCommand } from '../../../src/commands/sillyCommands/EveryoneCommand.js';
 
 
-describe('Everyone Command', function() {
-  it('should trigger on messages where everyone is tagged', function() {
+describe('Everyone Command', function () {
+  it('should trigger on messages where everyone is tagged', function () {
     const mentions = TypeMoq.Mock.ofType<MessageMentions>();
     mentions.setup(m => m.everyone).returns(() => true);
 
@@ -18,7 +18,7 @@ describe('Everyone Command', function() {
     expect(result).to.be.true;
   });
 
-  it('should not trigger on messages where everyone is not tagged', function() {
+  it('should not trigger on messages where everyone is not tagged', function () {
     const mentions = TypeMoq.Mock.ofType<MessageMentions>();
     mentions.setup(m => m.everyone).returns(() => false);
 

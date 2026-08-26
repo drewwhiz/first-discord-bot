@@ -5,7 +5,7 @@ import { IChannelService } from '../../services/interfaces/IChannelService.js';
 export class AtMeCommand extends MessageCommand {
   public override readonly name: string = 'don\'t @ me';
   public override readonly description: string = 'If tagged, tell the user not to tag the bot.';
-  public override readonly isSilly: boolean = true;
+  public override readonly isSilly: boolean = false;
 
   private readonly _userId: string;
 

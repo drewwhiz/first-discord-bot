@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { VexCommand } from '../../../src/commands/funCommands/VexCommand.js';
+import { VexCommand } from '../../../src/commands/sillyCommands/VexCommand.js';
 
 describe('Vex Command', function () {
   it('should trigger on vex', function () {

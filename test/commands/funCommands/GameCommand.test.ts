@@ -2,10 +2,10 @@
 import { Message, TextChannel } from 'discord.js';
 import { expect } from 'chai';
 import * as TypeMoq from 'typemoq';
-import { GameCommand } from '../../../src/commands/funCommands/GameCommand.js';
+import { GameCommand } from '../../../src/commands/sillyCommands/GameCommand.js';
 
-describe('Game Command', function() {
-  it('should trigger on message with game', function() {
+describe('Game Command', function () {
+  it('should trigger on message with game', function () {
     const mock = TypeMoq.Mock.ofType<Message>();
     mock.setup(m => m.content).returns(() => 'this message includes gAMe and other words');
     mock.setup(m => m.channel).returns(() => {
@@ -19,7 +19,7 @@ describe('Game Command', function() {
     expect(result).to.be.true;
   });
 
-  it('should trigger on message with games', function() {
+  it('should trigger on message with games', function () {
     const mock = TypeMoq.Mock.ofType<Message>();
     mock.setup(m => m.content).returns(() => 'this message includes games and other words');
     mock.setup(m => m.channel).returns(() => {
@@ -33,7 +33,7 @@ describe('Game Command', function() {
     expect(result).to.be.true;
   });
 
-  it('should not trigger on message with gamestop', function() {
+  it('should not trigger on message with gamestop', function () {
     const mock = TypeMoq.Mock.ofType<Message>();
     mock.setup(m => m.content).returns(() => 'this message includes gamestop and other words');
     mock.setup(m => m.channel).returns(() => {

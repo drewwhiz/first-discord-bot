@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { ShockerCommand } from '../../../src/commands/funCommands/ShockerCommand.js';
+import { ShockerCommand } from '../../../src/commands/sillyCommands/ShockerCommand.js';
 
 describe('Shocker Command', function () {
   it('should trigger on \'shocker\'', function () {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { RoshamboCommand } from '../../../src/commands/funCommands/RoshamboCommand.js';
+import { RoshamboCommand } from '../../../src/commands/sillyCommands/RoshamboCommand.js';
 
 describe('Roshambo Command', function () {
   it('should trigger on 🪨', function () {

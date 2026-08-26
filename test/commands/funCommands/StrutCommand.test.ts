@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { StrutCommand } from '../../../src/commands/funCommands/StrutCommand.js';
+import { StrutCommand } from '../../../src/commands/sillyCommands/StrutCommand.js';
 
 describe('Strut Command', function () {
   it('should trigger on guntersville', function () {

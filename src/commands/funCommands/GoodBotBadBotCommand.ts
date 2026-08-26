@@ -6,7 +6,7 @@ import { IChannelService } from '../../services/interfaces/IChannelService.js';
 export class GoodBotBadBotCommand extends MessageCommand {
   public readonly name: string = 'good bot, bad bot';
   public readonly description: string = 'Reacts to good bot replies and bad bot messages';
-  public readonly isSilly: boolean = true;
+  public readonly isSilly: boolean = false;
 
   private static readonly GOODBOT_EMOJI = '🫡';
   private static readonly BADBOT_EMOJI = '😢';
