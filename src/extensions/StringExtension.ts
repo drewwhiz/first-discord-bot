@@ -95,6 +95,12 @@ String.prototype.stripPunctuation = function (this: string): string {
     currentString = currentString.replace(emoji, '');
   }
 
+  const tagRegex = new RegExp(/<(@|#)\d+>/, 'gmi');
+  for (const match of currentString.matchAll(tagRegex)) {
+    const emoji = match[0];
+    currentString = currentString.replace(emoji, '');
+  }
+
   // eslint-disable-next-line
   return currentString.replace(/[.,\/#!$%\^&\*;:{}=\-_`~@()'‘’"“”\?]/g, '').replace(/\s{2,}/g, ' ');
 };

@@ -8,7 +8,7 @@ export class DadCommand extends CooldownCommandBase {
   public readonly name: string = 'hi i\'m dad';
   public readonly description: string = 'Does the usual dad joke';
   public override readonly isSilly: boolean = true;
-  private readonly _regex: RegExp = new RegExp(/(i'm|i am|im) /, 'i');
+  private readonly _regex: RegExp = new RegExp(/^(i'm|i am|im) /, 'i');
 
 
   public constructor(cooldownService: ICooldownDataService, channelService: IChannelService,) {
