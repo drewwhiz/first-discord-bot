@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Message } from 'discord.js';
 import { expect } from 'chai';
-import { HearMeOutCommand } from '../../../src/commands/sillyCommands/HearMeOutCommand.js';
+import { HearMeOutCommand } from '../../../src/commands/funCommands/HearMeOutCommand.js';
 
 describe('Bonk Command', function () {
   it('should trigger on \'hear me out\'', function () {

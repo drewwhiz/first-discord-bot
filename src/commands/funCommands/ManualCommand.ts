@@ -1,6 +1,7 @@
 import { Message, TextChannel } from 'discord.js';
 import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
+import { Nullable } from '../../models/Nullable.js';
 
 export class ManualCommand extends MessageCommand {
   public override isSilly: boolean = false;
@@ -12,7 +13,7 @@ export class ManualCommand extends MessageCommand {
   public readonly name: string = 'manual';
   public readonly description: string = 'Tells people to read the manual.';
 
-  private getText(content: string): string {
+  private getText(content: string): Nullable<string> {
     const invariant = content.toLowerCase();
     if (invariant.containsAnyWords('rtfm')) return 'rtfm';
     if (invariant.containsAnyWords('rtm')) return 'rtm';
