@@ -3,9 +3,14 @@ import '../../extensions/StringExtension.js';
 import { MessageCommand } from '../MessageCommand.js';
 
 export class HearMeOutCommand extends MessageCommand {
-  public readonly isSilly: boolean = true;
+  public readonly isSilly: boolean = false;
   public readonly name: string = 'Hear Me Out';
   public readonly description: string = 'Chimes in with an appropriate response to \'Hear me out...\'.';
+
+  private readonly responses: readonly string[] = Object.freeze([
+    'Listening...',
+    'I am already concerned.'
+  ]);
 
   public override messageTrigger(message: Message): boolean {
     const content = message.content.stripPunctuation().trim().toLowerCase();
@@ -13,6 +18,6 @@ export class HearMeOutCommand extends MessageCommand {
   }
 
   public override async execute(message: Message): Promise<void> {
-    message.reply('Listening...');
+    await message.reply(this.responses[Math.floor(this.responses.length * Math.random())]);
   }
 }

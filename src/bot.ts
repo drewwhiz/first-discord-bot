@@ -23,7 +23,7 @@ import { AtMeCommand } from './commands/funCommands/AtMeCommand.js';
 import { TsimfdCommand } from './commands/sillyCommands/TsimfdCommand.js';
 import { BonkCommand } from './commands/funCommands/BonkCommand.js';
 import { YikesCommand } from './commands/funCommands/YikesCommand.js';
-import { HearMeOutCommand } from './commands/sillyCommands/HearMeOutCommand.js';
+import { HearMeOutCommand } from './commands/funCommands/HearMeOutCommand.js';
 import { DocumentationCommand } from './commands/frcCommands/DocumentationCommand.js';
 import * as nodeCron from 'node-cron';
 import { GoodBotBadBotCommand } from './commands/funCommands/GoodBotBadBotCommand.js';
@@ -101,6 +101,8 @@ import { DadCommand } from './commands/sillyCommands/DadCommand.js';
 import { UnexpectedFactorialCommand } from './commands/funCommands/UexpectedFactorialCommand.js';
 import { OopsCommand } from './commands/sillyCommands/OopsCommand.js';
 import { SwearCommand } from './commands/sillyCommands/SwearCommand.js';
+import { GuessWhatCommand } from './commands/funCommands/GuessWhatCommand.js';
+import { TrustMeCommand } from './commands/sillyCommands/TrustMeCommand.js';
 
 const { configure, transports } = winston;
 
@@ -244,7 +246,9 @@ bot.once(Events.ClientReady, (readyClient) => {
     new DadCommand(cooldownDataService, channelService),
     new UnexpectedFactorialCommand(channelService),
     new OopsCommand(channelService),
-    new SwearCommand(channelService)
+    new SwearCommand(channelService),
+    new GuessWhatCommand(cooldownDataService, channelService),
+    new TrustMeCommand(channelService),
   ];
 
   reactionCommands = [
