@@ -17,6 +17,6 @@ export class MichaelSaidCommand extends MessageCommand {
   }
 
   public override async execute(message: Message): Promise<void> {
-    message.reply('Yeah, <@!996616874467008573> - Michael said!');
+    await message.reply('Yeah, <@!996616874467008573> - Michael said!');
   }
 }
