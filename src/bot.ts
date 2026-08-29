@@ -105,6 +105,7 @@ import { GuessWhatCommand } from './commands/funCommands/GuessWhatCommand.js';
 import { TrustMeCommand } from './commands/sillyCommands/TrustMeCommand.js';
 import { IdeaCommand } from './commands/sillyCommands/IdeaCommand.js';
 import { AnnouncementCommand } from './commands/sillyCommands/AnnouncementCommand.js';
+import { WingspanCommand } from './commands/sillyCommands/WingspanCommand.js';
 
 const { configure, transports } = winston;
 
@@ -253,6 +254,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new TrustMeCommand(channelService),
     new IdeaCommand(channelService),
     new AnnouncementCommand(channelService),
+    new WingspanCommand(cooldownDataService, channelService)
   ];
 
   reactionCommands = [
