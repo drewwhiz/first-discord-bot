@@ -9,13 +9,16 @@ export class WingspanCommand extends CooldownCommandBase {
   public override readonly isSilly: boolean = true;
   public override readonly name: string = 'wingspan';
   public override readonly description: string = 'Reports the rules - to Anna specifically';
+  private readonly _regex: RegExp = new RegExp(/\b(w[aeiou]ng\s*sp([aeiou]|aw)n)\b/, 'gi');
+  private readonly _wingspanRegex: RegExp = new RegExp(/\b(wing\s*span)\b/, 'gi');
 
   public constructor(cooldowns: ICooldownDataService, channelService: IChannelService) {
     super(channelService, cooldowns, 24);
   }
 
   public override messageTrigger(message: Message): boolean {
-    return message.content.toLowerCase().stripPunctuation().trim().containsAnyPhrases(['wingspan', 'wing span']);
+    const invariant = message.content.toLowerCase().stripPunctuation().trim();
+    return this._regex.test(invariant);
   }
 
   public override async action(message: Message): Promise<void> {
@@ -98,7 +101,17 @@ export class WingspanCommand extends CooldownCommandBase {
       ]
     ];
 
-    let response = await message.reply('Oh, Wingspan? Yeah - I know the rules. <@!996616874467008573> - listen up!');
+    const invariant = message.content.toLowerCase().stripPunctuation().trim();
+    const isWingspan = this._wingspanRegex.test(invariant);
+
+    let response = null;
+    if (isWingspan) {
+      response = await message.reply('Oh, Wingspan? Yeah - I know the rules. <@!996616874467008573> - listen up!');
+    } else {
+      const matches = invariant.match(this._regex);
+      if (matches == null || matches.length == 0) return;
+      response = await message.reply(`${matches[0]}? I don't know that one, but I do know Wingspan! <@!996616874467008573> - listen up!`);
+    }
 
     for (let i = 0; i < lines.length; i++) {
       const messages = MessageUtilities.generateMessages(lines[i]);
