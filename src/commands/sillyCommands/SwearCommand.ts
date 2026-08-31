@@ -7,6 +7,11 @@ export class SwearCommand extends MessageCommand {
   public readonly description: string = 'Responds to i swear';
   public override readonly isSilly: boolean = true;
 
+  private readonly responses: readonly string[] = Object.freeze([
+    'Under oath?',
+    'no cap? 🥺'
+  ]);
+
   private readonly _regex: RegExp = new RegExp(/\b(i swear)\b/, 'gi');
 
 
@@ -19,7 +24,8 @@ export class SwearCommand extends MessageCommand {
     if (matches == null || matches.length == 0) return;
 
     const match = matches[0];
+    const reply = this.responses[Math.floor(this.responses.length * Math.random())];
 
-    await message.reply(`> ${match}\nUnder oath?`);
+    await message.reply(`> ${match}\n${reply}`);
   }
 }

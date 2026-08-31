@@ -104,9 +104,10 @@ import { SwearCommand } from './commands/sillyCommands/SwearCommand.js';
 import { GuessWhatCommand } from './commands/funCommands/GuessWhatCommand.js';
 import { TrustMeCommand } from './commands/sillyCommands/TrustMeCommand.js';
 import { IdeaCommand } from './commands/sillyCommands/IdeaCommand.js';
-import { AnnouncementCommand } from './commands/sillyCommands/AnnouncementCommand.js';
+import { AnnouncementCommand } from './commands/funCommands/AnnouncementCommand.js';
 import { WingspanCommand } from './commands/sillyCommands/WingspanCommand.js';
 import { WishCommand } from './commands/sillyCommands/WishCommand.js';
+import { AttitudeCommand } from './commands/sillyCommands/AttitudeCommand.js';
 
 const { configure, transports } = winston;
 
@@ -256,7 +257,8 @@ bot.once(Events.ClientReady, (readyClient) => {
     new IdeaCommand(channelService),
     new AnnouncementCommand(channelService),
     new WingspanCommand(cooldownDataService, channelService),
-    new WishCommand(cooldownDataService, channelService)
+    new WishCommand(cooldownDataService, channelService),
+    new AttitudeCommand(cooldownDataService, channelService)
   ];
 
   reactionCommands = [
