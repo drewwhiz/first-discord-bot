@@ -188,7 +188,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     const announcementsChannel = g.channels.cache.find(c => c.name == 'announcements');
     if (announcementsChannel) generalChannels.push(announcementsChannel);
 
-    const musicChannel = g.channels.cache.find(c => c.name == 'music') as TextChannel;
+    const musicChannel = g.channels.cache.find(c => c.name == 'Music') as TextChannel;
     if (musicChannel != null) musicChannels.push(musicChannel);
 
     const studentRole = g.roles.cache.find(r => r.name == 'Student');

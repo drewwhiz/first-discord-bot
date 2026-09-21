@@ -15,9 +15,12 @@ export class SongUtilities {
 
     const words = remainder.split(' ');
     musicChannels.forEach(async (musicChannel) => {
-      let message = await musicChannel.send('Do you remember');
+      let message = await musicChannel.send('@everyone');
+      message = await message.reply('Do you remember');
       await this.delay(15000);
-      message = await message.reply('The 21st night of September?');
+      message = await message.reply('The 21st night');
+      await this.delay(5000);
+      message = await message.reply('of September?');
       await this.delay(10000);
       message = await message.reply(
         'Love was changin\' the minds of pretenders'
@@ -40,7 +43,8 @@ export class SongUtilities {
 
     const words = remainder.split(' ');
     musicChannels.forEach(async (musicChannel) => {
-      let message = await musicChannel.send('Sum-mer');
+      let message = await musicChannel.send('@everyone');
+      message = await message.reply('Sum-mer');
       await this.delay(15000);
       message = await message.reply('Has come and passed');
       await this.delay(10000);
