@@ -182,14 +182,14 @@ bot.once(Events.ClientReady, (readyClient) => {
   const programApiWebService = new ProgramApiWebService(programDataService);
 
   const generalChannels: GuildBasedChannel[] = [];
-  const musicChannels: TextChannel[] = [];
+  const randomChannels: TextChannel[] = [];
 
   readyClient.guilds.cache.forEach((g) => {
     const announcementsChannel = g.channels.cache.find(c => c.name == 'announcements');
     if (announcementsChannel) generalChannels.push(announcementsChannel);
 
-    const musicChannel = g.channels.cache.find(c => c.name == 'Music') as TextChannel;
-    if (musicChannel != null) musicChannels.push(musicChannel);
+    const random = g.channels.cache.find(c => c.name.includes('random')) as TextChannel;
+    if (random != null) randomChannels.push(random);
 
     const studentRole = g.roles.cache.find(r => r.name == 'Student');
     if (studentRole != null) rolesToTag.push(studentRole);
@@ -273,11 +273,11 @@ bot.once(Events.ClientReady, (readyClient) => {
   });
 
   nodeCron.schedule('0 20 21 9 *', () => {
-    SongUtilities.doYouRemember(musicChannels);
+    SongUtilities.doYouRemember(randomChannels);
   });
 
   nodeCron.schedule('0 0 1 10 *', () => {
-    SongUtilities.wakeMeUp(musicChannels);
+    SongUtilities.wakeMeUp(randomChannels);
   });
 
   const reminderCommand = new ReminderCommand(reminderScheduleService);
