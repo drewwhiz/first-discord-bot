@@ -108,6 +108,7 @@ import { AnnouncementCommand } from './commands/funCommands/AnnouncementCommand.
 import { WingspanCommand } from './commands/sillyCommands/WingspanCommand.js';
 import { WishCommand } from './commands/sillyCommands/WishCommand.js';
 import { AttitudeCommand } from './commands/sillyCommands/AttitudeCommand.js';
+import { PerchanceCommand } from './commands/funCommands/PerchanceCommand.js';
 
 const { configure, transports } = winston;
 
@@ -252,6 +253,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new UnexpectedFactorialCommand(channelService),
     new OopsCommand(channelService),
     new SwearCommand(channelService),
+    new PerchanceCommand(channelService),
     new GuessWhatCommand(cooldownDataService, channelService),
     new TrustMeCommand(channelService),
     new IdeaCommand(channelService),
