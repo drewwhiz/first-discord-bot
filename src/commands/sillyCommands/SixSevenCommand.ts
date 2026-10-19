@@ -16,7 +16,18 @@ export class SixSevenCommand extends CooldownCommandBase {
 
   public override messageTrigger(message: Message): boolean {
     const invariant = message.content.stripPunctuation().trim().toLowerCase();
-    return this._regex.test(invariant);
+    const matches = invariant.match(this._regex);
+    if (matches == null) return false;
+
+    for (let index = 0; index < matches.length; index++) {
+      const element = matches[index].toLowerCase();
+      if (element.includes('http://')) continue;
+      if (element.includes('https://')) continue;
+      if (element.includes('<') && element.includes('>')) continue;
+      return true;
+    }
+
+    return false;
   }
 
   public override async action(message: Message): Promise<void> {
