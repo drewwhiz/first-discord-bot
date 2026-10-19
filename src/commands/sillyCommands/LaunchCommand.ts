@@ -14,9 +14,6 @@ export class LaunchCommand extends CooldownCommandBase {
 
   public override messageTrigger(message: Message): boolean {
     if (message.channel.type !== ChannelType.GuildText) return false;
-    const channelName = message.channel?.name;
-    if (channelName !== 'ftc' && channelName !== 'strategy') return false;
-
     const invariant = message.content.stripPunctuation().trim().toLowerCase();
     return invariant.containsAnyPhrases(['shoot', 'shooter', 'shooting', 'shoots']);
   }
