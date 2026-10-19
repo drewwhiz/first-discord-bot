@@ -7,7 +7,7 @@ export class PerchanceCommand extends MessageCommand {
   public readonly description: string = 'You can\'t just say perchance';
   public override readonly isSilly: boolean = true;
 
-  private readonly _regex: RegExp = new RegExp(/\b(per\s+chance)\b/, 'gi');
+  private readonly _regex: RegExp = new RegExp(/\b(per\s*chance)\b/, 'gi');
 
   public override messageTrigger(message: Message): boolean {
     return this._regex.test(message.content);
