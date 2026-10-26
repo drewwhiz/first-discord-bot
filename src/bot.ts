@@ -247,7 +247,7 @@ bot.once(Events.ClientReady, (readyClient) => {
     new AcronymHelperCommand(acronymDataService, channelService),
     new RoshamboCommand(new RandomNumberService(), channelService),
     new WeatherCommand(weatherService, channelService),
-    // new SixSevenCommand(cooldownDataService, channelService),
+    new SixSevenCommand(cooldownDataService, channelService),
     new NoScrubsCommand(cooldownDataService, channelService),
     new DadCommand(cooldownDataService, channelService),
     new UnexpectedFactorialCommand(channelService),
